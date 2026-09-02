@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="GoCar.API/GoCar.API.csproj" />
+  <Project Path="GoCar.Application/GoCar.Application.csproj" />
+  <Project Path="GoCar.Desktop/GoCar.Desktop.csproj" />
+  <Project Path="GoCar.Domain/GoCar.Domain.csproj" />
+  <Project Path="GoCar.Infrastructure/GoCar.Infrastructure.csproj" />
+  <Project Path="GoCar.Web/GoCar.Web.csproj" />
+</Solution>
