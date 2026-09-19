@@ -419,12 +419,15 @@ namespace GoCar.Infrastructure.Migrations
                     b.Property<bool>("IsAtivo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LocacaoId")
+                    b.Property<int?>("LocacaoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Observacoes")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("ReservaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -441,6 +444,8 @@ namespace GoCar.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LocacaoId");
+
+                    b.HasIndex("ReservaId");
 
                     b.ToTable("Pagamentos", (string)null);
                 });
@@ -753,10 +758,16 @@ namespace GoCar.Infrastructure.Migrations
                     b.HasOne("GoCar.Domain.Entities.Locacao", "Locacao")
                         .WithMany("Pagamentos")
                         .HasForeignKey("LocacaoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GoCar.Domain.Entities.Reserva", "Reserva")
+                        .WithMany("Pagamentos")
+                        .HasForeignKey("ReservaId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Locacao");
+
+                    b.Navigation("Reserva");
                 });
 
             modelBuilder.Entity("GoCar.Domain.Entities.Reserva", b =>
@@ -837,6 +848,8 @@ namespace GoCar.Infrastructure.Migrations
             modelBuilder.Entity("GoCar.Domain.Entities.Reserva", b =>
                 {
                     b.Navigation("Locacao");
+
+                    b.Navigation("Pagamentos");
                 });
 
             modelBuilder.Entity("GoCar.Domain.Entities.Usuario", b =>

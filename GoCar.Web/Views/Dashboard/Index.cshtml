@@ -1,0 +1,300 @@
+﻿@model GoCar.Web.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+        <div>
+
+            <span class="section-badge">
+                ADMINISTRAÇÃO
+            </span>
+
+            <h1 class="gocar-section-title mb-2">
+                Dashboard
+            </h1>
+
+            <p class="gocar-section-subtitle mb-0">
+                Visão geral da operação GoCar.
+            </p>
+
+        </div>
+
+    </div>
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger mb-4">
+            @TempData["Erro"]
+        </div>
+    }
+
+    <!-- ========================================== -->
+    <!-- PRINCIPAIS INDICADORES -->
+    <!-- ========================================== -->
+
+    <div class="row g-4">
+
+        <!-- CLIENTES -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    CLIENTES ATIVOS
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.TotalClientes
+                </h2>
+
+                <a asp-controller="Clientes"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver clientes
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- VEÍCULOS DISPONÍVEIS -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    VEÍCULOS DISPONÍVEIS
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.VeiculosDisponiveis
+                </h2>
+
+                <a asp-controller="Veiculos"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver veículos
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- VEÍCULOS ALUGADOS -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    VEÍCULOS ALUGADOS
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.VeiculosAlugados
+                </h2>
+
+                <a asp-controller="Veiculos"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver frota
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- AGUARDANDO RETIRADA -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    AGUARDANDO RETIRADA
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.ReservasPendentes
+                </h2>
+
+                <a asp-controller="Reservas"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver reservas
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- LOCAÇÕES ATIVAS -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    LOCAÇÕES ATIVAS
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.LocacoesAtivas
+                </h2>
+
+                <a asp-controller="Locacoes"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver locações
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PAGAMENTOS PENDENTES -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    PAGAMENTOS PENDENTES
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.PagamentosPendentes
+                </h2>
+
+                <a asp-controller="Pagamentos"
+                   asp-action="Index"
+                   class="btn btn-outline-light btn-sm">
+
+                    Ver pagamentos
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- TOTAL RECEBIDO -->
+
+        <div class="col-md-6 col-xl-6">
+
+            <div class="gocar-card h-100">
+
+                <small class="text-secondary">
+                    TOTAL RECEBIDO
+                </small>
+
+                <h2 class="fw-bold mt-2 mb-3">
+                    @Model.TotalRecebido.ToString("C")
+                </h2>
+
+                <p class="text-secondary mb-3">
+                    Soma dos pagamentos com status Pago.
+                </p>
+
+                <a asp-controller="Pagamentos"
+                   asp-action="Index"
+                   class="btn btn-success btn-sm">
+
+                    Consultar pagamentos
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- GERENCIAMENTO -->
+    <!-- ========================================== -->
+
+    <div class="gocar-card mt-5">
+
+        <div class="mb-4">
+
+            <span class="section-badge">
+                GERENCIAMENTO
+            </span>
+
+            <h3 class="mt-2 mb-1">
+                Administração
+            </h3>
+
+            <p class="text-secondary mb-0">
+                Acesso rápido aos módulos do sistema.
+            </p>
+
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a class="btn btn-dark"
+               asp-controller="Clientes"
+               asp-action="Index">
+                Clientes
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Veiculos"
+               asp-action="Index">
+                Veículos
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Reservas"
+               asp-action="Index">
+                Reservas
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Locacoes"
+               asp-action="Index">
+                Locações
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Pagamentos"
+               asp-action="Index">
+                Pagamentos
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Categorias"
+               asp-action="Index">
+                Categorias
+            </a>
+
+            <a class="btn btn-dark"
+               asp-controller="Filiais"
+               asp-action="Index">
+                Filiais
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

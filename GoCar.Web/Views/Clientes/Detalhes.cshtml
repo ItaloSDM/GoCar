@@ -1,0 +1,142 @@
+﻿@model GoCar.Web.Models.ClienteViewModel
+
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Detalhes do Cliente</h1>
+
+            <p class="text-muted mb-0">
+                Informações completas do cadastro.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Clientes"
+           asp-action="Index">
+
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <strong>ID</strong>
+                    <p>@Model.Id</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Nome</strong>
+                    <p>@Model.Nome</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>CPF</strong>
+                    <p>@Model.CPF</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Telefone</strong>
+                    <p>@Model.Telefone</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Data de Nascimento</strong>
+                    <p>@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>CNH</strong>
+                    <p>@Model.CNH</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Categoria CNH</strong>
+                    <p>@Model.CategoriaCNH</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Validade CNH</strong>
+                    <p>@Model.DataValidadeCNH.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Endereço</strong>
+                    <p>
+                        @Model.Endereco, @Model.Numero
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Bairro</strong>
+                    <p>@Model.Bairro</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Cidade</strong>
+                    <p>
+                        @Model.Cidade - @Model.Estado
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>CEP</strong>
+                    <p>@Model.CEP</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Status</strong>
+
+                    <p>
+                        @if (Model.IsAtivo)
+                        {
+                            <span class="badge bg-success">
+                                Ativo
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inativo
+                            </span>
+                        }
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Data de Cadastro</strong>
+                    <p>
+                        @Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a class="btn btn-dark"
+                   asp-controller="Clientes"
+                   asp-action="Editar"
+                   asp-route-id="@Model.Id">
+
+                    Editar Cliente
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

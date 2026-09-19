@@ -1,0 +1,131 @@
+﻿@model GoCar.Web.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<section class="login-section">
+    <div class="container">
+
+        <div class="login-wrapper">
+
+            <div class="login-card">
+
+                <div class="login-header">
+
+                    <span class="section-badge">
+                        ÁREA DO CLIENTE
+                    </span>
+
+                    <h1>
+                        Entrar na GoCar
+                    </h1>
+
+                    <p>
+                        Acesse sua conta para acompanhar suas reservas
+                        e continuar sua experiência.
+                    </p>
+
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.MensagemErro))
+                {
+                    <div class="alert alert-danger">
+                        @Model.MensagemErro
+                    </div>
+                }
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    <div class="mb-3">
+
+                        <label asp-for="Email"
+                               class="form-label">
+                            E-mail
+                        </label>
+
+                        <input asp-for="Email"
+                               type="email"
+                               class="form-control"
+                               placeholder="seuemail@gocar.com"
+                               autocomplete="email"
+                               required />
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label asp-for="Senha"
+                               class="form-label">
+                            Senha
+                        </label>
+
+                        <input asp-for="Senha"
+                               type="password"
+                               class="form-control"
+                               placeholder="Digite sua senha"
+                               autocomplete="current-password"
+                               required />
+
+                    </div>
+
+                    <button type="submit"
+                            class="gocar-btn-primary w-100">
+                        Entrar
+                    </button>
+
+                </form>
+
+                <!-- CADASTRO -->
+
+                <div class="login-cadastro">
+
+                    <span>
+                        Ainda não possui uma conta?
+                    </span>
+
+                    <a asp-controller="Account"
+                       asp-action="Cadastro">
+                        Cadastre-se
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<style>
+
+    .login-cadastro {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, .10);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+        .login-cadastro span {
+            color: rgba(255, 255, 255, .60);
+            font-size: 14px;
+        }
+
+        .login-cadastro a {
+            color: #ffffff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+            .login-cadastro a:hover {
+                opacity: .75;
+            }
+
+</style>

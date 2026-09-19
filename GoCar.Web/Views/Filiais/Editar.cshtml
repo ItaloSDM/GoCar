@@ -1,0 +1,254 @@
+﻿@model GoCar.Web.Models.FilialViewModel
+
+@{
+    ViewData["Title"] = "Editar Filial";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Editar Filial</h1>
+
+            <p class="text-muted mb-0">
+                Atualize as informações da filial.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Filiais"
+           asp-action="Index">
+
+            Cancelar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <form asp-controller="Filiais"
+                  asp-action="Editar"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-8">
+
+                        <label asp-for="Nome"
+                               class="form-label">
+                            Nome da Filial
+                        </label>
+
+                        <input asp-for="Nome"
+                               class="form-control" />
+
+                        <span asp-validation-for="Nome"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="CNPJ"
+                               class="form-label">
+                            CNPJ
+                        </label>
+
+                        <input asp-for="CNPJ"
+                               class="form-control" />
+
+                        <span asp-validation-for="CNPJ"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Telefone"
+                               class="form-label">
+                            Telefone
+                        </label>
+
+                        <input asp-for="Telefone"
+                               class="form-control" />
+
+                        <span asp-validation-for="Telefone"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Email"
+                               class="form-label">
+                            E-mail
+                        </label>
+
+                        <input asp-for="Email"
+                               type="email"
+                               class="form-control" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <label asp-for="Endereco"
+                               class="form-label">
+                            Endereço
+                        </label>
+
+                        <input asp-for="Endereco"
+                               class="form-control" />
+
+                        <span asp-validation-for="Endereco"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Numero"
+                               class="form-label">
+                            Número
+                        </label>
+
+                        <input asp-for="Numero"
+                               class="form-control" />
+
+                        <span asp-validation-for="Numero"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Bairro"
+                               class="form-label">
+                            Bairro
+                        </label>
+
+                        <input asp-for="Bairro"
+                               class="form-control" />
+
+                        <span asp-validation-for="Bairro"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Cidade"
+                               class="form-label">
+                            Cidade
+                        </label>
+
+                        <input asp-for="Cidade"
+                               class="form-control" />
+
+                        <span asp-validation-for="Cidade"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Estado"
+                               class="form-label">
+                            Estado
+                        </label>
+
+                        <input asp-for="Estado"
+                               class="form-control"
+                               maxlength="2" />
+
+                        <span asp-validation-for="Estado"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="CEP"
+                               class="form-label">
+                            CEP
+                        </label>
+
+                        <input asp-for="CEP"
+                               class="form-control" />
+
+                        <span asp-validation-for="CEP"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <div class="form-check mt-2">
+
+                            <input asp-for="IsAtivo"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsAtivo"
+                                   class="form-check-label">
+
+                                Filial ativa
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button type="submit"
+                            class="btn btn-dark">
+
+                        Salvar Alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

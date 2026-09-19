@@ -1,0 +1,410 @@
+﻿@model GoCar.Web.Models.VeiculoViewModel
+
+@{
+    ViewData["Title"] = "Editar Veículo";
+
+    var categorias =
+        ViewBag.Categorias as List<GoCar.Web.Models.CategoriaViewModel>
+        ?? new List<GoCar.Web.Models.CategoriaViewModel>();
+
+    var filiais =
+        ViewBag.Filiais as List<GoCar.Web.Models.FilialViewModel>
+        ?? new List<GoCar.Web.Models.FilialViewModel>();
+
+    string StatusVeiculo(int status)
+    {
+        return status switch
+        {
+            1 => "Disponível",
+            2 => "Reservado",
+            3 => "Alugado",
+            4 => "Manutenção",
+            5 => "Inativo",
+            _ => "Desconhecido"
+        };
+    }
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Editar Veículo</h1>
+
+            <p class="text-muted mb-0">
+                Atualize as informações do veículo.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Veiculos"
+           asp-action="Index">
+
+            Cancelar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <form asp-controller="Veiculos"
+                  asp-action="Editar"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-3">
+
+                    <!-- PLACA -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Placa"
+                               class="form-label">
+                            Placa
+                        </label>
+
+                        <input asp-for="Placa"
+                               class="form-control" />
+
+                        <span asp-validation-for="Placa"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- CHASSI -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Chassi"
+                               class="form-label">
+                            Chassi
+                        </label>
+
+                        <input asp-for="Chassi"
+                               class="form-control" />
+
+                        <span asp-validation-for="Chassi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- RENAVAM -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Renavam"
+                               class="form-label">
+                            Renavam
+                        </label>
+
+                        <input asp-for="Renavam"
+                               class="form-control" />
+
+                        <span asp-validation-for="Renavam"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- MARCA -->
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Marca"
+                               class="form-label">
+                            Marca
+                        </label>
+
+                        <input asp-for="Marca"
+                               class="form-control" />
+
+                        <span asp-validation-for="Marca"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- MODELO -->
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Modelo"
+                               class="form-label">
+                            Modelo
+                        </label>
+
+                        <input asp-for="Modelo"
+                               class="form-control" />
+
+                        <span asp-validation-for="Modelo"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- ANO FABRICAÇÃO -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="AnoFabricacao"
+                               class="form-label">
+                            Ano de Fabricação
+                        </label>
+
+                        <input asp-for="AnoFabricacao"
+                               type="number"
+                               class="form-control" />
+
+                    </div>
+
+                    <!-- ANO MODELO -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="AnoModelo"
+                               class="form-label">
+                            Ano Modelo
+                        </label>
+
+                        <input asp-for="AnoModelo"
+                               type="number"
+                               class="form-control" />
+
+                    </div>
+
+                    <!-- COR -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Cor"
+                               class="form-label">
+                            Cor
+                        </label>
+
+                        <input asp-for="Cor"
+                               class="form-control" />
+
+                        <span asp-validation-for="Cor"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- COMBUSTÍVEL -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Combustivel"
+                               class="form-label">
+                            Combustível
+                        </label>
+
+                        <select asp-for="Combustivel"
+                                class="form-select">
+
+                            <option value="1">Gasolina</option>
+                            <option value="2">Etanol</option>
+                            <option value="3">Flex</option>
+                            <option value="4">Diesel</option>
+                            <option value="5">Elétrico</option>
+                            <option value="6">Híbrido</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- CÂMBIO -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Cambio"
+                               class="form-label">
+                            Câmbio
+                        </label>
+
+                        <select asp-for="Cambio"
+                                class="form-select">
+
+                            <option value="1">Manual</option>
+                            <option value="2">Automático</option>
+                            <option value="3">Automatizado</option>
+                            <option value="4">CVT</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- STATUS CONTROLADO PELO SISTEMA -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               value="@StatusVeiculo(Model.Status)"
+                               readonly />
+
+                        <div class="form-text">
+                            Atualizado automaticamente pelo sistema.
+                        </div>
+
+                    </div>
+
+                    <!-- KM CONTROLADO PELO SISTEMA -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Quilometragem atual
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               value="@Model.KmAtual.ToString("N0") km"
+                               readonly />
+
+                        <div class="form-text">
+                            Atualizada automaticamente após a devolução.
+                        </div>
+
+                    </div>
+
+                    <!-- VALOR DIÁRIA -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="ValorDiaria"
+                               class="form-label">
+                            Valor da Diária
+                        </label>
+
+                        <input asp-for="ValorDiaria"
+                               type="number"
+                               step="0.01"
+                               min="0"
+                               class="form-control" />
+
+                    </div>
+
+                    <!-- CATEGORIA -->
+
+                    <div class="col-md-4">
+
+                        <label asp-for="CategoriaId"
+                               class="form-label">
+                            Categoria
+                        </label>
+
+                        <select asp-for="CategoriaId"
+                                class="form-select">
+
+                            <option value="">
+                                Selecione uma categoria
+                            </option>
+
+                            @foreach (var categoria in categorias)
+                            {
+                                <option value="@categoria.Id">
+                                    @categoria.Nome
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="CategoriaId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- FILIAL -->
+
+                    <div class="col-md-6">
+
+                        <label asp-for="FilialId"
+                               class="form-label">
+                            Filial
+                        </label>
+
+                        <select asp-for="FilialId"
+                                class="form-select">
+
+                            <option value="">
+                                Selecione uma filial
+                            </option>
+
+                            @foreach (var filial in filiais)
+                            {
+                                <option value="@filial.Id">
+                                    @filial.Nome - @filial.Cidade/@filial.Estado
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="FilialId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- ATIVO -->
+
+                    <div class="col-md-6 d-flex align-items-end">
+
+                        <div class="form-check mb-2">
+
+                            <input asp-for="IsAtivo"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsAtivo"
+                                   class="form-check-label">
+
+                                Veículo ativo
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button type="submit"
+                            class="btn btn-dark">
+
+                        Salvar Alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

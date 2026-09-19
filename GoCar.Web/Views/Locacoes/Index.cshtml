@@ -1,0 +1,295 @@
+﻿@model List<GoCar.Web.Models.LocacaoViewModel>
+
+@{
+    var modoAdministrador =
+        ViewBag.ModoAdministrador != null
+        && (bool)ViewBag.ModoAdministrador;
+
+    ViewData["Title"] =
+        modoAdministrador
+            ? "Locações"
+            : "Minhas Locações";
+}
+
+<section class="gocar-section">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+            <div>
+
+                <span class="section-badge">
+
+                    @(modoAdministrador
+                        ? "ÁREA ADMINISTRATIVA"
+                        : "ÁREA DO CLIENTE")
+
+                </span>
+
+                <h1 class="gocar-section-title mb-2">
+
+                    @(modoAdministrador
+                        ? "Locações"
+                        : "Minhas Locações")
+
+                </h1>
+
+                <p class="gocar-section-subtitle mb-0">
+
+                    @(modoAdministrador
+                        ? "Acompanhe as locações de veículos do sistema."
+                        : "Acompanhe suas locações.")
+
+                </p>
+
+            </div>
+
+            @if (modoAdministrador)
+            {
+                <a asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="btn btn-outline-light">
+
+                    Voltar ao Dashboard
+
+                </a>
+            }
+
+        </div>
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Erro"]
+            </div>
+        }
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Sucesso"]
+            </div>
+        }
+
+        @if (ViewBag.MensagemErro != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.MensagemErro
+            </div>
+        }
+
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+
+                @foreach (var locacao in Model)
+                {
+                    <div class="col-lg-6">
+
+                        <div class="gocar-card h-100">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div>
+
+                                    <small class="text-secondary">
+                                        Locação
+                                    </small>
+
+                                    <h3 class="mb-0">
+                                        #@locacao.Id
+                                    </h3>
+
+                                </div>
+
+                                <div>
+
+                                    @if (locacao.Status == 1)
+                                    {
+                                        <span class="badge bg-success">
+                                            Ativa
+                                        </span>
+                                    }
+                                    else if (locacao.Status == 2)
+                                    {
+                                        <span class="badge bg-primary">
+                                            Finalizada
+                                        </span>
+                                    }
+                                    else if (locacao.Status == 3)
+                                    {
+                                        <span class="badge bg-danger">
+                                            Cancelada
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Status @locacao.Status
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <hr />
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Reserva
+                                    </small>
+
+                                    <p class="mb-0 fw-semibold">
+                                        Reserva #@locacao.ReservaId
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Data de retirada
+                                    </small>
+
+                                    <p class="mb-0">
+                                        @locacao.DataRetirada.ToString("dd/MM/yyyy HH:mm")
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Km de saída
+                                    </small>
+
+                                    <p class="mb-0">
+                                        @locacao.KmSaida.ToString("N0") km
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Km de entrada
+                                    </small>
+
+                                    <p class="mb-0">
+
+                                        @if (locacao.KmEntrada.HasValue)
+                                        {
+                                            @($"{locacao.KmEntrada.Value:N0} km")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-secondary">
+                                                Ainda não informado
+                                            </span>
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Valor total
+                                    </small>
+
+                                    <p class="mb-0 fw-bold">
+                                        @locacao.ValorTotal.ToString("C")
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Situação
+                                    </small>
+
+                                    <p class="mb-0">
+
+                                        @if (locacao.IsAtiva)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ativa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inativa
+                                            </span>
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mt-4">
+
+                                <a asp-controller="Locacoes"
+                                   asp-action="Detalhes"
+                                   asp-route-id="@locacao.Id"
+                                   class="btn btn-dark">
+
+                                    Visualizar
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="gocar-card text-center">
+
+                <h3>
+                    Nenhuma locação encontrada
+                </h3>
+
+                <p class="gocar-section-subtitle">
+                    Não existem locações para exibir no momento.
+                </p>
+
+                @if (modoAdministrador)
+                {
+                    <a asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="gocar-btn-primary">
+
+                        Voltar ao Dashboard
+
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="gocar-btn-primary">
+
+                        Voltar ao início
+
+                    </a>
+                }
+
+            </div>
+        }
+
+    </div>
+</section>

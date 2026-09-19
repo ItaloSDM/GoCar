@@ -1,0 +1,224 @@
+﻿@model List<GoCar.Web.Models.FilialViewModel>
+
+@{
+    ViewData["Title"] = "Filiais";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Filiais</h1>
+
+            <p class="text-muted mb-0">
+                Gerenciamento das filiais da GoCar.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a class="btn btn-dark"
+               asp-controller="Filiais"
+               asp-action="Criar">
+
+                Nova Filial
+            </a>
+
+            <a class="btn btn-outline-light"
+               asp-controller="Dashboard"
+               asp-action="Index">
+
+                Voltar ao Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Sucesso"]
+        </div>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Erro"]
+        </div>
+    }
+
+    @if (ViewBag.MensagemErro != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.MensagemErro
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CNPJ</th>
+                            <th>Telefone</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Count == 0)
+                        {
+                            <tr>
+
+                                <td colspan="8"
+                                    class="text-center py-4">
+
+                                    Nenhuma filial encontrada.
+
+                                </td>
+
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var filial in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @filial.Id
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @filial.Nome
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        @filial.CNPJ
+                                    </td>
+
+                                    <td>
+                                        @filial.Telefone
+                                    </td>
+
+                                    <td>
+                                        @filial.Cidade
+                                    </td>
+
+                                    <td>
+                                        @filial.Estado
+                                    </td>
+
+                                    <td>
+
+                                        @if (filial.IsAtivo)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ativa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inativa
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex flex-wrap gap-2">
+
+                                            <a class="btn btn-sm btn-outline-dark"
+                                               asp-controller="Filiais"
+                                               asp-action="Detalhes"
+                                               asp-route-id="@filial.Id">
+
+                                                Visualizar
+                                            </a>
+
+                                            <a class="btn btn-sm btn-dark"
+                                               asp-controller="Filiais"
+                                               asp-action="Editar"
+                                               asp-route-id="@filial.Id">
+
+                                                Editar
+                                            </a>
+
+                                            @if (filial.IsAtivo)
+                                            {
+                                                <form asp-controller="Filiais"
+                                                      asp-action="Desativar"
+                                                      asp-route-id="@filial.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja realmente desativar esta filial?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-danger">
+
+                                                        Desativar
+                                                    </button>
+
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form asp-controller="Filiais"
+                                                      asp-action="Ativar"
+                                                      asp-route-id="@filial.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja reativar esta filial?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success">
+
+                                                        Ativar
+                                                    </button>
+
+                                                </form>
+                                            }
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

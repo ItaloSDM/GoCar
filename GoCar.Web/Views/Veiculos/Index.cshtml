@@ -1,0 +1,258 @@
+﻿@model List<GoCar.Web.Models.VeiculoViewModel>
+
+@{
+    ViewData["Title"] = "Veículos";
+
+    string ObterStatus(int status)
+    {
+        return status switch
+        {
+            1 => "Disponível",
+            2 => "Reservado",
+            3 => "Alugado",
+            4 => "Manutenção",
+            5 => "Inativo",
+            _ => "Desconhecido"
+        };
+    }
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Veículos</h1>
+
+            <p class="text-muted mb-0">
+                Gerenciamento da frota GoCar.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a class="btn btn-dark"
+               asp-controller="Veiculos"
+               asp-action="Criar">
+
+                Novo Veículo
+            </a>
+
+            <a class="btn btn-outline-light"
+               asp-controller="Dashboard"
+               asp-action="Index">
+
+                Voltar ao Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Sucesso"]
+        </div>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Erro"]
+        </div>
+    }
+
+    @if (ViewBag.MensagemErro != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.MensagemErro
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Placa</th>
+                            <th>Veículo</th>
+                            <th>Ano</th>
+                            <th>KM</th>
+                            <th>Diária</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="8"
+                                    class="text-center py-4">
+
+                                    Nenhum veículo encontrado.
+
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var veiculo in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @veiculo.Id
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @veiculo.Placa
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        @veiculo.Marca
+                                        @veiculo.Modelo
+                                    </td>
+
+                                    <td>
+                                        @veiculo.AnoModelo
+                                    </td>
+
+                                    <td>
+                                        @veiculo.KmAtual.ToString("N0") km
+                                    </td>
+
+                                    <td>
+                                        @veiculo.ValorDiaria.ToString("C")
+                                    </td>
+
+                                    <td>
+
+                                        @if (!veiculo.IsAtivo)
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inativo
+                                            </span>
+                                        }
+                                        else if (veiculo.Status == 1)
+                                        {
+                                            <span class="badge bg-success">
+                                                @ObterStatus(veiculo.Status)
+                                            </span>
+                                        }
+                                        else if (veiculo.Status == 2)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                @ObterStatus(veiculo.Status)
+                                            </span>
+                                        }
+                                        else if (veiculo.Status == 3)
+                                        {
+                                            <span class="badge bg-primary">
+                                                @ObterStatus(veiculo.Status)
+                                            </span>
+                                        }
+                                        else if (veiculo.Status == 4)
+                                        {
+                                            <span class="badge bg-danger">
+                                                @ObterStatus(veiculo.Status)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                @ObterStatus(veiculo.Status)
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex flex-wrap gap-2">
+
+                                            <a class="btn btn-sm btn-outline-dark"
+                                               asp-controller="Veiculos"
+                                               asp-action="Detalhes"
+                                               asp-route-id="@veiculo.Id">
+
+                                                Visualizar
+                                            </a>
+
+                                            <a class="btn btn-sm btn-dark"
+                                               asp-controller="Veiculos"
+                                               asp-action="Editar"
+                                               asp-route-id="@veiculo.Id">
+
+                                                Editar
+                                            </a>
+
+                                            @if (veiculo.IsAtivo)
+                                            {
+                                                <form asp-controller="Veiculos"
+                                                      asp-action="Desativar"
+                                                      asp-route-id="@veiculo.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja realmente desativar este veículo?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-danger">
+
+                                                        Desativar
+                                                    </button>
+
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form asp-controller="Veiculos"
+                                                      asp-action="Ativar"
+                                                      asp-route-id="@veiculo.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja reativar este veículo?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success">
+
+                                                        Ativar
+                                                    </button>
+
+                                                </form>
+                                            }
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

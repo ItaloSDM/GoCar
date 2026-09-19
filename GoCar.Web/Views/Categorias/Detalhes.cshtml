@@ -1,0 +1,123 @@
+﻿@model GoCar.Web.Models.CategoriaViewModel
+
+@{
+    ViewData["Title"] = "Detalhes da Categoria";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Detalhes da Categoria</h1>
+
+            <p class="text-muted mb-0">
+                Informações completas da categoria.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Categorias"
+           asp-action="Index">
+
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <strong>ID</strong>
+
+                    <p>
+                        @Model.Id
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Nome</strong>
+
+                    <p>
+                        @Model.Nome
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Status</strong>
+
+                    <p>
+                        @if (Model.IsAtivo)
+                        {
+                            <span class="badge bg-success">
+                                Ativa
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inativa
+                            </span>
+                        }
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <strong>Diária Base</strong>
+
+                    <p>
+                        @Model.DiariaBase.ToString("C")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <strong>KM Livre</strong>
+
+                    <p>
+                        @Model.KmLivre km
+                    </p>
+
+                </div>
+
+                <div class="col-12">
+
+                    <strong>Descrição</strong>
+
+                    <p>
+                        @Model.Descricao
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a class="btn btn-dark"
+                   asp-controller="Categorias"
+                   asp-action="Editar"
+                   asp-route-id="@Model.Id">
+
+                    Editar Categoria
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

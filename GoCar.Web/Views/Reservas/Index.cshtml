@@ -1,0 +1,567 @@
+﻿@model List<GoCar.Web.Models.ReservaViewModel>
+
+@{
+    var modoAdministrador =
+        ViewBag.ModoAdministrador != null
+        && (bool)ViewBag.ModoAdministrador;
+
+    var reservasComEntradaPaga =
+        ViewBag.ReservasComEntradaPaga
+            as HashSet<int>
+        ?? new HashSet<int>();
+
+    ViewData["Title"] =
+        modoAdministrador
+            ? "Reservas"
+            : "Minhas Reservas";
+}
+
+<section class="gocar-section">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+            <div>
+
+                <span class="section-badge">
+                    @(modoAdministrador
+                        ? "ÁREA ADMINISTRATIVA"
+                        : "ÁREA DO CLIENTE")
+                </span>
+
+                <h1 class="gocar-section-title mb-2">
+                    @(modoAdministrador
+                        ? "Reservas"
+                        : "Minhas Reservas")
+                </h1>
+
+                <p class="gocar-section-subtitle mb-0">
+                    @(modoAdministrador
+                        ? "Acompanhe pagamentos, reservas e veículos prontos para retirada."
+                        : "Acompanhe suas reservas, pagamentos e retiradas.")
+                </p>
+
+            </div>
+
+            @if (modoAdministrador)
+            {
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <a asp-controller="Reservas"
+                       asp-action="Criar"
+                       class="btn btn-success">
+                        Nova Reserva
+                    </a>
+
+                    <a asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="btn btn-outline-light">
+                        Voltar ao Dashboard
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-light">
+                    Escolher outro veículo
+                </a>
+            }
+
+        </div>
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Sucesso"]
+            </div>
+        }
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Erro"]
+            </div>
+        }
+
+        @if (ViewBag.MensagemErro != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.MensagemErro
+            </div>
+        }
+
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+
+                @foreach (var reserva in Model)
+                {
+                    var entradaPaga =
+                        reservasComEntradaPaga.Contains(
+                            reserva.Id);
+
+                    var aguardandoEntrada =
+                        reserva.Status == 1 &&
+                        reserva.IsAtiva &&
+                        !entradaPaga;
+
+                    var reservaConfirmada =
+                        reserva.Status == 2 &&
+                        reserva.IsAtiva &&
+                        entradaPaga;
+
+                    var retiradaLiberada =
+                        reservaConfirmada &&
+                        DateTime.Now >= reserva.DataRetirada;
+
+                    var retiradaAgendada =
+                        reservaConfirmada &&
+                        DateTime.Now < reserva.DataRetirada;
+
+                    <div class="col-lg-6">
+
+                        <div class="gocar-card h-100">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+
+                                <div>
+
+                                    <small class="text-secondary">
+                                        Reserva
+                                    </small>
+
+                                    <h3 class="mb-0">
+                                        #@reserva.Id
+                                    </h3>
+
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap justify-content-end">
+
+                                    @if (reserva.Status == 1)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            Pendente
+                                        </span>
+                                    }
+                                    else if (reserva.Status == 2)
+                                    {
+                                        <span class="badge bg-success">
+                                            Confirmada
+                                        </span>
+                                    }
+                                    else if (reserva.Status == 3)
+                                    {
+                                        <span class="badge bg-danger">
+                                            Cancelada
+                                        </span>
+                                    }
+                                    else if (reserva.Status == 4)
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Expirada
+                                        </span>
+                                    }
+                                    else if (reserva.Status == 5)
+                                    {
+                                        <span class="badge bg-primary">
+                                            Concluída
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Status @reserva.Status
+                                        </span>
+                                    }
+
+                                    @if (entradaPaga)
+                                    {
+                                        <span class="badge bg-success">
+                                            Entrada paga
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            @if (aguardandoEntrada)
+                            {
+                                <div class="alert alert-warning mb-4">
+
+                                    <strong>
+                                        Aguardando pagamento
+                                    </strong>
+
+                                    <div class="small mt-1">
+
+                                        @if (modoAdministrador)
+                                        {
+                                            <span>
+                                                O cliente ainda precisa pagar a entrada de 30% para confirmar esta reserva.
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Pague a entrada de 30% para confirmar sua reserva.
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            @if (retiradaAgendada)
+                            {
+                                <div class="alert alert-info mb-4">
+
+                                    <strong>
+                                        Retirada agendada
+                                    </strong>
+
+                                    <div class="small mt-1">
+
+                                        @if (modoAdministrador)
+                                        {
+                                            <span>
+                                                A entrada de 30% foi paga. A locação poderá ser iniciada em
+                                                <strong>
+                                                    @reserva.DataRetirada.ToString("dd/MM/yyyy 'às' HH:mm")
+                                                </strong>.
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Sua reserva está confirmada. A retirada está agendada para
+                                                <strong>
+                                                    @reserva.DataRetirada.ToString("dd/MM/yyyy 'às' HH:mm")
+                                                </strong>.
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            @if (retiradaLiberada)
+                            {
+                                <div class="alert alert-success mb-4">
+
+                                    <strong>
+                                        Pronta para retirada
+                                    </strong>
+
+                                    <div class="small mt-1">
+
+                                        @if (modoAdministrador)
+                                        {
+                                            <span>
+                                                A entrada de 30% foi paga. O veículo já pode ter a locação iniciada.
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Sua reserva está confirmada e o veículo já está disponível para retirada.
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            <hr />
+
+                            <div class="row g-3">
+
+                                @if (modoAdministrador)
+                                {
+                                    <div class="col-md-6">
+
+                                        <small class="text-secondary">
+                                            Cliente
+                                        </small>
+
+                                        <p class="mb-0 fw-semibold">
+                                            @(string.IsNullOrWhiteSpace(reserva.ClienteNome)
+                                                ? $"Cliente #{reserva.ClienteId}"
+                                                : reserva.ClienteNome)
+                                        </p>
+
+                                        <small class="text-secondary">
+                                            Código #@reserva.ClienteId
+                                        </small>
+
+                                    </div>
+                                }
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Veículo
+                                    </small>
+
+                                    <p class="mb-0 fw-semibold">
+                                        @(string.IsNullOrWhiteSpace(reserva.VeiculoNome)
+                                            ? $"Veículo #{reserva.VeiculoId}"
+                                            : reserva.VeiculoNome)
+                                    </p>
+
+                                    @if (!string.IsNullOrWhiteSpace(reserva.VeiculoPlaca))
+                                    {
+                                        <small class="text-secondary">
+                                            Placa @reserva.VeiculoPlaca
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-secondary">
+                                            Código #@reserva.VeiculoId
+                                        </small>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Retirada
+                                    </small>
+
+                                    <p class="mb-0">
+                                        @reserva.DataRetirada.ToString("dd/MM/yyyy HH:mm")
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Devolução prevista
+                                    </small>
+
+                                    <p class="mb-0">
+                                        @reserva.DataDevolucaoPrevista.ToString("dd/MM/yyyy HH:mm")
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Filial de retirada
+                                    </small>
+
+                                    <p class="mb-0 fw-semibold">
+                                        @(string.IsNullOrWhiteSpace(reserva.FilialRetiradaNome)
+                                            ? $"Filial #{reserva.FilialRetiradaId}"
+                                            : reserva.FilialRetiradaNome)
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Filial de devolução
+                                    </small>
+
+                                    <p class="mb-0 fw-semibold">
+                                        @(string.IsNullOrWhiteSpace(reserva.FilialDevolucaoNome)
+                                            ? $"Filial #{reserva.FilialDevolucaoId}"
+                                            : reserva.FilialDevolucaoNome)
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Valor total da reserva
+                                    </small>
+
+                                    <p class="mb-0 fw-bold">
+                                        @reserva.ValorPrevisto.ToString("C")
+                                    </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Entrada de 30%
+                                    </small>
+
+                                    @{
+                                        var valorEntrada =
+                                            Math.Round(
+                                                reserva.ValorPrevisto * 0.30m,
+                                                2,
+                                                MidpointRounding.AwayFromZero);
+                                    }
+
+                                    <p class="mb-0 fw-bold">
+                                        @valorEntrada.ToString("C")
+                                    </p>
+
+                                    @if (entradaPaga)
+                                    {
+                                        <small class="text-success">
+                                            Pago
+                                        </small>
+                                    }
+                                    else if (reserva.Status == 1 &&
+                                             reserva.IsAtiva)
+                                    {
+                                        <small class="text-warning">
+                                            Aguardando pagamento
+                                        </small>
+                                    }
+
+                                </div>
+
+                                @if (entradaPaga)
+                                {
+                                    var saldoRestante =
+                                        Math.Round(
+                                            reserva.ValorPrevisto -
+                                            valorEntrada,
+                                            2,
+                                            MidpointRounding.AwayFromZero);
+
+                                    <div class="col-md-6">
+
+                                        <small class="text-secondary">
+                                            Saldo restante
+                                        </small>
+
+                                        <p class="mb-0 fw-bold">
+                                            @saldoRestante.ToString("C")
+                                        </p>
+
+                                        <small class="text-secondary">
+                                            A pagar após a locação
+                                        </small>
+
+                                    </div>
+                                }
+
+                                <div class="col-md-6">
+
+                                    <small class="text-secondary">
+                                        Situação
+                                    </small>
+
+                                    <p class="mb-0">
+
+                                        @if (reserva.IsAtiva)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ativa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inativa
+                                            </span>
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mt-4 d-flex gap-2 flex-wrap">
+
+                                <a asp-controller="Reservas"
+                                   asp-action="Detalhes"
+                                   asp-route-id="@reserva.Id"
+                                   class="btn btn-dark">
+
+                                    Visualizar
+                                </a>
+
+                                @if (modoAdministrador &&
+                                     retiradaLiberada)
+                                {
+                                    <a asp-controller="Reservas"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@reserva.Id"
+                                       class="btn btn-success">
+
+                                        Iniciar locação
+                                    </a>
+                                }
+
+                                @if (!modoAdministrador &&
+                                     aguardandoEntrada)
+                                {
+                                    <a asp-controller="Reservas"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@reserva.Id"
+                                       class="btn btn-warning">
+
+                                        Pagar entrada
+                                    </a>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="gocar-card text-center">
+
+                <h3>
+                    Nenhuma reserva encontrada
+                </h3>
+
+                @if (modoAdministrador)
+                {
+                    <p class="gocar-section-subtitle">
+                        Não existem reservas cadastradas no momento.
+                    </p>
+
+                    <a asp-controller="Reservas"
+                       asp-action="Criar"
+                       class="btn btn-success">
+
+                        Criar primeira reserva
+                    </a>
+                }
+                else
+                {
+                    <p class="gocar-section-subtitle">
+                        Você ainda não possui reservas cadastradas.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="gocar-btn-primary">
+
+                        Escolher um veículo
+                    </a>
+                }
+
+            </div>
+        }
+
+    </div>
+</section>

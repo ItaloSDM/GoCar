@@ -1,0 +1,190 @@
+﻿@model GoCar.Web.Models.VeiculoViewModel
+
+@{
+    ViewData["Title"] = "Detalhes do Veículo";
+
+    string Combustivel(int valor)
+    {
+        return valor switch
+        {
+            1 => "Gasolina",
+            2 => "Etanol",
+            3 => "Flex",
+            4 => "Diesel",
+            5 => "Elétrico",
+            6 => "Híbrido",
+            _ => "Desconhecido"
+        };
+    }
+
+    string Cambio(int valor)
+    {
+        return valor switch
+        {
+            1 => "Manual",
+            2 => "Automático",
+            3 => "Automatizado",
+            4 => "CVT",
+            _ => "Desconhecido"
+        };
+    }
+
+    string Status(int valor)
+    {
+        return valor switch
+        {
+            1 => "Disponível",
+            2 => "Reservado",
+            3 => "Alugado",
+            4 => "Manutenção",
+            5 => "Inativo",
+            _ => "Desconhecido"
+        };
+    }
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Detalhes do Veículo</h1>
+
+            <p class="text-muted mb-0">
+                Informações completas do veículo.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Veiculos"
+           asp-action="Index">
+
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <strong>ID</strong>
+                    <p>@Model.Id</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Placa</strong>
+                    <p>@Model.Placa</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Status</strong>
+                    <p>@Status(Model.Status)</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Marca</strong>
+                    <p>@Model.Marca</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Modelo</strong>
+                    <p>@Model.Modelo</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Chassi</strong>
+                    <p>@Model.Chassi</p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Renavam</strong>
+                    <p>@Model.Renavam</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Ano de Fabricação</strong>
+                    <p>@Model.AnoFabricacao</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Ano Modelo</strong>
+                    <p>@Model.AnoModelo</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Cor</strong>
+                    <p>@Model.Cor</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Combustível</strong>
+                    <p>@Combustivel(Model.Combustivel)</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Câmbio</strong>
+                    <p>@Cambio(Model.Cambio)</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Quilometragem</strong>
+                    <p>@Model.KmAtual.ToString("N0") km</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Valor da Diária</strong>
+                    <p>@Model.ValorDiaria.ToString("C")</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Categoria</strong>
+                    <p>@ViewBag.CategoriaNome</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Filial</strong>
+                    <p>@ViewBag.FilialNome</p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Cadastro ativo</strong>
+
+                    <p>
+                        @if (Model.IsAtivo)
+                        {
+                            <span class="badge bg-success">
+                                Ativo
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inativo
+                            </span>
+                        }
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a class="btn btn-dark"
+                   asp-controller="Veiculos"
+                   asp-action="Editar"
+                   asp-route-id="@Model.Id">
+
+                    Editar Veículo
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

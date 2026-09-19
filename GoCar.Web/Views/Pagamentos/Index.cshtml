@@ -1,0 +1,501 @@
+﻿@model List<GoCar.Web.Models.PagamentoViewModel>
+
+@{
+    ViewData["Title"] = "Pagamentos";
+
+    string StatusPagamento(int status)
+    {
+        return status switch
+        {
+            1 => "Pendente",
+            2 => "Pago",
+            3 => "Cancelado",
+            4 => "Estornado",
+            _ => "Desconhecido"
+        };
+    }
+
+    string FormaPagamento(int forma)
+    {
+        return forma switch
+        {
+            1 => "Pix",
+            2 => "Cartão de Crédito",
+            3 => "Cartão de Débito",
+            4 => "Dinheiro",
+            _ => "Desconhecida"
+        };
+    }
+
+    string ClasseStatus(int status)
+    {
+        return status switch
+        {
+            1 => "bg-warning text-dark",
+            2 => "bg-success",
+            3 => "bg-danger",
+            4 => "bg-secondary",
+            _ => "bg-dark"
+        };
+    }
+}
+
+<section class="gocar-section">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+            <div>
+                <h1 class="fw-bold mb-1">
+                    Pagamentos
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Gerencie entradas, saldos, multas e adicionais.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a asp-controller="Pagamentos"
+                   asp-action="Criar"
+                   class="btn btn-success">
+                    Novo Pagamento
+                </a>
+
+                <a asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="btn btn-outline-dark">
+                    Voltar ao Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Sucesso"]
+            </div>
+        }
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Erro"]
+            </div>
+        }
+
+        @if (ViewBag.MensagemErro != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.MensagemErro
+            </div>
+        }
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+
+                            <label class="form-label fw-semibold">
+                                Tipo
+                            </label>
+
+                            <select id="filtroTipo"
+                                    class="form-select">
+
+                                <option value="">
+                                    Todos os tipos
+                                </option>
+
+                                <option value="entrada">
+                                    Entrada
+                                </option>
+
+                                <option value="locação">
+                                    Locação
+                                </option>
+
+                                <option value="multa">
+                                    Multa
+                                </option>
+
+                                <option value="adicional">
+                                    Adicional
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label class="form-label fw-semibold">
+                                Status
+                            </label>
+
+                            <select id="filtroStatus"
+                                    class="form-select">
+
+                                <option value="">
+                                    Todos os status
+                                </option>
+
+                                <option value="1">
+                                    Pendente
+                                </option>
+
+                                <option value="2">
+                                    Pago
+                                </option>
+
+                                <option value="3">
+                                    Cancelado
+                                </option>
+
+                                <option value="4">
+                                    Estornado
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12 col-md-4">
+
+                            <label class="form-label fw-semibold">
+                                Buscar
+                            </label>
+
+                            <input id="filtroBusca"
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="Pagamento, reserva ou locação..." />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="listaPagamentos"
+                 class="row g-4">
+
+                @foreach (var pagamento in Model)
+                {
+                    var tipoFiltro =
+                        (pagamento.Tipo ?? string.Empty)
+                            .Trim()
+                            .ToLowerInvariant();
+
+                    var textoBusca =
+                        ($"pagamento {pagamento.Id} " +
+                         $"reserva {pagamento.ReservaId} " +
+                         $"locação {pagamento.LocacaoId} " +
+                         $"{pagamento.Tipo}")
+                            .ToLowerInvariant();
+
+                    <div class="col-12 col-md-6 col-xl-4 pagamento-item"
+                         data-tipo="@tipoFiltro"
+                         data-status="@pagamento.Status"
+                         data-busca="@textoBusca">
+
+                        <div class="card shadow-sm border-0 h-100">
+
+                            <div class="card-body d-flex flex-column">
+
+                                <div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+
+                                    <div>
+
+                                        <h5 class="fw-bold mb-1">
+                                            Pagamento #@pagamento.Id
+                                        </h5>
+
+                                        @if (pagamento.ReservaId.HasValue)
+                                        {
+                                            <small class="text-muted">
+                                                Reserva #@pagamento.ReservaId
+                                            </small>
+                                        }
+                                        else if (pagamento.LocacaoId.HasValue)
+                                        {
+                                            <small class="text-muted">
+                                                Locação #@pagamento.LocacaoId
+                                            </small>
+                                        }
+                                        else
+                                        {
+                                            <small class="text-muted">
+                                                Sem vínculo
+                                            </small>
+                                        }
+
+                                    </div>
+
+                                    <span class="badge @ClasseStatus(pagamento.Status)">
+                                        @StatusPagamento(pagamento.Status)
+                                    </span>
+
+                                </div>
+
+                                <hr />
+
+                                <p class="mb-2">
+                                    <strong>Tipo:</strong>
+
+                                    @if (string.Equals(
+                                        pagamento.Tipo,
+                                        "Entrada",
+                                        StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <span>
+                                            Entrada da Reserva
+                                        </span>
+                                    }
+                                    else if (string.Equals(
+                                        pagamento.Tipo,
+                                        "Locação",
+                                        StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <span>
+                                            Saldo da Locação
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            @pagamento.Tipo
+                                        </span>
+                                    }
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Forma:</strong>
+                                    @FormaPagamento(pagamento.FormaPagamento)
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Status:</strong>
+                                    @StatusPagamento(pagamento.Status)
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Valor:</strong>
+
+                                    <span class="fw-semibold">
+                                        @pagamento.Valor.ToString("C")
+                                    </span>
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Data do pagamento:</strong>
+
+                                    @if (pagamento.DataPagamento.HasValue)
+                                    {
+                                        @pagamento.DataPagamento.Value.ToString("dd/MM/yyyy HH:mm")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            Ainda não pago
+                                        </span>
+                                    }
+                                </p>
+
+                                <p class="mb-3">
+                                    <strong>Situação:</strong>
+
+                                    @if (pagamento.IsAtivo)
+                                    {
+                                        <span class="text-success fw-semibold">
+                                            Ativo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger fw-semibold">
+                                            Inativo
+                                        </span>
+                                    }
+                                </p>
+
+                                <div class="mt-auto">
+
+                                    <a asp-controller="Pagamentos"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@pagamento.Id"
+                                       class="btn btn-dark w-100">
+                                        Visualizar
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+            <div id="nenhumResultado"
+                 class="card border-0 shadow-sm d-none mt-4">
+
+                <div class="card-body text-center py-5">
+
+                    <h4 class="fw-bold">
+                        Nenhum pagamento encontrado
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Nenhum pagamento corresponde aos filtros selecionados.
+                    </p>
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center py-5">
+
+                    <h4 class="fw-bold">
+                        Nenhum pagamento encontrado
+                    </h4>
+
+                    <p class="text-muted">
+                        Ainda não existem pagamentos cadastrados.
+                    </p>
+
+                    <a asp-controller="Pagamentos"
+                       asp-action="Criar"
+                       class="btn btn-success">
+                        Criar primeiro pagamento
+                    </a>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const filtroTipo =
+                document.getElementById("filtroTipo");
+
+            const filtroStatus =
+                document.getElementById("filtroStatus");
+
+            const filtroBusca =
+                document.getElementById("filtroBusca");
+
+            const itens =
+                document.querySelectorAll(".pagamento-item");
+
+            const nenhumResultado =
+                document.getElementById("nenhumResultado");
+
+            if (!filtroTipo ||
+                !filtroStatus ||
+                !filtroBusca) {
+                return;
+            }
+
+            function normalizarTexto(texto) {
+
+                return (texto || "")
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+            }
+
+            function filtrarPagamentos() {
+
+                const tipoSelecionado =
+                    normalizarTexto(filtroTipo.value);
+
+                const statusSelecionado =
+                    filtroStatus.value;
+
+                const busca =
+                    normalizarTexto(filtroBusca.value.trim());
+
+                let quantidadeVisivel = 0;
+
+                itens.forEach(function(item) {
+
+                    const tipo =
+                        normalizarTexto(item.dataset.tipo);
+
+                    const status =
+                        item.dataset.status || "";
+
+                    const texto =
+                        normalizarTexto(item.dataset.busca);
+
+                    const correspondeTipo =
+                        !tipoSelecionado ||
+                        tipo === tipoSelecionado;
+
+                    const correspondeStatus =
+                        !statusSelecionado ||
+                        status === statusSelecionado;
+
+                    const correspondeBusca =
+                        !busca ||
+                        texto.includes(busca);
+
+                    const mostrar =
+                        correspondeTipo &&
+                        correspondeStatus &&
+                        correspondeBusca;
+
+                    item.classList.toggle(
+                        "d-none",
+                        !mostrar);
+
+                    if (mostrar) {
+                        quantidadeVisivel++;
+                    }
+                });
+
+                if (nenhumResultado) {
+                    nenhumResultado.classList.toggle(
+                        "d-none",
+                        quantidadeVisivel > 0);
+                }
+            }
+
+            filtroTipo.addEventListener(
+                "change",
+                filtrarPagamentos);
+
+            filtroStatus.addEventListener(
+                "change",
+                filtrarPagamentos);
+
+            filtroBusca.addEventListener(
+                "input",
+                filtrarPagamentos);
+        });
+    </script>
+}

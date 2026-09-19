@@ -1,0 +1,207 @@
+﻿@model List<GoCar.Web.Models.ClienteViewModel>
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Clientes</h1>
+
+            <p class="text-muted mb-0">
+                Gerenciamento dos clientes cadastrados.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Dashboard"
+           asp-action="Index">
+
+            Voltar ao Dashboard
+        </a>
+
+    </div>
+
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Sucesso"]
+        </div>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Erro"]
+        </div>
+    }
+
+    @if (ViewBag.MensagemErro != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.MensagemErro
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>CNH</th>
+                            <th>Cidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="8"
+                                    class="text-center py-4">
+
+                                    Nenhum cliente encontrado.
+
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var cliente in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @cliente.Id
+                                    </td>
+
+                                    <td>
+                                        @cliente.Nome
+                                    </td>
+
+                                    <td>
+                                        @cliente.CPF
+                                    </td>
+
+                                    <td>
+                                        @cliente.Telefone
+                                    </td>
+
+                                    <td>
+                                        @cliente.CNH
+                                    </td>
+
+                                    <td>
+                                        @cliente.Cidade - @cliente.Estado
+                                    </td>
+
+                                    <td>
+
+                                        @if (cliente.IsAtivo)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ativo
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Inativo
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex flex-wrap gap-2">
+
+                                            <a class="btn btn-sm btn-outline-dark"
+                                               asp-controller="Clientes"
+                                               asp-action="Detalhes"
+                                               asp-route-id="@cliente.Id">
+
+                                                Visualizar
+                                            </a>
+
+                                            <a class="btn btn-sm btn-dark"
+                                               asp-controller="Clientes"
+                                               asp-action="Editar"
+                                               asp-route-id="@cliente.Id">
+
+                                                Editar
+                                            </a>
+
+                                            @if (cliente.IsAtivo)
+                                            {
+                                                <form asp-controller="Clientes"
+                                                      asp-action="Desativar"
+                                                      asp-route-id="@cliente.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja realmente desativar este cliente?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-danger">
+
+                                                        Desativar
+                                                    </button>
+
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form asp-controller="Clientes"
+                                                      asp-action="Ativar"
+                                                      asp-route-id="@cliente.Id"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Deseja reativar este cliente?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success">
+
+                                                        Ativar
+                                                    </button>
+
+                                                </form>
+                                            }
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

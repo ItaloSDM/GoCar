@@ -1,0 +1,1064 @@
+﻿@model GoCar.Web.Models.LocacaoViewModel
+@using GoCar.Web.Models
+
+@{
+    ViewData["Title"] = "Detalhes da Locação";
+
+    bool modoAdministrador =
+        ViewBag.ModoAdministrador != null &&
+        (bool)ViewBag.ModoAdministrador;
+
+    bool entradaPaga =
+        ViewBag.EntradaPaga != null &&
+        (bool)ViewBag.EntradaPaga;
+
+    decimal valorEntrada =
+        ViewBag.ValorEntrada != null
+            ? (decimal)ViewBag.ValorEntrada
+            : 0m;
+
+    decimal saldoRestante =
+        ViewBag.SaldoRestante != null
+            ? (decimal)ViewBag.SaldoRestante
+            : Model.ValorTotal;
+
+    decimal valorMulta =
+        ViewBag.ValorMulta != null
+            ? (decimal)ViewBag.ValorMulta
+            : 0m;
+
+    decimal valorAdicional =
+        ViewBag.ValorAdicional != null
+            ? (decimal)ViewBag.ValorAdicional
+            : 0m;
+
+    decimal totalPagarAgora =
+        ViewBag.TotalPagarAgora != null
+            ? (decimal)ViewBag.TotalPagarAgora
+            : 0m;
+
+    PagamentoViewModel? pagamentoEntrada =
+        ViewBag.PagamentoEntrada as PagamentoViewModel;
+
+    PagamentoViewModel? pagamentoLocacao =
+        ViewBag.PagamentoLocacao as PagamentoViewModel;
+
+    PagamentoViewModel? pagamentoMulta =
+        ViewBag.PagamentoMulta as PagamentoViewModel;
+
+    PagamentoViewModel? pagamentoAdicional =
+        ViewBag.PagamentoAdicional as PagamentoViewModel;
+
+    string StatusLocacao(int status)
+    {
+        return status switch
+        {
+            1 => "Ativa",
+            2 => "Finalizada",
+            3 => "Cancelada",
+            _ => "Desconhecido"
+        };
+    }
+
+    string StatusPagamento(int status)
+    {
+        return status switch
+        {
+            1 => "Pendente",
+            2 => "Pago",
+            3 => "Cancelado",
+            4 => "Estornado",
+            _ => "Desconhecido"
+        };
+    }
+
+    string FormaPagamento(int forma)
+    {
+        return forma switch
+        {
+            1 => "Pix",
+            2 => "Cartão de Crédito",
+            3 => "Cartão de Débito",
+            4 => "Dinheiro",
+            _ => "Não informado"
+        };
+    }
+
+    string combustivelSaidaValue =
+        Model.CombustivelSaidaPercentual.ToString(
+            "0.##",
+            System.Globalization.CultureInfo.InvariantCulture);
+}
+
+<section class="gocar-section">
+
+    <div class="container">
+
+        <!-- ========================================= -->
+        <!-- CABEÇALHO -->
+        <!-- ========================================= -->
+
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+            <div>
+
+                <span class="section-badge">
+                    LOCAÇÃO
+                </span>
+
+                <h1 class="gocar-section-title mb-2">
+                    Locação #@Model.Id
+                </h1>
+
+                <p class="gocar-section-subtitle mb-0">
+                    Informações completas da locação.
+                </p>
+
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                @if (modoAdministrador &&
+                     Model.Status == 2)
+                {
+                    if (pagamentoLocacao != null)
+                    {
+                        <a asp-controller="Pagamentos"
+                           asp-action="Detalhes"
+                           asp-route-id="@pagamentoLocacao.Id"
+                           class="btn btn-primary">
+
+                            Ver pagamento da locação
+
+                        </a>
+                    }
+                    else if (saldoRestante > 0)
+                    {
+                        <a asp-controller="Pagamentos"
+                           asp-action="Criar"
+                           asp-route-locacaoId="@Model.Id"
+                           class="btn btn-success">
+
+                            Cobrar saldo restante
+
+                        </a>
+                    }
+                }
+
+                <a asp-controller="Locacoes"
+                   asp-action="Index"
+                   class="btn btn-outline-light">
+
+                    Voltar
+
+                </a>
+
+            </div>
+
+        </div>
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger mb-4">
+                @TempData["Erro"]
+            </div>
+        }
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="alert alert-success mb-4">
+                @TempData["Sucesso"]
+            </div>
+        }
+
+        <!-- ========================================= -->
+        <!-- DADOS DA LOCAÇÃO -->
+        <!-- ========================================= -->
+
+        <div class="gocar-card mb-4">
+
+            <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
+
+                <div>
+
+                    <small class="text-secondary">
+                        Locação
+                    </small>
+
+                    <h2 class="mb-0">
+                        #@Model.Id
+                    </h2>
+
+                </div>
+
+                <div>
+
+                    @if (Model.Status == 1)
+                    {
+                        <span class="badge bg-success">
+                            Ativa
+                        </span>
+                    }
+                    else if (Model.Status == 2)
+                    {
+                        <span class="badge bg-primary">
+                            Finalizada
+                        </span>
+                    }
+                    else if (Model.Status == 3)
+                    {
+                        <span class="badge bg-danger">
+                            Cancelada
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <small class="text-secondary">
+                        Reserva vinculada
+                    </small>
+
+                    <p class="mb-0 fw-semibold">
+                        Reserva #@Model.ReservaId
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <small class="text-secondary">
+                        Status
+                    </small>
+
+                    <p class="mb-0">
+                        @StatusLocacao(Model.Status)
+                    </p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <small class="text-secondary">
+                        Situação
+                    </small>
+
+                    <p class="mb-0">
+
+                        @if (Model.IsAtiva)
+                        {
+                            <span class="badge bg-success">
+                                Ativa
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inativa
+                            </span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Data de retirada
+                    </small>
+
+                    <p class="mb-0">
+                        @Model.DataRetirada.ToString("dd/MM/yyyy HH:mm")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Data de devolução
+                    </small>
+
+                    <p class="mb-0">
+
+                        @if (Model.DataDevolucaoReal.HasValue)
+                        {
+                            @(Model.DataDevolucaoReal.Value.ToString("dd/MM/yyyy HH:mm"))
+                        }
+                        else if (Model.Status == 3)
+                        {
+                            <span class="text-secondary">
+                                Locação cancelada
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-secondary">
+                                Veículo ainda não devolvido
+                            </span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Km de saída
+                    </small>
+
+                    <p class="mb-0">
+                        @(Model.KmSaida.ToString("N0")) km
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Km de entrada
+                    </small>
+
+                    <p class="mb-0">
+
+                        @if (Model.KmEntrada.HasValue)
+                        {
+                            @($"{Model.KmEntrada.Value:N0} km")
+                        }
+                        else
+                        {
+                            <span class="text-secondary">
+                                Não informado
+                            </span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Combustível na saída
+                    </small>
+
+                    <p class="mb-0">
+                        @(Model.CombustivelSaidaPercentual.ToString("0.##"))%
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Combustível na entrada
+                    </small>
+
+                    <p class="mb-0">
+
+                        @if (Model.CombustivelEntradaPercentual.HasValue)
+                        {
+                            @($"{Model.CombustivelEntradaPercentual.Value:0.##}%")
+                        }
+                        else
+                        {
+                            <span class="text-secondary">
+                                Não informado
+                            </span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Valor original da locação
+                    </small>
+
+                    <p class="mb-0 fw-bold">
+                        @(Model.ValorTotal.ToString("C"))
+                    </p>
+
+                    <small class="text-secondary">
+                        Valor total antes do desconto da entrada
+                    </small>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Data de criação
+                    </small>
+
+                    <p class="mb-0">
+                        @(Model.DataCriacao.ToString("dd/MM/yyyy HH:mm"))
+                    </p>
+
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Observacoes))
+                {
+                    <div class="col-12">
+
+                        <small class="text-secondary">
+                            Observações
+                        </small>
+
+                        <p class="mb-0">
+                            @Model.Observacoes
+                        </p>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- RESUMO FINANCEIRO -->
+        <!-- ========================================= -->
+
+        <div class="gocar-card mb-4">
+
+            <div class="mb-4">
+
+                <span class="section-badge">
+                    FINANCEIRO
+                </span>
+
+                <h3 class="mb-2">
+                    Resumo financeiro
+                </h3>
+
+                <p class="text-secondary mb-0">
+                    Valores da reserva e pagamentos vinculados à locação.
+                </p>
+
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-3">
+
+                    <small class="text-secondary">
+                        Valor total
+                    </small>
+
+                    <p class="mb-0 fw-bold fs-5">
+                        @(Model.ValorTotal.ToString("C"))
+                    </p>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <small class="text-secondary">
+                        Entrada de 30%
+                    </small>
+
+                    <p class="mb-0 fw-bold fs-5">
+                        @(valorEntrada.ToString("C"))
+                    </p>
+
+                    @if (entradaPaga)
+                    {
+                        <small class="text-success">
+                            Pago
+                        </small>
+                    }
+                    else
+                    {
+                        <small class="text-warning">
+                            Não identificada
+                        </small>
+                    }
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <small class="text-secondary">
+                        Saldo da locação
+                    </small>
+
+                    <p class="mb-0 fw-bold fs-5">
+                        @(saldoRestante.ToString("C"))
+                    </p>
+
+                    @if (Model.Status == 1)
+                    {
+                        <small class="text-secondary">
+                            Cobrado após a devolução
+                        </small>
+                    }
+                    else if (Model.Status == 3)
+                    {
+                        <small class="text-secondary">
+                            Locação cancelada
+                        </small>
+                    }
+                    else if (pagamentoLocacao != null &&
+                             pagamentoLocacao.Status == 2)
+                    {
+                        <small class="text-success">
+                            Pago
+                        </small>
+                    }
+                    else if (pagamentoLocacao != null &&
+                             pagamentoLocacao.Status == 1)
+                    {
+                        <small class="text-warning">
+                            Pagamento pendente
+                        </small>
+                    }
+                    else
+                    {
+                        <small class="text-secondary">
+                            Aguardando cobrança
+                        </small>
+                    }
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <small class="text-secondary">
+                        Total a pagar agora
+                    </small>
+
+                    <p class="mb-0 fw-bold fs-4">
+                        @(totalPagarAgora.ToString("C"))
+                    </p>
+
+                    @if (Model.Status == 1 &&
+                         totalPagarAgora <= 0)
+                    {
+                        <small class="text-secondary">
+                            Saldo principal ainda não vencido
+                        </small>
+                    }
+                    else if (Model.Status == 3)
+                    {
+                        <small class="text-secondary">
+                            Nenhuma cobrança atual
+                        </small>
+                    }
+                    else if (totalPagarAgora <= 0)
+                    {
+                        <small class="text-success">
+                            Sem valores pendentes
+                        </small>
+                    }
+                    else
+                    {
+                        <small class="text-warning">
+                            Valores pendentes
+                        </small>
+                    }
+
+                </div>
+
+            </div>
+
+            @if (pagamentoEntrada != null)
+            {
+                <hr class="my-4" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <small class="text-secondary">
+                            Pagamento da entrada
+                        </small>
+
+                        <p class="mb-0 fw-semibold">
+                            #@pagamentoEntrada.Id
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <small class="text-secondary">
+                            Valor
+                        </small>
+
+                        <p class="mb-0 fw-semibold">
+                            @(pagamentoEntrada.Valor.ToString("C"))
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <small class="text-secondary">
+                            Status
+                        </small>
+
+                        <p class="mb-0">
+
+                            @if (pagamentoEntrada.Status == 2)
+                            {
+                                <span class="badge bg-success">
+                                    Pago
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    @StatusPagamento(pagamentoEntrada.Status)
+                                </span>
+                            }
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <small class="text-secondary">
+                            Forma
+                        </small>
+
+                        <p class="mb-0">
+                            @FormaPagamento(pagamentoEntrada.FormaPagamento)
+                        </p>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+        <!-- ========================================= -->
+        <!-- MULTAS E ADICIONAIS -->
+        <!-- ========================================= -->
+        @if (pagamentoMulta != null ||
+                     pagamentoAdicional != null)
+        {
+            <div class="gocar-card mb-4">
+
+                <div class="mb-4">
+
+                    <span class="section-badge">
+                        COBRANÇAS EXTRAS
+                    </span>
+
+                    <h3 class="mb-2">
+                        Multas e adicionais
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Cobranças adicionais vinculadas à locação.
+                    </p>
+
+                </div>
+
+                <div class="row g-4">
+
+                    @if (pagamentoMulta != null)
+                    {
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3 h-100">
+
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+
+                                    <div>
+
+                                        <small class="text-secondary">
+                                            Multa
+                                        </small>
+
+                                        <h4 class="mb-1">
+                                            @(valorMulta.ToString("C"))
+                                        </h4>
+
+                                    </div>
+
+                                    @if (pagamentoMulta.Status == 2)
+                                    {
+                                        <span class="badge bg-success">
+                                            Pago
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            @StatusPagamento(pagamentoMulta.Status)
+                                        </span>
+                                    }
+
+                                </div>
+
+                                <div class="mt-3">
+
+                                    <a asp-controller="Pagamentos"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@pagamentoMulta.Id"
+                                       class="btn btn-outline-light btn-sm">
+
+                                        Ver multa
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                    @if (pagamentoAdicional != null)
+                    {
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3 h-100">
+
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+
+                                    <div>
+
+                                        <small class="text-secondary">
+                                            Adicional
+                                        </small>
+
+                                        <h4 class="mb-1">
+                                            @(valorAdicional.ToString("C"))
+                                        </h4>
+
+                                    </div>
+
+                                    @if (pagamentoAdicional.Status == 2)
+                                    {
+                                        <span class="badge bg-success">
+                                            Pago
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            @StatusPagamento(pagamentoAdicional.Status)
+                                        </span>
+                                    }
+
+                                </div>
+
+                                <div class="mt-3">
+
+                                    <a asp-controller="Pagamentos"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@pagamentoAdicional.Id"
+                                       class="btn btn-outline-light btn-sm">
+
+                                        Ver adicional
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        }
+
+        <!-- ========================================= -->
+        <!-- FINALIZAR / CANCELAR LOCAÇÃO -->
+        <!-- ========================================= -->
+        @if (modoAdministrador &&
+                     Model.Status == 1)
+        {
+            <div class="gocar-card mb-4">
+
+                <div class="mb-4">
+
+                    <span class="section-badge">
+                        FINALIZAÇÃO
+                    </span>
+
+                    <h3 class="mb-2">
+                        Finalizar locação
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Informe os dados da devolução do veículo.
+                        O saldo principal será liberado para cobrança após a finalização.
+                    </p>
+
+                </div>
+
+                <form asp-controller="Locacoes"
+                      asp-action="Finalizar"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.Id" />
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Km de entrada
+                            </label>
+
+                            <input type="number"
+                                   name="kmEntrada"
+                                   class="form-control"
+                                   min="@Model.KmSaida"
+                                   value="@Model.KmSaida"
+                                   required />
+
+                            <small class="text-secondary">
+                                Km mínimo:
+                                @(Model.KmSaida.ToString("N0"))
+                            </small>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Combustível na entrada (%)
+                            </label>
+
+                            <input type="number"
+                                   name="combustivelEntradaPercentual"
+                                   class="form-control"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   value="@combustivelSaidaValue"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Data da devolução
+                            </label>
+
+                            <input type="datetime-local"
+                                   name="dataDevolucaoReal"
+                                   class="form-control"
+                                   value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4">
+
+                        <button type="submit"
+                                class="btn btn-success"
+                                onclick="return confirm('Deseja finalizar esta locação?');">
+
+                            Finalizar locação
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="gocar-card">
+
+                <div class="mb-4">
+
+                    <span class="section-badge">
+                        CANCELAMENTO
+                    </span>
+
+                    <h3 class="mb-2">
+                        Cancelar locação
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Esta ação encerrará a locação e atualizará a situação do veículo.
+                    </p>
+
+                </div>
+
+                <form asp-controller="Locacoes"
+                      asp-action="Cancelar"
+                      method="post"
+                      onsubmit="return confirm('Tem certeza que deseja cancelar esta locação?');">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.Id" />
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        Cancelar locação
+
+                    </button>
+
+                </form>
+
+            </div>
+        }
+
+        <!-- ========================================= -->
+        <!-- PAGAMENTO APÓS FINALIZAÇÃO -->
+        <!-- ========================================= -->
+        @if (modoAdministrador &&
+                     Model.Status == 2)
+        {
+            <div class="gocar-card mt-4">
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div>
+
+                        <span class="section-badge">
+                            PAGAMENTO FINAL
+                        </span>
+
+                        @if (pagamentoLocacao != null &&
+                             pagamentoLocacao.Status == 2)
+                        {
+                            <h3 class="mb-2">
+                                Saldo da locação pago
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+                                Pagamento #@pagamentoLocacao.Id
+                                —
+                                @(pagamentoLocacao.Valor.ToString("C"))
+                            </p>
+                        }
+                        else if (pagamentoLocacao != null &&
+                                 pagamentoLocacao.Status == 1)
+                        {
+                            <h3 class="mb-2">
+                                Pagamento pendente
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+                                Pagamento #@pagamentoLocacao.Id
+                                —
+                                @(pagamentoLocacao.Valor.ToString("C"))
+                                —
+                                @StatusPagamento(pagamentoLocacao.Status)
+                            </p>
+                        }
+                        else if (saldoRestante > 0)
+                        {
+                            <h3 class="mb-2">
+                                Saldo restante
+                            </h3>
+
+                            <p class="text-secondary mb-0">
+
+                                Valor total:
+                                <strong>
+                                    @(Model.ValorTotal.ToString("C"))
+                                </strong>
+
+                                · Entrada paga:
+                                <strong>
+                                    @(valorEntrada.ToString("C"))
+                                </strong>
+
+                                · Restante:
+                                <strong>
+                                    @(saldoRestante.ToString("C"))
+                                </strong>
+
+                            </p>
+                        }
+                        else
+                        {
+                            <h3 class="mb-2">
+                                Locação quitada
+                            </h3>
+
+                            <p class="text-success mb-0">
+                                Não há saldo restante para cobrança.
+                            </p>
+                        }
+
+                    </div>
+
+                    @if (pagamentoLocacao != null)
+                    {
+                        <a asp-controller="Pagamentos"
+                           asp-action="Detalhes"
+                           asp-route-id="@pagamentoLocacao.Id"
+                           class="btn btn-primary">
+
+                            Ver pagamento
+
+                        </a>
+                    }
+                    else if (saldoRestante > 0)
+                    {
+                        <a asp-controller="Pagamentos"
+                           asp-action="Criar"
+                           asp-route-locacaoId="@Model.Id"
+                           class="btn btn-success">
+
+                            Cobrar @(saldoRestante.ToString("C"))
+
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        }
+
+        <!-- ========================================= -->
+        <!-- CANCELADA -->
+        <!-- ========================================= -->
+        @if (Model.Status == 3)
+        {
+            <div class="alert alert-danger mt-4">
+
+                <strong>Locação cancelada.</strong>
+
+                @if (modoAdministrador)
+                {
+                    <span>
+                        Novas cobranças não podem ser criadas para esta locação.
+                        Pagamentos existentes continuam disponíveis no histórico para regularização.
+                    </span>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</section>

@@ -34,7 +34,10 @@ namespace GoCar.Domain.Entities
 
         public DateTime? DataCancelamento { get; set; }
 
-        // Relacionamentos
+        // =====================================================
+        // RELACIONAMENTOS
+        // =====================================================
+
         public Cliente Cliente { get; set; } = null!;
 
         public Veiculo Veiculo { get; set; } = null!;
@@ -43,6 +46,12 @@ namespace GoCar.Domain.Entities
 
         public Filial FilialDevolucao { get; set; } = null!;
 
+        // Uma reserva pode gerar uma locação
         public Locacao? Locacao { get; set; }
+
+        // Pagamentos ligados diretamente à reserva.
+        // Exemplo: entrada obrigatória de 30%.
+        public ICollection<Pagamento> Pagamentos { get; set; }
+            = new List<Pagamento>();
     }
 }

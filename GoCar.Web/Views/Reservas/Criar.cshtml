@@ -1,0 +1,1078 @@
+﻿@using GoCar.Web.Models
+@using GoCar.Web.Controllers
+
+@{
+    ViewData["Title"] = "Nova Reserva";
+
+    var clientes =
+        ViewBag.Clientes as List<ClienteViewModel>
+        ?? new List<ClienteViewModel>();
+
+    var gruposVeiculos =
+        ViewBag.GruposVeiculos
+            as List<ReservasController.VeiculoGrupoViewModel>
+        ?? new List<ReservasController.VeiculoGrupoViewModel>();
+
+    var filiais =
+        ViewBag.Filiais as List<FilialViewModel>
+        ?? new List<FilialViewModel>();
+
+    bool modoAdministrador =
+        ViewBag.ModoAdministrador == true;
+
+    // =====================================================
+    // RECUPERAÇÃO CORRETA DOS VALORES DO VIEWBAG
+    // =====================================================
+
+    int? veiculoSelecionadoId =
+        ViewBag.VeiculoSelecionadoId != null
+            ? Convert.ToInt32(ViewBag.VeiculoSelecionadoId)
+            : null;
+
+    int? filialSelecionadaId =
+        ViewBag.FilialSelecionadaId != null
+            ? Convert.ToInt32(ViewBag.FilialSelecionadaId)
+            : null;
+
+    DateTime? dataRetiradaSelecionada =
+        ViewBag.DataRetiradaSelecionada != null
+            ? Convert.ToDateTime(ViewBag.DataRetiradaSelecionada)
+            : null;
+
+    DateTime? dataDevolucaoSelecionada =
+        ViewBag.DataDevolucaoSelecionada != null
+            ? Convert.ToDateTime(ViewBag.DataDevolucaoSelecionada)
+            : null;
+
+    // =====================================================
+    // VEÍCULO SELECIONADO
+    // =====================================================
+
+    var veiculoSelecionado =
+        gruposVeiculos.FirstOrDefault(v =>
+            veiculoSelecionadoId.HasValue &&
+            v.VeiculoId == veiculoSelecionadoId.Value);
+
+    // =====================================================
+    // FUNÇÕES AUXILIARES
+    // =====================================================
+
+    string NomeCambio(int cambio)
+    {
+        return cambio switch
+        {
+            1 => "Manual",
+            2 => "Automático",
+            3 => "Automatizado",
+            4 => "CVT",
+            _ => "Não informado"
+        };
+    }
+
+    string NomeCombustivel(int combustivel)
+    {
+        return combustivel switch
+        {
+            1 => "Gasolina",
+            2 => "Etanol",
+            3 => "Flex",
+            4 => "Diesel",
+            5 => "Elétrico",
+            6 => "Híbrido",
+            _ => "Não informado"
+        };
+    }
+
+    // =====================================================
+    // VALORES PARA JAVASCRIPT
+    // =====================================================
+
+    string diariaJavascript =
+        veiculoSelecionado != null
+            ? veiculoSelecionado.ValorDiaria.ToString(
+                System.Globalization.CultureInfo.InvariantCulture)
+            : "0";
+
+    int veiculoJavascript =
+        veiculoSelecionado?.VeiculoId ?? 0;
+
+    // =====================================================
+    // DATAS INICIAIS
+    // =====================================================
+
+    DateTime dataRetiradaInicial =
+        dataRetiradaSelecionada.HasValue
+            ? dataRetiradaSelecionada.Value.Date.AddHours(9)
+            : DateTime.Now.AddHours(1);
+
+    DateTime dataDevolucaoInicial =
+        dataDevolucaoSelecionada.HasValue
+            ? dataDevolucaoSelecionada.Value.Date.AddHours(9)
+            : DateTime.Now.AddDays(2);
+
+    if (dataDevolucaoInicial <= dataRetiradaInicial)
+    {
+        dataDevolucaoInicial =
+            dataRetiradaInicial.AddDays(1);
+    }
+}
+
+<section class="gocar-section">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between
+            align-items-center mb-5 flex-wrap gap-3">
+
+            <div>
+
+                <span class="section-badge">
+                    @(modoAdministrador
+                        ? "ÁREA ADMINISTRATIVA"
+                        : "FAÇA SUA RESERVA")
+                </span>
+
+                <h1 class="gocar-section-title mb-2">
+                    Nova Reserva
+                </h1>
+
+                <p class="gocar-section-subtitle mb-0">
+                    Informe os dados da sua viagem
+                    para continuar.
+                </p>
+
+            </div>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               asp-fragment="veiculos"
+               class="btn btn-outline-light">
+                Escolher outro veículo
+            </a>
+
+        </div>
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger mb-4">
+                @TempData["Erro"]
+            </div>
+        }
+
+        @if (veiculoSelecionado == null)
+        {
+            <div class="gocar-card">
+
+                <div class="text-center py-4">
+
+                    <h3 class="mb-3">
+                        Nenhum veículo selecionado
+                    </h3>
+
+                    <p class="text-secondary mb-4">
+                        Escolha um veículo da nossa frota
+                        antes de criar sua reserva.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-fragment="veiculos"
+                       class="gocar-btn-primary">
+                        Ver veículos
+                    </a>
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <form asp-controller="Reservas"
+                  asp-action="Criar"
+                  method="post"
+                  id="formReserva">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="veiculoId"
+                       value="@veiculoSelecionado.VeiculoId" />
+
+                @if (modoAdministrador)
+                {
+                    <div class="gocar-card mb-4">
+
+                        <span class="section-badge">
+                            CLIENTE
+                        </span>
+
+                        <h3 class="mt-2 mb-3">
+                            Cliente da reserva
+                        </h3>
+
+                        <div class="row">
+
+                            <div class="col-lg-6">
+
+                                <label class="form-label">
+                                    Cliente
+                                </label>
+
+                                <select name="clienteId"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        Selecione o cliente
+                                    </option>
+
+                                    @foreach (var cliente in clientes)
+                                    {
+                                        <option value="@cliente.Id">
+                                            @cliente.Nome -
+                                            CPF @cliente.CPF
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden"
+                           name="clienteId"
+                           value="0" />
+                }
+
+                <!-- VEÍCULO ESCOLHIDO -->
+
+                <div class="gocar-card mb-4">
+
+                    <div class="row align-items-center g-4">
+
+                        <div class="col-lg-4">
+
+                            <div class="reserva-carro-visual">
+
+                                <span class="section-badge">
+                                    @veiculoSelecionado.CategoriaNome
+                                </span>
+
+                                <div class="reserva-carro-marca">
+                                    @veiculoSelecionado.Marca
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-8">
+
+                            <div class="d-flex
+                                justify-content-between
+                                align-items-start
+                                flex-wrap gap-3 mb-3">
+
+                                <div>
+
+                                    <span class="section-badge">
+                                        VEÍCULO ESCOLHIDO
+                                    </span>
+
+                                    <h2 class="gocar-section-title
+                                        mb-1 mt-2">
+                                        @veiculoSelecionado.Marca
+                                        @veiculoSelecionado.Modelo
+                                    </h2>
+
+                                    <p class="text-secondary mb-0">
+                                        @veiculoSelecionado.AnoFabricacao/@veiculoSelecionado.AnoModelo
+                                    </p>
+
+                                </div>
+
+                                <span class="reserva-disponibilidade"
+                                      id="disponibilidadeVeiculo">
+                                    Verificando disponibilidade...
+                                </span>
+
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+
+                                <span class="reserva-tag">
+                                    @veiculoSelecionado.CategoriaNome
+                                </span>
+
+                                <span class="reserva-tag">
+                                    @NomeCambio(veiculoSelecionado.Cambio)
+                                </span>
+
+                                <span class="reserva-tag">
+                                    @NomeCombustivel(veiculoSelecionado.Combustivel)
+                                </span>
+
+                            </div>
+
+                            <div class="d-flex
+                                justify-content-between
+                                align-items-end
+                                flex-wrap gap-3">
+
+                                <div>
+
+                                    <small class="text-secondary">
+                                        Diária
+                                    </small>
+
+                                    <div class="reserva-diaria">
+                                        @veiculoSelecionado.ValorDiaria.ToString("C")
+                                        <span>/dia</span>
+                                    </div>
+
+                                </div>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="veiculos"
+                                   class="gocar-btn-outline">
+                                    Trocar veículo
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- DADOS DA VIAGEM -->
+
+                <div class="gocar-card mb-4">
+
+                    <span class="section-badge">
+                        SUA VIAGEM
+                    </span>
+
+                    <h3 class="mt-2 mb-4">
+                        Dados da reserva
+                    </h3>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Filial de retirada
+                            </label>
+
+                            <select name="filialRetiradaId"
+                                    id="filialRetiradaId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Selecione a filial
+                                </option>
+
+                                @foreach (var filial in filiais)
+                                {
+                                    if (filialSelecionadaId.HasValue &&
+                                        filial.Id == filialSelecionadaId.Value)
+                                    {
+                                        <option value="@filial.Id"
+                                                selected>
+                                            @filial.Nome -
+                                            @filial.Cidade/@filial.Estado
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@filial.Id">
+                                            @filial.Nome -
+                                            @filial.Cidade/@filial.Estado
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Filial de devolução
+                            </label>
+
+                            <select name="filialDevolucaoId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Selecione a filial
+                                </option>
+
+                                @foreach (var filial in filiais)
+                                {
+                                    if (filialSelecionadaId.HasValue &&
+                                        filial.Id == filialSelecionadaId.Value)
+                                    {
+                                        <option value="@filial.Id"
+                                                selected>
+                                            @filial.Nome -
+                                            @filial.Cidade/@filial.Estado
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@filial.Id">
+                                            @filial.Nome -
+                                            @filial.Cidade/@filial.Estado
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Data de retirada
+                            </label>
+
+                            <input type="datetime-local"
+                                   name="dataRetirada"
+                                   id="dataRetirada"
+                                   class="form-control"
+                                   min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                   value="@dataRetiradaInicial.ToString("yyyy-MM-ddTHH:mm")"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Data de devolução prevista
+                            </label>
+
+                            <input type="datetime-local"
+                                   name="dataDevolucaoPrevista"
+                                   id="dataDevolucaoPrevista"
+                                   class="form-control"
+                                   value="@dataDevolucaoInicial.ToString("yyyy-MM-ddTHH:mm")"
+                                   required />
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label">
+                                Observações
+                            </label>
+
+                            <textarea name="observacoes"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Observações da reserva, se necessário."></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div id="alertaDisponibilidade"
+                         class="alert mt-4 mb-0 d-none">
+                    </div>
+
+                </div>
+
+                <!-- RESUMO DO VALOR -->
+
+                <div class="gocar-card mb-4">
+
+                    <span class="section-badge">
+                        VALORES
+                    </span>
+
+                    <h3 class="mt-2 mb-4">
+                        Resumo da reserva
+                    </h3>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <div class="reserva-valor-box">
+
+                                <small>
+                                    Diária
+                                </small>
+
+                                <strong>
+                                    @veiculoSelecionado.ValorDiaria.ToString("C")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="reserva-valor-box">
+
+                                <small>
+                                    Valor total previsto
+                                </small>
+
+                                <strong id="valorTotalTexto">
+                                    R$ 0,00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="reserva-valor-box
+                                reserva-entrada-box">
+
+                                <small>
+                                    Entrada de 30%
+                                </small>
+
+                                <strong id="valorEntradaTexto">
+                                    R$ 0,00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <input type="hidden"
+                           name="valorTotalPrevisto"
+                           id="valorTotalPrevisto"
+                           value="" />
+
+                    <div class="mt-4">
+
+                        <small class="text-secondary">
+                            Após criar a reserva, será solicitado
+                            o pagamento da entrada de 30%.
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTÕES -->
+
+                <div class="d-flex
+                    justify-content-between
+                    align-items-center
+                    flex-wrap gap-3">
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-fragment="veiculos"
+                       class="btn btn-outline-light">
+                        Voltar
+                    </a>
+
+                    <button type="submit"
+                            id="btnCriarReserva"
+                            class="btn btn-success px-4"
+                            disabled>
+                        Verificando disponibilidade...
+                    </button>
+
+                </div>
+
+            </form>
+        }
+
+    </div>
+
+</section>
+
+<style>
+
+    .reserva-carro-visual {
+        min-height: 230px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, .08);
+        background: rgba(0, 0, 0, .18);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .reserva-carro-marca {
+        font-size: 28px;
+        font-weight: 700;
+        opacity: .75;
+    }
+
+    .reserva-disponibilidade {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 8px;
+        background: rgba(34, 197, 94, .10);
+        border: 1px solid rgba(34, 197, 94, .25);
+        color: #86efac;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .reserva-tag {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, .12);
+        background: rgba(0, 0, 0, .18);
+        font-size: 12px;
+    }
+
+    .reserva-diaria {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+        .reserva-diaria span {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: .65;
+        }
+
+    .reserva-valor-box {
+        height: 100%;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, .08);
+        background: rgba(0, 0, 0, .15);
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+        .reserva-valor-box small {
+            color: rgba(255, 255, 255, .60);
+        }
+
+        .reserva-valor-box strong {
+            font-size: 23px;
+        }
+
+    .reserva-entrada-box {
+        border-color: rgba(139, 92, 246, .35);
+    }
+
+</style>
+
+@if (veiculoSelecionado != null)
+{
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const retirada =
+                    document.getElementById(
+                        "dataRetirada");
+
+                const devolucao =
+                    document.getElementById(
+                        "dataDevolucaoPrevista");
+
+                const filialRetirada =
+                    document.getElementById(
+                        "filialRetiradaId");
+
+                const valorTotalInput =
+                    document.getElementById(
+                        "valorTotalPrevisto");
+
+                const valorTotalTexto =
+                    document.getElementById(
+                        "valorTotalTexto");
+
+                const valorEntradaTexto =
+                    document.getElementById(
+                        "valorEntradaTexto");
+
+                const disponibilidadeVeiculo =
+                    document.getElementById(
+                        "disponibilidadeVeiculo");
+
+                const alertaDisponibilidade =
+                    document.getElementById(
+                        "alertaDisponibilidade");
+
+                const btnCriarReserva =
+                    document.getElementById(
+                        "btnCriarReserva");
+
+                const diaria =
+                    parseFloat(
+                        "@diariaJavascript");
+
+                const veiculoId =
+                            @veiculoJavascript;
+
+                const urlDisponibilidade =
+                    '@Url.Action(
+                                                    "ConsultarDisponibilidade",
+                                                    "Reservas")';
+
+                let consultaAtual = 0;
+
+                function moeda(valor) {
+
+                    return valor.toLocaleString(
+                        "pt-BR",
+                        {
+                            style: "currency",
+                            currency: "BRL"
+                        });
+                }
+
+                function atualizarMinimoDevolucao() {
+
+                    if (!retirada ||
+                        !devolucao ||
+                        !retirada.value) {
+                        return;
+                    }
+
+                    devolucao.min =
+                        retirada.value;
+                }
+
+                function calcular() {
+
+                    if (!retirada ||
+                        !devolucao ||
+                        !valorTotalInput) {
+                        return;
+                    }
+
+                    const inicio =
+                        new Date(retirada.value);
+
+                    const fim =
+                        new Date(devolucao.value);
+
+                    if (isNaN(inicio.getTime()) ||
+                        isNaN(fim.getTime()) ||
+                        fim <= inicio) {
+
+                        valorTotalInput.value = "";
+
+                        if (valorTotalTexto) {
+                            valorTotalTexto.textContent =
+                                "R$ 0,00";
+                        }
+
+                        if (valorEntradaTexto) {
+                            valorEntradaTexto.textContent =
+                                "R$ 0,00";
+                        }
+
+                        return;
+                    }
+
+                    const umDia =
+                        1000 * 60 * 60 * 24;
+
+                    const diferenca =
+                        fim - inicio;
+
+                    const dias =
+                        Math.max(
+                            1,
+                            Math.ceil(
+                                diferenca / umDia));
+
+                    const total =
+                        diaria * dias;
+
+                    const entrada =
+                        total * 0.30;
+
+                    valorTotalInput.value =
+                        total.toFixed(2);
+
+                    if (valorTotalTexto) {
+                        valorTotalTexto.textContent =
+                            moeda(total);
+                    }
+
+                    if (valorEntradaTexto) {
+                        valorEntradaTexto.textContent =
+                            moeda(entrada);
+                    }
+                }
+
+                function bloquearCriacao(
+                    textoBotao) {
+
+                    if (!btnCriarReserva) {
+                        return;
+                    }
+
+                    btnCriarReserva.disabled =
+                        true;
+
+                    btnCriarReserva.textContent =
+                        textoBotao;
+                }
+
+                function liberarCriacao() {
+
+                    if (!btnCriarReserva) {
+                        return;
+                    }
+
+                    btnCriarReserva.disabled =
+                        false;
+
+                    btnCriarReserva.textContent =
+                        "Criar Reserva";
+                }
+
+                async function verificarDisponibilidade() {
+
+                    if (!retirada ||
+                        !devolucao ||
+                        !filialRetirada) {
+                        return;
+                    }
+
+                    const inicio =
+                        new Date(retirada.value);
+
+                    const fim =
+                        new Date(devolucao.value);
+
+                    const filialId =
+                        parseInt(
+                            filialRetirada.value);
+
+                    if (!filialId ||
+                        isNaN(inicio.getTime()) ||
+                        isNaN(fim.getTime()) ||
+                        fim <= inicio) {
+
+                        bloquearCriacao(
+                            "Verifique os dados da viagem");
+
+                        if (disponibilidadeVeiculo) {
+                            disponibilidadeVeiculo.textContent =
+                                "Informe filial e período";
+                        }
+
+                        if (alertaDisponibilidade) {
+                            alertaDisponibilidade.className =
+                                "alert alert-warning mt-4 mb-0";
+
+                            alertaDisponibilidade.textContent =
+                                "Informe uma filial e um período válido para verificar a disponibilidade.";
+                        }
+
+                        return;
+                    }
+
+                    const numeroConsulta =
+                        ++consultaAtual;
+
+                    bloquearCriacao(
+                        "Verificando disponibilidade...");
+
+                    if (disponibilidadeVeiculo) {
+                        disponibilidadeVeiculo.textContent =
+                            "Verificando disponibilidade...";
+                    }
+
+                    if (alertaDisponibilidade) {
+                        alertaDisponibilidade.className =
+                            "alert alert-info mt-4 mb-0";
+
+                        alertaDisponibilidade.textContent =
+                            "Verificando unidades disponíveis para o período selecionado...";
+                    }
+
+                    const parametros =
+                        new URLSearchParams({
+                            veiculoId:
+                                veiculoId.toString(),
+
+                            filialRetiradaId:
+                                filialId.toString(),
+
+                            dataRetirada:
+                                retirada.value,
+
+                            dataDevolucaoPrevista:
+                                devolucao.value
+                        });
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                `${urlDisponibilidade}?${parametros.toString()}`,
+                                {
+                                    method: "GET",
+                                    headers: {
+                                        "Accept":
+                                            "application/json"
+                                    }
+                                });
+
+                        if (numeroConsulta !==
+                            consultaAtual) {
+                            return;
+                        }
+
+                        const dados =
+                            await response.json();
+
+                        if (!response.ok) {
+
+                            const mensagem =
+                                dados?.mensagem ??
+                                "Não foi possível verificar a disponibilidade.";
+
+                            bloquearCriacao(
+                                "Disponibilidade indisponível");
+
+                            if (disponibilidadeVeiculo) {
+                                disponibilidadeVeiculo.textContent =
+                                    "Disponibilidade indisponível";
+                            }
+
+                            if (alertaDisponibilidade) {
+                                alertaDisponibilidade.className =
+                                    "alert alert-danger mt-4 mb-0";
+
+                                alertaDisponibilidade.textContent =
+                                    mensagem;
+                            }
+
+                            return;
+                        }
+
+                        const quantidade =
+                            Number(
+                                dados.quantidadeDisponivel ?? 0);
+
+                        if (dados.disponivel &&
+                            quantidade > 0) {
+
+                            liberarCriacao();
+
+                            if (disponibilidadeVeiculo) {
+
+                                disponibilidadeVeiculo.textContent =
+                                    quantidade === 1
+                                        ? "● 1 unidade disponível"
+                                        : `● ${quantidade} unidades disponíveis`;
+                            }
+
+                            if (alertaDisponibilidade) {
+                                alertaDisponibilidade.className =
+                                    "alert alert-success mt-4 mb-0";
+
+                                alertaDisponibilidade.textContent =
+                                    quantidade === 1
+                                        ? "Há 1 unidade disponível para a filial e o período selecionados."
+                                        : `Há ${quantidade} unidades disponíveis para a filial e o período selecionados.`;
+                            }
+                        }
+                        else {
+
+                            bloquearCriacao(
+                                "Sem disponibilidade");
+
+                            if (disponibilidadeVeiculo) {
+                                disponibilidadeVeiculo.textContent =
+                                    "● Sem unidades disponíveis";
+                            }
+
+                            if (alertaDisponibilidade) {
+                                alertaDisponibilidade.className =
+                                    "alert alert-danger mt-4 mb-0";
+
+                                alertaDisponibilidade.textContent =
+                                    "Não há unidades deste veículo disponíveis na filial para o período selecionado. Altere a filial, as datas ou escolha outro veículo.";
+                            }
+                        }
+                    }
+                    catch {
+
+                        if (numeroConsulta !==
+                            consultaAtual) {
+                            return;
+                        }
+
+                        bloquearCriacao(
+                            "Disponibilidade indisponível");
+
+                        if (disponibilidadeVeiculo) {
+                            disponibilidadeVeiculo.textContent =
+                                "Disponibilidade indisponível";
+                        }
+
+                        if (alertaDisponibilidade) {
+                            alertaDisponibilidade.className =
+                                "alert alert-danger mt-4 mb-0";
+
+                            alertaDisponibilidade.textContent =
+                                "Não foi possível consultar a disponibilidade neste momento.";
+                        }
+                    }
+                }
+
+                retirada?.addEventListener(
+                    "change",
+                    function() {
+
+                        atualizarMinimoDevolucao();
+                        calcular();
+                        verificarDisponibilidade();
+                    });
+
+                devolucao?.addEventListener(
+                    "change",
+                    function() {
+
+                        calcular();
+                        verificarDisponibilidade();
+                    });
+
+                filialRetirada?.addEventListener(
+                    "change",
+                    verificarDisponibilidade);
+
+                atualizarMinimoDevolucao();
+                calcular();
+                verificarDisponibilidade();
+            });
+
+    </script>
+}

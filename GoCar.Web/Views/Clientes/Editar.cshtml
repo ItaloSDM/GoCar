@@ -1,0 +1,257 @@
+﻿@model GoCar.Web.Models.ClienteViewModel
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Editar Cliente</h1>
+
+            <p class="text-muted mb-0">
+                Atualize os dados do cliente.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Clientes"
+           asp-action="Index">
+
+            Cancelar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <form asp-controller="Clientes"
+                  asp-action="Editar"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <input type="hidden"
+                       asp-for="DataCadastro" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Nome"
+                               class="form-label">
+                            Nome
+                        </label>
+
+                        <input asp-for="Nome"
+                               class="form-control" />
+
+                        <span asp-validation-for="Nome"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CPF"
+                               class="form-label">
+                            CPF
+                        </label>
+
+                        <input asp-for="CPF"
+                               class="form-control" />
+
+                        <span asp-validation-for="CPF"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="DataNascimento"
+                               class="form-label">
+                            Data de Nascimento
+                        </label>
+
+                        <input asp-for="DataNascimento"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Telefone"
+                               class="form-label">
+                            Telefone
+                        </label>
+
+                        <input asp-for="Telefone"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CNH"
+                               class="form-label">
+                            CNH
+                        </label>
+
+                        <input asp-for="CNH"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="CategoriaCNH"
+                               class="form-label">
+                            Categoria CNH
+                        </label>
+
+                        <input asp-for="CategoriaCNH"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="DataValidadeCNH"
+                               class="form-label">
+                            Validade da CNH
+                        </label>
+
+                        <input asp-for="DataValidadeCNH"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Endereco"
+                               class="form-label">
+                            Endereço
+                        </label>
+
+                        <input asp-for="Endereco"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Numero"
+                               class="form-label">
+                            Número
+                        </label>
+
+                        <input asp-for="Numero"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="Bairro"
+                               class="form-label">
+                            Bairro
+                        </label>
+
+                        <input asp-for="Bairro"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label asp-for="CEP"
+                               class="form-label">
+                            CEP
+                        </label>
+
+                        <input asp-for="CEP"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Cidade"
+                               class="form-label">
+                            Cidade
+                        </label>
+
+                        <input asp-for="Cidade"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Estado"
+                               class="form-label">
+                            Estado
+                        </label>
+
+                        <input asp-for="Estado"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <div class="form-check">
+
+                            <input asp-for="IsAtivo"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsAtivo"
+                                   class="form-check-label">
+
+                                Cliente ativo
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button type="submit"
+                            class="btn btn-dark">
+
+                        Salvar Alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

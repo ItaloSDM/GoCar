@@ -1,0 +1,163 @@
+﻿@model GoCar.Web.Models.FilialViewModel
+
+@{
+    ViewData["Title"] = "Detalhes da Filial";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Detalhes da Filial</h1>
+
+            <p class="text-muted mb-0">
+                Informações completas da filial.
+            </p>
+        </div>
+
+        <a class="btn btn-outline-light"
+           asp-controller="Filiais"
+           asp-action="Index">
+
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-2">
+                    <strong>ID</strong>
+
+                    <p>
+                        @Model.Id
+                    </p>
+                </div>
+
+                <div class="col-md-7">
+                    <strong>Nome da Filial</strong>
+
+                    <p>
+                        @Model.Nome
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <strong>Status</strong>
+
+                    <p>
+                        @if (Model.IsAtivo)
+                        {
+                            <span class="badge bg-success">
+                                Ativa
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inativa
+                            </span>
+                        }
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>CNPJ</strong>
+
+                    <p>
+                        @Model.CNPJ
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Telefone</strong>
+
+                    <p>
+                        @Model.Telefone
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>E-mail</strong>
+
+                    <p>
+                        @Model.Email
+                    </p>
+                </div>
+
+                <div class="col-12">
+                    <hr />
+                </div>
+
+                <div class="col-md-8">
+                    <strong>Endereço</strong>
+
+                    <p>
+                        @Model.Endereco
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Número</strong>
+
+                    <p>
+                        @Model.Numero
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Bairro</strong>
+
+                    <p>
+                        @Model.Bairro
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Cidade</strong>
+
+                    <p>
+                        @Model.Cidade
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    <strong>Estado</strong>
+
+                    <p>
+                        @Model.Estado
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    <strong>CEP</strong>
+
+                    <p>
+                        @Model.CEP
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a class="btn btn-dark"
+                   asp-controller="Filiais"
+                   asp-action="Editar"
+                   asp-route-id="@Model.Id">
+
+                    Editar Filial
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

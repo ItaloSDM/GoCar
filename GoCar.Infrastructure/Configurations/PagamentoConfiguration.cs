@@ -12,6 +12,10 @@ namespace GoCar.Infrastructure.Configurations
 
             builder.HasKey(p => p.Id);
 
+            // =====================================================
+            // PROPRIEDADES
+            // =====================================================
+
             builder.Property(p => p.Tipo)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -38,10 +42,39 @@ namespace GoCar.Infrastructure.Configurations
             builder.Property(p => p.DataCriacao)
                 .IsRequired();
 
-            // Locação → Pagamentos
+            // =====================================================
+            // LOCAÇÃO → PAGAMENTOS
+            // =====================================================
+            //
+            // Usado para:
+            // - Saldo restante da locação
+            // - Multas
+            // - Adicionais
+            //
+            // LocacaoId agora é opcional porque o pagamento
+            // também pode pertencer diretamente a uma Reserva.
+            // =====================================================
+
             builder.HasOne(p => p.Locacao)
                 .WithMany(l => l.Pagamentos)
                 .HasForeignKey(p => p.LocacaoId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // =====================================================
+            // RESERVA → PAGAMENTOS
+            // =====================================================
+            //
+            // Usado principalmente para:
+            // - Entrada obrigatória de 30%
+            //
+            // Esse pagamento existe antes da criação da Locação.
+            // =====================================================
+
+            builder.HasOne(p => p.Reserva)
+                .WithMany(r => r.Pagamentos)
+                .HasForeignKey(p => p.ReservaId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

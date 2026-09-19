@@ -2,6 +2,7 @@
   "profiles": {
     "GoCar.API": {
       "commandName": "Project",
+      "launchUrl": "swagger",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

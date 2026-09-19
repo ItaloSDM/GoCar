@@ -1,0 +1,715 @@
+﻿@model GoCar.Web.Models.CadastroViewModel
+
+@{
+    ViewData["Title"] = "Criar conta";
+}
+
+<section class="cadastro-section">
+    <div class="container">
+
+        <div class="cadastro-wrapper">
+
+            <div class="cadastro-card">
+
+                <!-- ========================================= -->
+                <!-- CABEÇALHO -->
+                <!-- ========================================= -->
+
+                <div class="cadastro-header">
+
+                    <span class="section-badge">
+                        NOVO CLIENTE
+                    </span>
+
+                    <h1>
+                        Crie sua conta na GoCar
+                    </h1>
+
+                    <p>
+                        Cadastre seus dados para fazer reservas
+                        e aproveitar todos os serviços da GoCar.
+                    </p>
+
+                </div>
+
+                <!-- ========================================= -->
+                <!-- ERROS -->
+                <!-- ========================================= -->
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert">
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.MensagemErro))
+                {
+                    <div class="alert alert-danger">
+                        @Model.MensagemErro
+                    </div>
+                }
+
+                <!-- ========================================= -->
+                <!-- FORMULÁRIO -->
+                <!-- ========================================= -->
+
+                <form asp-controller="Account"
+                      asp-action="Cadastro"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <!-- ===================================== -->
+                    <!-- CONTA -->
+                    <!-- ===================================== -->
+
+                    <div class="cadastro-bloco">
+
+                        <div class="cadastro-bloco-header">
+
+                            <span class="cadastro-numero">
+                                01
+                            </span>
+
+                            <div>
+                                <h2>
+                                    Dados da conta
+                                </h2>
+
+                                <p>
+                                    Informe os dados que serão usados
+                                    para acessar sua conta.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-4">
+
+                            <!-- NOME -->
+
+                            <div class="col-12">
+
+                                <label asp-for="Nome"
+                                       class="form-label">
+                                    Nome completo
+                                </label>
+
+                                <input asp-for="Nome"
+                                       class="form-control"
+                                       placeholder="Digite seu nome completo"
+                                       autocomplete="name"
+                                       required />
+
+                                <span asp-validation-for="Nome"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- EMAIL -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="Email"
+                                       class="form-label">
+                                    E-mail
+                                </label>
+
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="form-control"
+                                       placeholder="seuemail@exemplo.com"
+                                       autocomplete="email"
+                                       required />
+
+                                <span asp-validation-for="Email"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- TELEFONE -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="Telefone"
+                                       class="form-label">
+                                    Telefone
+                                </label>
+
+                                <input asp-for="Telefone"
+                                       class="form-control"
+                                       placeholder="(11) 99999-9999"
+                                       autocomplete="tel"
+                                       required />
+
+                                <span asp-validation-for="Telefone"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- SENHA -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="Senha"
+                                       class="form-label">
+                                    Senha
+                                </label>
+
+                                <input asp-for="Senha"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="Mínimo de 6 caracteres"
+                                       autocomplete="new-password"
+                                       required />
+
+                                <span asp-validation-for="Senha"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- CONFIRMAR SENHA -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="ConfirmarSenha"
+                                       class="form-label">
+                                    Confirmar senha
+                                </label>
+
+                                <input asp-for="ConfirmarSenha"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="Digite a senha novamente"
+                                       autocomplete="new-password"
+                                       required />
+
+                                <span asp-validation-for="ConfirmarSenha"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- DADOS PESSOAIS -->
+                    <!-- ===================================== -->
+
+                    <div class="cadastro-bloco">
+
+                        <div class="cadastro-bloco-header">
+
+                            <span class="cadastro-numero">
+                                02
+                            </span>
+
+                            <div>
+                                <h2>
+                                    Dados pessoais
+                                </h2>
+
+                                <p>
+                                    Precisamos dessas informações
+                                    para seu cadastro.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-4">
+
+                            <!-- CPF -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="CPF"
+                                       class="form-label">
+                                    CPF
+                                </label>
+
+                                <input asp-for="CPF"
+                                       class="form-control"
+                                       placeholder="000.000.000-00"
+                                       inputmode="numeric"
+                                       required />
+
+                                <span asp-validation-for="CPF"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- NASCIMENTO -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="DataNascimento"
+                                       class="form-label">
+                                    Data de nascimento
+                                </label>
+
+                                <input asp-for="DataNascimento"
+                                       type="date"
+                                       class="form-control"
+                                       required />
+
+                                <span asp-validation-for="DataNascimento"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- CNH -->
+                    <!-- ===================================== -->
+
+                    <div class="cadastro-bloco">
+
+                        <div class="cadastro-bloco-header">
+
+                            <span class="cadastro-numero">
+                                03
+                            </span>
+
+                            <div>
+                                <h2>
+                                    Carteira de habilitação
+                                </h2>
+
+                                <p>
+                                    Informe os dados da sua CNH.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-4">
+
+                            <!-- CNH -->
+
+                            <div class="col-md-6">
+
+                                <label asp-for="CNH"
+                                       class="form-label">
+                                    Número da CNH
+                                </label>
+
+                                <input asp-for="CNH"
+                                       class="form-control"
+                                       placeholder="Digite o número da CNH"
+                                       inputmode="numeric"
+                                       required />
+
+                                <span asp-validation-for="CNH"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- CATEGORIA -->
+
+                            <div class="col-md-3">
+
+                                <label asp-for="CategoriaCNH"
+                                       class="form-label">
+                                    Categoria
+                                </label>
+
+                                <select asp-for="CategoriaCNH"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="A">
+                                        A
+                                    </option>
+
+                                    <option value="B">
+                                        B
+                                    </option>
+
+                                    <option value="AB">
+                                        AB
+                                    </option>
+
+                                    <option value="C">
+                                        C
+                                    </option>
+
+                                    <option value="D">
+                                        D
+                                    </option>
+
+                                    <option value="E">
+                                        E
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="CategoriaCNH"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- VALIDADE -->
+
+                            <div class="col-md-3">
+
+                                <label asp-for="DataValidadeCNH"
+                                       class="form-label">
+                                    Validade
+                                </label>
+
+                                <input asp-for="DataValidadeCNH"
+                                       type="date"
+                                       class="form-control"
+                                       required />
+
+                                <span asp-validation-for="DataValidadeCNH"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- ENDEREÇO -->
+                    <!-- ===================================== -->
+
+                    <div class="cadastro-bloco">
+
+                        <div class="cadastro-bloco-header">
+
+                            <span class="cadastro-numero">
+                                04
+                            </span>
+
+                            <div>
+                                <h2>
+                                    Endereço
+                                </h2>
+
+                                <p>
+                                    Informe seu endereço para completar
+                                    o cadastro.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row g-4">
+
+                            <!-- CEP -->
+
+                            <div class="col-md-4">
+
+                                <label asp-for="CEP"
+                                       class="form-label">
+                                    CEP
+                                </label>
+
+                                <input asp-for="CEP"
+                                       class="form-control"
+                                       placeholder="00000-000"
+                                       inputmode="numeric"
+                                       required />
+
+                                <span asp-validation-for="CEP"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- ESTADO -->
+
+                            <div class="col-md-4">
+
+                                <label asp-for="Estado"
+                                       class="form-label">
+                                    Estado
+                                </label>
+
+                                <select asp-for="Estado"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+
+                                </select>
+
+                                <span asp-validation-for="Estado"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- CIDADE -->
+
+                            <div class="col-md-4">
+
+                                <label asp-for="Cidade"
+                                       class="form-label">
+                                    Cidade
+                                </label>
+
+                                <input asp-for="Cidade"
+                                       class="form-control"
+                                       placeholder="Digite sua cidade"
+                                       required />
+
+                                <span asp-validation-for="Cidade"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- ENDEREÇO -->
+
+                            <div class="col-md-8">
+
+                                <label asp-for="Endereco"
+                                       class="form-label">
+                                    Endereço
+                                </label>
+
+                                <input asp-for="Endereco"
+                                       class="form-control"
+                                       placeholder="Rua, avenida, etc."
+                                       autocomplete="street-address"
+                                       required />
+
+                                <span asp-validation-for="Endereco"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- NÚMERO -->
+
+                            <div class="col-md-4">
+
+                                <label asp-for="Numero"
+                                       class="form-label">
+                                    Número
+                                </label>
+
+                                <input asp-for="Numero"
+                                       class="form-control"
+                                       placeholder="Número"
+                                       required />
+
+                                <span asp-validation-for="Numero"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <!-- BAIRRO -->
+
+                            <div class="col-12">
+
+                                <label asp-for="Bairro"
+                                       class="form-label">
+                                    Bairro
+                                </label>
+
+                                <input asp-for="Bairro"
+                                       class="form-control"
+                                       placeholder="Digite seu bairro"
+                                       required />
+
+                                <span asp-validation-for="Bairro"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ===================================== -->
+                    <!-- AÇÕES -->
+                    <!-- ===================================== -->
+
+                    <div class="cadastro-acoes">
+
+                        <a asp-controller="Account"
+                           asp-action="Login"
+                           class="btn btn-outline-secondary">
+                            Já tenho uma conta
+                        </a>
+
+                        <button type="submit"
+                                class="gocar-btn-primary">
+                            Criar minha conta
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<style>
+
+    .cadastro-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .cadastro-card {
+        padding: 40px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, .08);
+        background: rgba(0, 0, 0, .18);
+    }
+
+    .cadastro-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .cadastro-header h1 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .cadastro-header p {
+            color: rgba(255, 255, 255, .60);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+    .cadastro-bloco {
+        padding: 30px 0;
+        border-top: 1px solid rgba(255, 255, 255, .08);
+    }
+
+        .cadastro-bloco:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+    .cadastro-bloco-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .cadastro-numero {
+        min-width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, .08);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .cadastro-bloco-header h2 {
+        font-size: 20px;
+        margin: 0 0 4px;
+    }
+
+    .cadastro-bloco-header p {
+        margin: 0;
+        color: rgba(255, 255, 255, .55);
+        font-size: 14px;
+    }
+
+    .cadastro-acoes {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, .08);
+    }
+
+        .cadastro-acoes .gocar-btn-primary {
+            min-width: 190px;
+        }
+
+    .text-danger {
+        font-size: 13px;
+    }
+
+    @@media (max-width: 768px) {
+
+        .cadastro-card {
+            padding: 25px 18px;
+        }
+
+        .cadastro-acoes {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+            .cadastro-acoes .gocar-btn-primary {
+                width: 100%;
+            }
+    }
+
+</style>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
