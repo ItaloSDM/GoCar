@@ -67,6 +67,49 @@ namespace GoCar.Infrastructure.Repositories
         }
 
         // =====================================================
+        // CRIAR USUÁRIO + CLIENTE
+        // MESMA TRANSAÇÃO
+        // =====================================================
+
+        public async Task<(Usuario Usuario, Cliente Cliente)>
+            CriarUsuarioComClienteAsync(
+                Usuario usuario,
+                Cliente cliente)
+        {
+            await using var transaction =
+                await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // Primeiro adiciona o usuário.
+                await _context.Usuarios.AddAsync(usuario);
+
+                // Precisamos salvar para o banco gerar o Id.
+                await _context.SaveChangesAsync();
+
+                // Liga o cliente ao usuário recém-criado.
+                cliente.UsuarioId = usuario.Id;
+
+                await _context.Clientes.AddAsync(cliente);
+
+                await _context.SaveChangesAsync();
+
+                // Só confirma se as duas operações funcionarem.
+                await transaction.CommitAsync();
+
+                return (usuario, cliente);
+            }
+            catch
+            {
+                // Se qualquer parte falhar,
+                // desfaz tudo, inclusive a criação do usuário.
+                await transaction.RollbackAsync();
+
+                throw;
+            }
+        }
+
+        // =====================================================
         // ATUALIZAR USUÁRIO
         // =====================================================
 

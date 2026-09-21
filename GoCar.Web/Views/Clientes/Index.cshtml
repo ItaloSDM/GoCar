@@ -2,206 +2,1055 @@
 
 @{
     ViewData["Title"] = "Clientes";
+
+    var totalClientes = Model.Count;
+    var clientesAtivos = Model.Count(c => c.IsAtivo);
+    var clientesInativos = Model.Count(c => !c.IsAtivo);
 }
 
-<div class="container py-5">
+<style>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    .clients-page {
+        max-width: 1600px;
+        margin: auto;
+        padding: 32px;
+        color: #fff;
+    }
+
+    /* CABEÇALHO */
+
+    .clients-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .clients-eyebrow {
+        color: #8d849a;
+        font-size: .72rem;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .clients-title {
+        margin: 0;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .clients-description {
+        color: #81778e;
+        font-size: .8rem;
+        margin: 6px 0 0;
+    }
+
+    .clients-back {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        min-height: 40px;
+        padding: 0 15px;
+
+        border:
+            1px solid rgba(151, 71, 255, .25);
+
+        border-radius: 8px;
+
+        background:
+            rgba(126, 44, 255, .06);
+
+        color: #bca9d4;
+        text-decoration: none;
+
+        font-size: .72rem;
+        font-weight: 600;
+
+        transition: .18s ease;
+    }
+
+    .clients-back:hover {
+        color: #fff;
+
+        border-color:
+            rgba(151, 71, 255, .5);
+
+        background:
+            rgba(126, 44, 255, .12);
+    }
+
+    /* RESUMO */
+
+    .clients-summary {
+        display: grid;
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 14px;
+
+        margin-bottom: 18px;
+    }
+
+    .clients-summary-card {
+        position: relative;
+        overflow: hidden;
+
+        padding: 17px 18px;
+
+        border:
+            1px solid rgba(151, 71, 255, .16);
+
+        border-radius: 10px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(24, 13, 41, .96),
+                rgba(14, 8, 25, .96)
+            );
+    }
+
+    .clients-summary-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 80px;
+        height: 80px;
+
+        right: -35px;
+        top: -40px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(139, 51, 255, .07);
+    }
+
+    .clients-summary-icon {
+        width: 35px;
+        height: 35px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 10px;
+
+        border-radius: 8px;
+
+        color: #b267ff;
+
+        background:
+            rgba(139, 51, 255, .14);
+    }
+
+    .clients-summary-label {
+        color: #81778d;
+
+        font-size: .64rem;
+        font-weight: 700;
+
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .clients-summary-value {
+        margin-top: 3px;
+
+        color: white;
+
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    /* PAINEL */
+
+    .clients-panel {
+        overflow: hidden;
+
+        border:
+            1px solid rgba(151, 71, 255, .16);
+
+        border-radius: 11px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(21, 11, 37, .97),
+                rgba(13, 7, 24, .97)
+            );
+    }
+
+    /* TOOLBAR */
+
+    .clients-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 14px;
+
+        padding: 16px 18px;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, .05);
+    }
+
+    .clients-search {
+        width: min(450px, 100%);
+
+        display: flex;
+        align-items: center;
+
+        gap: 9px;
+
+        padding: 9px 13px;
+
+        border:
+            1px solid rgba(151, 71, 255, .18);
+
+        border-radius: 8px;
+
+        background:
+            rgba(255, 255, 255, .025);
+    }
+
+    .clients-search-icon {
+        color: #786d85;
+        font-size: .9rem;
+    }
+
+    .clients-search input {
+        width: 100%;
+
+        border: 0;
+        outline: 0;
+
+        background: transparent;
+
+        color: white;
+
+        font-size: .75rem;
+    }
+
+    .clients-search input::placeholder {
+        color: #665d72;
+    }
+
+    .clients-filter {
+        padding: 9px 12px;
+
+        border:
+            1px solid rgba(151, 71, 255, .18);
+
+        border-radius: 8px;
+
+        outline: 0;
+
+        background: #130b20;
+
+        color: #aaa1b7;
+
+        font-size: .72rem;
+    }
+
+    /* TABELA */
+
+    .clients-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .clients-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .clients-table th {
+        padding: 12px 15px;
+
+        color: #6e6579;
+
+        background:
+            rgba(255, 255, 255, .015);
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, .05);
+
+        font-size: .61rem;
+        font-weight: 700;
+
+        text-align: left;
+
+        white-space: nowrap;
+    }
+
+    .clients-table td {
+        padding: 12px 15px;
+
+        color: #bcb4c7;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, .045);
+
+        font-size: .69rem;
+
+        vertical-align: middle;
+    }
+
+    .clients-table tbody tr {
+        transition: .15s ease;
+    }
+
+    .clients-table tbody tr:hover {
+        background:
+            rgba(126, 44, 255, .055);
+    }
+
+    .clients-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    /* CLIENTE */
+
+    .client-person {
+        min-width: 190px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 11px;
+    }
+
+    .client-avatar {
+        width: 38px;
+        height: 38px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        color: #c084fc;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(151, 71, 255, .22),
+                rgba(91, 33, 182, .10)
+            );
+
+        border:
+            1px solid rgba(151, 71, 255, .18);
+
+        font-size: .76rem;
+        font-weight: 800;
+    }
+
+    .client-name {
+        color: #f0edf4;
+
+        font-size: .74rem;
+        font-weight: 700;
+    }
+
+    .client-id {
+        color: #6d6478;
+
+        margin-top: 2px;
+
+        font-size: .6rem;
+    }
+
+    .client-document {
+        color: #d7d0df;
+        white-space: nowrap;
+    }
+
+    .client-city {
+        min-width: 125px;
+    }
+
+    /* STATUS */
+
+    .client-status {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 5px 9px;
+
+        border-radius: 999px;
+
+        font-size: .58rem;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .client-status::before {
+        content: "";
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: currentColor;
+    }
+
+    .client-status-active {
+        color: #3ce78c;
+
+        background:
+            rgba(26, 192, 103, .12);
+    }
+
+    .client-status-inactive {
+        color: #94a3b8;
+
+        background:
+            rgba(148, 163, 184, .11);
+    }
+
+    /* AÇÕES */
+
+    .client-actions {
+        min-width: 205px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 6px;
+    }
+
+    .client-action {
+        min-height: 31px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 9px;
+
+        border:
+            1px solid rgba(151, 71, 255, .18);
+
+        border-radius: 7px;
+
+        background:
+            rgba(255, 255, 255, .025);
+
+        color: #aaa1b8;
+
+        text-decoration: none;
+
+        font-size: .61rem;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: .15s ease;
+    }
+
+    .client-action:hover {
+        color: white;
+
+        border-color:
+            rgba(151, 71, 255, .45);
+
+        background:
+            rgba(126, 44, 255, .10);
+    }
+
+    .client-action-edit {
+        color: #c084fc;
+    }
+
+    .client-action-danger {
+        color: #ff718d;
+
+        border-color:
+            rgba(244, 63, 94, .18);
+    }
+
+    .client-action-success {
+        color: #3ce78c;
+
+        border-color:
+            rgba(34, 197, 94, .18);
+    }
+
+    /* ALERTAS */
+
+    .clients-alert {
+        margin-bottom: 16px;
+
+        border-radius: 9px;
+
+        border:
+            1px solid rgba(255,255,255,.08);
+    }
+
+    .clients-empty {
+        padding: 55px 20px !important;
+
+        color: #756c80 !important;
+
+        text-align: center;
+    }
+
+    /* CONTADOR */
+
+    .clients-result-count {
+        color: #71677d;
+        font-size: .66rem;
+    }
+
+    .clients-result-count strong {
+        color: #bbaec9;
+    }
+
+    /* RESPONSIVO */
+
+    @@media (max-width: 950px) {
+
+        .clients-summary {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    @@media (max-width: 700px) {
+
+        .clients-page {
+            padding: 20px 15px;
+        }
+
+        .clients-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .clients-summary {
+            grid-template-columns: 1fr;
+        }
+
+        .clients-toolbar {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .clients-search {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+<div class="clients-page">
+
+    <!-- CABEÇALHO -->
+
+    <div class="clients-header">
 
         <div>
-            <h1>Clientes</h1>
 
-            <p class="text-muted mb-0">
-                Gerenciamento dos clientes cadastrados.
+            <div class="clients-eyebrow">
+                Gerenciamento de clientes
+            </div>
+
+            <h1 class="clients-title">
+                Clientes
+            </h1>
+
+            <p class="clients-description">
+                Visualize e gerencie os clientes cadastrados na GoCar.
             </p>
+
         </div>
 
-        <a class="btn btn-outline-light"
+        <a class="clients-back"
            asp-controller="Dashboard"
            asp-action="Index">
 
-            Voltar ao Dashboard
+            ← Voltar ao Dashboard
+
         </a>
 
     </div>
 
+
+    <!-- ALERTAS -->
+
     @if (TempData["Sucesso"] != null)
     {
-        <div class="alert alert-success">
+        <div class="alert alert-success clients-alert">
             @TempData["Sucesso"]
         </div>
     }
 
     @if (TempData["Erro"] != null)
     {
-        <div class="alert alert-danger">
+        <div class="alert alert-danger clients-alert">
             @TempData["Erro"]
         </div>
     }
 
     @if (ViewBag.MensagemErro != null)
     {
-        <div class="alert alert-danger">
+        <div class="alert alert-danger clients-alert">
             @ViewBag.MensagemErro
         </div>
     }
 
-    <div class="card border-0 shadow-sm">
 
-        <div class="card-body">
+    <!-- CARDS -->
 
-            <div class="table-responsive">
+    <div class="clients-summary">
 
-                <table class="table table-hover align-middle mb-0">
+        <div class="clients-summary-card">
 
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Telefone</th>
-                            <th>CNH</th>
-                            <th>Cidade</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
+            <div class="clients-summary-icon">
+                ♙
+            </div>
 
-                    <tbody>
+            <div class="clients-summary-label">
+                Total de clientes
+            </div>
 
-                        @if (Model.Count == 0)
-                        {
-                            <tr>
-                                <td colspan="8"
-                                    class="text-center py-4">
+            <div class="clients-summary-value">
+                @totalClientes
+            </div>
 
-                                    Nenhum cliente encontrado.
+        </div>
 
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var cliente in Model)
-                            {
-                                <tr>
 
-                                    <td>
-                                        @cliente.Id
-                                    </td>
+        <div class="clients-summary-card">
 
-                                    <td>
-                                        @cliente.Nome
-                                    </td>
+            <div class="clients-summary-icon">
+                ✓
+            </div>
 
-                                    <td>
-                                        @cliente.CPF
-                                    </td>
+            <div class="clients-summary-label">
+                Clientes ativos
+            </div>
 
-                                    <td>
-                                        @cliente.Telefone
-                                    </td>
+            <div class="clients-summary-value">
+                @clientesAtivos
+            </div>
 
-                                    <td>
-                                        @cliente.CNH
-                                    </td>
+        </div>
 
-                                    <td>
-                                        @cliente.Cidade - @cliente.Estado
-                                    </td>
 
-                                    <td>
+        <div class="clients-summary-card">
 
-                                        @if (cliente.IsAtivo)
-                                        {
-                                            <span class="badge bg-success">
-                                                Ativo
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">
-                                                Inativo
-                                            </span>
-                                        }
+            <div class="clients-summary-icon">
+                −
+            </div>
 
-                                    </td>
+            <div class="clients-summary-label">
+                Clientes inativos
+            </div>
 
-                                    <td>
-
-                                        <div class="d-flex flex-wrap gap-2">
-
-                                            <a class="btn btn-sm btn-outline-dark"
-                                               asp-controller="Clientes"
-                                               asp-action="Detalhes"
-                                               asp-route-id="@cliente.Id">
-
-                                                Visualizar
-                                            </a>
-
-                                            <a class="btn btn-sm btn-dark"
-                                               asp-controller="Clientes"
-                                               asp-action="Editar"
-                                               asp-route-id="@cliente.Id">
-
-                                                Editar
-                                            </a>
-
-                                            @if (cliente.IsAtivo)
-                                            {
-                                                <form asp-controller="Clientes"
-                                                      asp-action="Desativar"
-                                                      asp-route-id="@cliente.Id"
-                                                      method="post"
-                                                      class="d-inline"
-                                                      onsubmit="return confirm('Deseja realmente desativar este cliente?');">
-
-                                                    @Html.AntiForgeryToken()
-
-                                                    <button type="submit"
-                                                            class="btn btn-sm btn-danger">
-
-                                                        Desativar
-                                                    </button>
-
-                                                </form>
-                                            }
-                                            else
-                                            {
-                                                <form asp-controller="Clientes"
-                                                      asp-action="Ativar"
-                                                      asp-route-id="@cliente.Id"
-                                                      method="post"
-                                                      class="d-inline"
-                                                      onsubmit="return confirm('Deseja reativar este cliente?');">
-
-                                                    @Html.AntiForgeryToken()
-
-                                                    <button type="submit"
-                                                            class="btn btn-sm btn-success">
-
-                                                        Ativar
-                                                    </button>
-
-                                                </form>
-                                            }
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-                            }
-                        }
-
-                    </tbody>
-
-                </table>
-
+            <div class="clients-summary-value">
+                @clientesInativos
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- LISTAGEM -->
+
+    <section class="clients-panel">
+
+        <div class="clients-toolbar">
+
+            <div class="clients-search">
+
+                <span class="clients-search-icon">
+                    ⌕
+                </span>
+
+                <input type="text"
+                       id="clientSearch"
+                       placeholder="Buscar por nome, CPF, telefone, CNH ou cidade..." />
+
+            </div>
+
+
+            <div class="d-flex align-items-center gap-3">
+
+                <span class="clients-result-count">
+                    <strong id="clientResultCount">
+                        @Model.Count
+                    </strong>
+                    clientes
+                </span>
+
+                <select id="clientStatusFilter"
+                        class="clients-filter">
+
+                    <option value="">
+                        Todos os status
+                    </option>
+
+                    <option value="Ativo">
+                        Ativos
+                    </option>
+
+                    <option value="Inativo">
+                        Inativos
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="clients-table-wrapper">
+
+            <table class="clients-table">
+
+                <thead>
+
+                    <tr>
+                        <th>CLIENTE</th>
+                        <th>CPF</th>
+                        <th>TELEFONE</th>
+                        <th>CNH</th>
+                        <th>CIDADE</th>
+                        <th>STATUS</th>
+                        <th>AÇÕES</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+
+                            <td colspan="7"
+                                class="clients-empty">
+
+                                Nenhum cliente encontrado.
+
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var cliente in Model)
+                        {
+                            var status =
+                                cliente.IsAtivo
+                                    ? "Ativo"
+                                    : "Inativo";
+
+                            var inicial =
+                                !string.IsNullOrWhiteSpace(cliente.Nome)
+                                    ? cliente.Nome.Substring(0, 1).ToUpper()
+                                    : "?";
+
+                            <tr class="client-row"
+                                data-status="@status"
+                                data-search="@($"{cliente.Nome} {cliente.CPF} {cliente.Telefone} {cliente.CNH} {cliente.Cidade} {cliente.Estado}".ToLower())">
+
+
+                                <!-- CLIENTE -->
+
+                                <td>
+
+                                    <div class="client-person">
+
+                                        <div class="client-avatar">
+                                            @inicial
+                                        </div>
+
+                                        <div>
+
+                                            <div class="client-name">
+                                                @cliente.Nome
+                                            </div>
+
+                                            <div class="client-id">
+                                                Cliente #@cliente.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- CPF -->
+
+                                <td>
+                                    <span class="client-document">
+                                        @cliente.CPF
+                                    </span>
+                                </td>
+
+
+                                <!-- TELEFONE -->
+
+                                <td>
+                                    @cliente.Telefone
+                                </td>
+
+
+                                <!-- CNH -->
+
+                                <td>
+                                    @cliente.CNH
+                                </td>
+
+
+                                <!-- CIDADE -->
+
+                                <td class="client-city">
+                                    @cliente.Cidade - @cliente.Estado
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (cliente.IsAtivo)
+                                    {
+                                        <span class="
+                                            client-status
+                                            client-status-active">
+
+                                            Ativo
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="
+                                            client-status
+                                            client-status-inactive">
+
+                                            Inativo
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- AÇÕES -->
+
+                                <td>
+
+                                    <div class="client-actions">
+
+                                        <a class="client-action"
+                                           asp-controller="Clientes"
+                                           asp-action="Detalhes"
+                                           asp-route-id="@cliente.Id">
+
+                                            Visualizar
+
+                                        </a>
+
+
+                                        <a class="
+                                            client-action
+                                            client-action-edit"
+                                           asp-controller="Clientes"
+                                           asp-action="Editar"
+                                           asp-route-id="@cliente.Id">
+
+                                            Editar
+
+                                        </a>
+
+
+                                        @if (cliente.IsAtivo)
+                                        {
+                                            <form asp-controller="Clientes"
+                                                  asp-action="Desativar"
+                                                  asp-route-id="@cliente.Id"
+                                                  method="post"
+                                                  class="m-0"
+                                                  onsubmit="return confirm('Deseja realmente desativar este cliente?');">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="
+                                                            client-action
+                                                            client-action-danger">
+
+                                                    Desativar
+
+                                                </button>
+
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="Clientes"
+                                                  asp-action="Ativar"
+                                                  asp-route-id="@cliente.Id"
+                                                  method="post"
+                                                  class="m-0"
+                                                  onsubmit="return confirm('Deseja reativar este cliente?');">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="
+                                                            client-action
+                                                            client-action-success">
+
+                                                    Ativar
+
+                                                </button>
+
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
 </div>
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const search =
+                    document.getElementById(
+                        "clientSearch"
+                    );
+
+                const statusFilter =
+                    document.getElementById(
+                        "clientStatusFilter"
+                    );
+
+                const resultCount =
+                    document.getElementById(
+                        "clientResultCount"
+                    );
+
+                const rows =
+                    document.querySelectorAll(
+                        ".client-row"
+                    );
+
+
+                function filtrarClientes() {
+
+                    const texto =
+                        (search?.value || "")
+                            .trim()
+                            .toLowerCase();
+
+                    const status =
+                        statusFilter?.value || "";
+
+                    let visiveis = 0;
+
+
+                    rows.forEach(
+                        function (row) {
+
+                            const dados =
+                                row.dataset.search || "";
+
+                            const statusLinha =
+                                row.dataset.status || "";
+
+
+                            const correspondeTexto =
+                                !texto ||
+                                dados.includes(texto);
+
+
+                            const correspondeStatus =
+                                !status ||
+                                statusLinha === status;
+
+
+                            const mostrar =
+                                correspondeTexto &&
+                                correspondeStatus;
+
+
+                            row.style.display =
+                                mostrar
+                                    ? ""
+                                    : "none";
+
+
+                            if (mostrar) {
+                                visiveis++;
+                            }
+                        }
+                    );
+
+
+                    if (resultCount) {
+                        resultCount.textContent =
+                            visiveis;
+                    }
+                }
+
+
+                search?.addEventListener(
+                    "input",
+                    filtrarClientes
+                );
+
+
+                statusFilter?.addEventListener(
+                    "change",
+                    filtrarClientes
+                );
+
+            }
+        );
+
+    </script>
+
+}

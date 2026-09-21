@@ -61,6 +61,10 @@ namespace GoCar.Web.Controllers
                     "Home");
             }
 
+            // =========================
+            // RESERVAS
+            // =========================
+
             var response =
                 await client.GetAsync(endpoint);
 
@@ -89,6 +93,10 @@ namespace GoCar.Web.Controllers
                         List<ReservaViewModel>>()
                 ?? new List<ReservaViewModel>();
 
+            // =========================
+            // PAGAMENTOS
+            // =========================
+
             var endpointPagamentos =
                 funcionario
                     ? "api/Pagamentos"
@@ -98,34 +106,130 @@ namespace GoCar.Web.Controllers
                 await client.GetAsync(
                     endpointPagamentos);
 
-            var reservasComEntradaPaga =
-                new HashSet<int>();
+            var pagamentos =
+                new List<PagamentoViewModel>();
 
             if (pagamentosResponse.IsSuccessStatusCode)
             {
-                var pagamentos =
+                pagamentos =
                     await pagamentosResponse.Content
                         .ReadFromJsonAsync<
                             List<PagamentoViewModel>>()
                     ?? new List<PagamentoViewModel>();
+            }
 
-                reservasComEntradaPaga =
+            // =========================
+            // ENTRADAS PAGAS
+            // =========================
+
+            var reservasComEntradaPaga =
+                pagamentos
+                    .Where(p =>
+                        p.ReservaId.HasValue &&
+                        p.IsAtivo &&
+                        p.Status == 2 &&
+                        string.Equals(
+                            p.Tipo,
+                            "Entrada",
+                            StringComparison.OrdinalIgnoreCase))
+                    .Select(p =>
+                        p.ReservaId!.Value)
+                    .ToHashSet();
+
+            ViewBag.ReservasComEntradaPaga =
+                reservasComEntradaPaga;
+
+            // =========================
+            // LOCAÇÕES
+            // =========================
+
+            var endpointLocacoes =
+                funcionario
+                    ? "api/Locacoes"
+                    : "api/Locacoes/minhas";
+
+            var locacoesResponse =
+                await client.GetAsync(
+                    endpointLocacoes);
+
+            var locacoes =
+                new List<LocacaoViewModel>();
+
+            if (locacoesResponse.IsSuccessStatusCode)
+            {
+                locacoes =
+                    await locacoesResponse.Content
+                        .ReadFromJsonAsync<
+                            List<LocacaoViewModel>>()
+                    ?? new List<LocacaoViewModel>();
+            }
+
+            // =========================
+            // RESERVA -> LOCAÇÃO
+            // =========================
+
+            var locacaoPorReserva =
+                locacoes
+                    .GroupBy(l =>
+                        l.ReservaId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g
+                            .OrderByDescending(l =>
+                                l.Id)
+                            .First());
+
+            // =========================
+            // SALDOS PAGOS
+            // =========================
+
+            var reservasComSaldoPago =
+                new HashSet<int>();
+
+            var valorSaldoPagoPorReserva =
+                new Dictionary<int, decimal>();
+
+            foreach (var reserva in reservas)
+            {
+                if (!locacaoPorReserva.TryGetValue(
+                    reserva.Id,
+                    out var locacao))
+                {
+                    continue;
+                }
+
+                var pagamentoSaldo =
                     pagamentos
                         .Where(p =>
-                            p.ReservaId.HasValue &&
+                            p.LocacaoId ==
+                                locacao.Id &&
                             p.IsAtivo &&
                             p.Status == 2 &&
                             string.Equals(
                                 p.Tipo,
-                                "Entrada",
+                                "Locação",
                                 StringComparison.OrdinalIgnoreCase))
-                        .Select(p =>
-                            p.ReservaId!.Value)
-                        .ToHashSet();
+                        .OrderByDescending(p =>
+                            p.DataPagamento ??
+                            p.DataCriacao)
+                        .FirstOrDefault();
+
+                if (pagamentoSaldo != null)
+                {
+                    reservasComSaldoPago.Add(
+                        reserva.Id);
+
+                    valorSaldoPagoPorReserva[
+                        reserva.Id] =
+                        pagamentoSaldo.Valor;
+                }
             }
 
-            ViewBag.ReservasComEntradaPaga =
-                reservasComEntradaPaga;
+            ViewBag.ReservasComSaldoPago =
+                reservasComSaldoPago;
+
+            ViewBag.ValorSaldoPagoPorReserva =
+                valorSaldoPagoPorReserva;
 
             return View(reservas);
         }
@@ -1197,16 +1301,6 @@ namespace GoCar.Web.Controllers
                             v.Status == 2
                         ))
                     .ToList();
-
-            // =====================================================
-            // GRUPOS DE VEÍCULOS
-            //
-            // IMPORTANTE:
-            // Se veio um veículo específico da Home,
-            // ele será usado como representante do grupo.
-            // Isso evita que outro veículo da mesma categoria/modelo
-            // substitua o ID selecionado.
-            // =====================================================
 
             var gruposVeiculos =
                 veiculosDisponiveis

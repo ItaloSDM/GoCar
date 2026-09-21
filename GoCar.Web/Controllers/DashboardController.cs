@@ -22,8 +22,7 @@ namespace GoCar.Web.Controllers
                 HttpContext.Session.GetString("JWT");
 
             var perfil =
-                HttpContext.Session.GetString(
-                    "UsuarioPerfil");
+                HttpContext.Session.GetString("UsuarioPerfil");
 
             if (string.IsNullOrWhiteSpace(token))
             {
@@ -44,13 +43,10 @@ namespace GoCar.Web.Controllers
 
             try
             {
-                // ==========================================
                 // CLIENTES
-                // ==========================================
 
                 var clientesResponse =
-                    await client.GetAsync(
-                        "api/Clientes");
+                    await client.GetAsync("api/Clientes");
 
                 if (clientesResponse.StatusCode ==
                     HttpStatusCode.Unauthorized)
@@ -65,149 +61,208 @@ namespace GoCar.Web.Controllers
                 var clientes =
                     clientesResponse.IsSuccessStatusCode
                         ? await clientesResponse.Content
-                            .ReadFromJsonAsync<
-                                List<ClienteViewModel>>()
+                            .ReadFromJsonAsync<List<ClienteViewModel>>()
                         : new List<ClienteViewModel>();
 
-                // ==========================================
+
                 // VEÍCULOS
-                // ==========================================
 
                 var veiculosResponse =
-                    await client.GetAsync(
-                        "api/Veiculos");
+                    await client.GetAsync("api/Veiculos");
 
                 var veiculos =
                     veiculosResponse.IsSuccessStatusCode
                         ? await veiculosResponse.Content
-                            .ReadFromJsonAsync<
-                                List<VeiculoViewModel>>()
+                            .ReadFromJsonAsync<List<VeiculoViewModel>>()
                         : new List<VeiculoViewModel>();
 
-                // ==========================================
+
                 // RESERVAS
-                // ==========================================
 
                 var reservasResponse =
-                    await client.GetAsync(
-                        "api/Reservas");
+                    await client.GetAsync("api/Reservas");
 
                 var reservas =
                     reservasResponse.IsSuccessStatusCode
                         ? await reservasResponse.Content
-                            .ReadFromJsonAsync<
-                                List<ReservaViewModel>>()
+                            .ReadFromJsonAsync<List<ReservaViewModel>>()
                         : new List<ReservaViewModel>();
 
-                // ==========================================
+
                 // LOCAÇÕES
-                // ==========================================
 
                 var locacoesResponse =
-                    await client.GetAsync(
-                        "api/Locacoes");
+                    await client.GetAsync("api/Locacoes");
 
                 var locacoes =
                     locacoesResponse.IsSuccessStatusCode
                         ? await locacoesResponse.Content
-                            .ReadFromJsonAsync<
-                                List<LocacaoViewModel>>()
+                            .ReadFromJsonAsync<List<LocacaoViewModel>>()
                         : new List<LocacaoViewModel>();
 
-                // ==========================================
+
                 // PAGAMENTOS
-                // ==========================================
 
                 var pagamentosResponse =
-                    await client.GetAsync(
-                        "api/Pagamentos");
+                    await client.GetAsync("api/Pagamentos");
 
                 var pagamentos =
                     pagamentosResponse.IsSuccessStatusCode
                         ? await pagamentosResponse.Content
-                            .ReadFromJsonAsync<
-                                List<PagamentoViewModel>>()
+                            .ReadFromJsonAsync<List<PagamentoViewModel>>()
                         : new List<PagamentoViewModel>();
 
-                // ==========================================
-                // GARANTE LISTAS NÃO NULAS
-                // ==========================================
 
-                clientes ??=
-                    new List<ClienteViewModel>();
+                clientes ??= new();
+                veiculos ??= new();
+                reservas ??= new();
+                locacoes ??= new();
+                pagamentos ??= new();
 
-                veiculos ??=
-                    new List<VeiculoViewModel>();
+                var hoje = DateTime.Today;
 
-                reservas ??=
-                    new List<ReservaViewModel>();
 
-                locacoes ??=
-                    new List<LocacaoViewModel>();
+                // RETIRADAS DE HOJE
 
-                pagamentos ??=
-                    new List<PagamentoViewModel>();
+                var retiradasHoje =
+                    reservas
+                        .Where(r =>
+                            r.IsAtiva &&
+                            r.Status == 2 &&
+                            r.DataRetirada.Date == hoje)
+                        .OrderBy(r => r.DataRetirada)
+                        .Select(r =>
+                            new OperacaoDiaViewModel
+                            {
+                                ReservaId = r.Id,
 
-                // ==========================================
+                                ClienteNome =
+                                    r.ClienteNome
+                                    ?? $"Cliente #{r.ClienteId}",
+
+                                VeiculoNome =
+                                    r.VeiculoNome
+                                    ?? $"Veículo #{r.VeiculoId}",
+
+                                VeiculoPlaca =
+                                    r.VeiculoPlaca ?? "-",
+
+                                FilialNome =
+                                    r.FilialRetiradaNome
+                                    ?? $"Filial #{r.FilialRetiradaId}",
+
+                                DataHora =
+                                    r.DataRetirada
+                            })
+                        .ToList();
+
+
+                // DEVOLUÇÕES DE HOJE
+
+                var devolucoesHoje =
+                    (
+                        from locacao in locacoes
+
+                        join reserva in reservas
+                            on locacao.ReservaId
+                            equals reserva.Id
+
+                        where
+                            locacao.IsAtiva &&
+                            locacao.Status == 1 &&
+                            reserva.DataDevolucaoPrevista.Date
+                                == hoje
+
+                        orderby
+                            reserva.DataDevolucaoPrevista
+
+                        select new OperacaoDiaViewModel
+                        {
+                            ReservaId =
+                                reserva.Id,
+
+                            LocacaoId =
+                                locacao.Id,
+
+                            ClienteNome =
+                                reserva.ClienteNome
+                                ?? $"Cliente #{reserva.ClienteId}",
+
+                            VeiculoNome =
+                                reserva.VeiculoNome
+                                ?? $"Veículo #{reserva.VeiculoId}",
+
+                            VeiculoPlaca =
+                                reserva.VeiculoPlaca ?? "-",
+
+                            FilialNome =
+                                reserva.FilialDevolucaoNome
+                                ?? $"Filial #{reserva.FilialDevolucaoId}",
+
+                            DataHora =
+                                reserva.DataDevolucaoPrevista
+                        }
+                    )
+                    .ToList();
+
+
                 // DASHBOARD
-                // ==========================================
 
                 var viewModel =
                     new DashboardViewModel
                     {
-                        // Clientes ativos
                         TotalClientes =
                             clientes.Count(c =>
                                 c.IsAtivo),
 
-                        // Status 1 = Disponível
+                        TotalVeiculos =
+                            veiculos.Count(v =>
+                                v.IsAtivo),
+
                         VeiculosDisponiveis =
                             veiculos.Count(v =>
                                 v.IsAtivo &&
                                 v.Status == 1),
 
-                        // Status 3 = Alugado
                         VeiculosAlugados =
                             veiculos.Count(v =>
                                 v.IsAtivo &&
                                 v.Status == 3),
-
-                        // ==================================
-                        // RESERVAS AGUARDANDO RETIRADA
-                        // ==================================
-                        // Status 2 = Confirmada
-                        //
-                        // Depois que o cliente paga os 30%,
-                        // a reserva é confirmada e fica
-                        // aguardando o funcionário iniciar
-                        // a locação.
-                        // ==================================
 
                         ReservasPendentes =
                             reservas.Count(r =>
                                 r.IsAtiva &&
                                 r.Status == 2),
 
-                        // Status 1 = Locação ativa
                         LocacoesAtivas =
                             locacoes.Count(l =>
                                 l.IsAtiva &&
                                 l.Status == 1),
 
-                        // Status 1 = Pagamento pendente
                         PagamentosPendentes =
                             pagamentos.Count(p =>
                                 p.IsAtivo &&
                                 p.Status == 1),
 
-                        // Status 2 = Pago
                         TotalRecebido =
                             pagamentos
                                 .Where(p =>
                                     p.IsAtivo &&
                                     p.Status == 2)
-                                .Sum(p =>
-                                    p.Valor)
+                                .Sum(p => p.Valor),
+
+                        VeiculosRecentes =
+                            veiculos
+                                .Where(v => v.IsAtivo)
+                                .OrderByDescending(v => v.Id)
+                                .Take(5)
+                                .ToList(),
+
+                        RetiradasHoje =
+                            retiradasHoje,
+
+                        DevolucoesHoje =
+                            devolucoesHoje
                     };
 
                 return View(viewModel);

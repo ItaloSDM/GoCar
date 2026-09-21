@@ -18,5 +18,11 @@ namespace GoCar.Application.Interfaces
 
         Task<bool> AtualizarAsync(
             Usuario usuario);
+
+        // Cadastro atômico:
+        // Usuário + Cliente são gravados na mesma transação.
+        Task<(Usuario Usuario, Cliente Cliente)> CriarUsuarioComClienteAsync(
+            Usuario usuario,
+            Cliente cliente);
     }
 }

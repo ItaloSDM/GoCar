@@ -1,225 +1,646 @@
 ﻿@model GoCar.Web.Models.DashboardViewModel
 
+@using GoCar.Web.Helpers
+
 @{
     ViewData["Title"] = "Dashboard";
+
+    var usuarioNome =
+        Context.Session.GetString("UsuarioNome")
+        ?? "Administrador";
+
+    string StatusVeiculo(int status)
+    {
+        return status switch
+        {
+            1 => "Disponível",
+            2 => "Reservado",
+            3 => "Alugado",
+            4 => "Manutenção",
+            5 => "Inativo",
+            _ => "Desconhecido"
+        };
+    }
+
+    string ClasseStatus(int status)
+    {
+        return status switch
+        {
+            1 => "status-disponivel",
+            2 => "status-reservado",
+            3 => "status-alugado",
+            4 => "status-manutencao",
+            5 => "status-inativo",
+            _ => "status-inativo"
+        };
+    }
 }
 
-<div class="container py-5">
+<style>
 
-    <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+    /* ========================================
+           DASHBOARD
+        ======================================== */
+
+    .gcd-dashboard {
+        padding: 32px;
+        max-width: 1600px;
+        margin: auto;
+        color: #fff;
+    }
+
+    /* CABEÇALHO */
+
+    .gcd-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+    }
+
+    .gcd-welcome {
+        color: #9b92aa;
+        font-size: .78rem;
+        margin-bottom: 3px;
+    }
+
+    .gcd-heading h1 {
+        margin: 0;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .gcd-heading p {
+        margin: 5px 0 0;
+        color: #857b95;
+        font-size: .82rem;
+    }
+
+    .gcd-date {
+        text-align: right;
+        color: #aea5ba;
+        font-size: .75rem;
+    }
+
+        .gcd-date strong {
+            color: white;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+    /* CARDS */
+
+    .gcd-metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .gcd-card {
+        position: relative;
+        overflow: hidden;
+        padding: 19px;
+        border: 1px solid rgba(151, 71, 255, .20);
+        border-radius: 11px;
+        background: linear-gradient( 145deg, rgba(26, 13, 45, .96), rgba(15, 8, 28, .96) );
+        box-shadow: 0 8px 30px rgba(0,0,0,.12);
+    }
+
+        .gcd-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            top: -45px;
+            right: -40px;
+            border-radius: 50%;
+            background: rgba(126, 44, 255, .08);
+        }
+
+    .gcd-card-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 13px;
+        border-radius: 9px;
+        background: rgba(137, 48, 255, .17);
+        color: #a855f7;
+        font-size: 1.05rem;
+    }
+
+    .gcd-card-label {
+        color: #b8afc4;
+        font-size: .72rem;
+        font-weight: 600;
+    }
+
+    .gcd-card-value {
+        margin-top: 3px;
+        color: white;
+        font-size: 1.45rem;
+        font-weight: 800;
+    }
+
+    .gcd-card-footer {
+        margin-top: 8px;
+        color: #71687e;
+        font-size: .67rem;
+    }
+
+    .gcd-green {
+        color: #24d47a;
+        font-weight: 700;
+    }
+
+    /* GRID CENTRAL */
+
+    .gcd-main-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(260px, .9fr);
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .gcd-panel {
+        border: 1px solid rgba(151, 71, 255, .16);
+        border-radius: 11px;
+        background: linear-gradient( 145deg, rgba(21, 11, 37, .96), rgba(13, 7, 24, .96) );
+        overflow: hidden;
+    }
+
+    .gcd-panel-header {
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+    .gcd-panel-title {
+        color: white;
+        font-size: .83rem;
+        font-weight: 700;
+    }
+
+    .gcd-link {
+        color: #a855f7;
+        text-decoration: none;
+        font-size: .7rem;
+        font-weight: 600;
+    }
+
+        .gcd-link:hover {
+            color: #c084fc;
+        }
+
+    /* GRÁFICO */
+
+    .gcd-chart {
+        position: relative;
+        height: 230px;
+        padding: 24px 25px 18px;
+    }
+
+    .gcd-chart-lines {
+        position: absolute;
+        inset: 25px 25px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .gcd-chart-line {
+        width: 100%;
+        height: 1px;
+        background: rgba(255,255,255,.05);
+    }
+
+    .gcd-chart-svg {
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        bottom: 38px;
+        width: calc(100% - 50px);
+        height: 145px;
+    }
+
+    .gcd-chart-labels {
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        bottom: 14px;
+        display: flex;
+        justify-content: space-between;
+        color: #62596f;
+        font-size: .62rem;
+    }
+
+    /* OPERAÇÃO */
+
+    .gcd-operation {
+        padding: 7px 17px 15px;
+    }
+
+    .gcd-operation-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 4px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+        .gcd-operation-item:last-child {
+            border-bottom: 0;
+        }
+
+    .gcd-operation-icon {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: rgba(139, 51, 255, .15);
+    }
+
+    .gcd-operation-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+        .gcd-operation-info strong {
+            display: block;
+            color: #ddd7e5;
+            font-size: .74rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .gcd-operation-info span {
+            color: #706779;
+            font-size: .63rem;
+        }
+
+    .gcd-operation-time {
+        color: #b167ff;
+        font-size: .7rem;
+        font-weight: 700;
+    }
+
+    .gcd-empty {
+        padding: 33px 15px;
+        color: #6f667a;
+        text-align: center;
+        font-size: .72rem;
+    }
+
+    /* PARTE INFERIOR */
+
+    .gcd-bottom-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 2.2fr) minmax(240px, .8fr);
+        gap: 16px;
+    }
+
+    /* TABELA */
+
+    .gcd-table-wrap {
+        overflow-x: auto;
+    }
+
+    .gcd-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .gcd-table th {
+            padding: 12px 15px;
+            color: #6f667c;
+            font-size: .64rem;
+            font-weight: 600;
+            text-align: left;
+            background: rgba(255,255,255,.015);
+            border-bottom: 1px solid rgba(255,255,255,.045);
+        }
+
+        .gcd-table td {
+            padding: 11px 15px;
+            color: #c9c2d1;
+            font-size: .7rem;
+            border-bottom: 1px solid rgba(255,255,255,.04);
+            vertical-align: middle;
+        }
+
+        .gcd-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .gcd-table tbody tr {
+            transition: .15s;
+        }
+
+            .gcd-table tbody tr:hover {
+                background: rgba(126, 44, 255, .055);
+            }
+
+    .gcd-car {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .gcd-car-img {
+        width: 64px;
+        height: 38px;
+        object-fit: contain;
+        border-radius: 6px;
+        background: radial-gradient( circle, rgba(151,71,255,.09), transparent 70% );
+    }
+
+    .gcd-car-name {
+        color: #eeeaf3;
+        font-weight: 600;
+    }
+
+    .gcd-car-brand {
+        color: #6f667a;
+        font-size: .61rem;
+        margin-top: 2px;
+    }
+
+    /* STATUS */
+
+    .gcd-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-size: .58rem;
+        font-weight: 700;
+    }
+
+    .status-disponivel {
+        color: #3ce78c;
+        background: rgba(26, 192, 103, .12);
+    }
+
+    .status-reservado {
+        color: #c084fc;
+        background: rgba(168, 85, 247, .13);
+    }
+
+    .status-alugado {
+        color: #ff7196;
+        background: rgba(244, 63, 94, .13);
+    }
+
+    .status-manutencao {
+        color: #fbbf24;
+        background: rgba(245, 158, 11, .13);
+    }
+
+    .status-inativo {
+        color: #94a3b8;
+        background: rgba(148, 163, 184, .11);
+    }
+
+    /* ATALHOS */
+
+    .gcd-shortcuts {
+        padding: 14px;
+    }
+
+    .gcd-shortcut {
+        min-height: 55px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 12px;
+        margin-bottom: 9px;
+        border: 1px solid rgba(151,71,255,.12);
+        border-radius: 9px;
+        background: rgba(255,255,255,.015);
+        color: #bcb4c7;
+        text-decoration: none;
+        font-size: .72rem;
+        font-weight: 600;
+        transition: .18s ease;
+    }
+
+        .gcd-shortcut:last-child {
+            margin-bottom: 0;
+        }
+
+        .gcd-shortcut:hover {
+            color: white;
+            border-color: rgba(151,71,255,.35);
+            background: rgba(126,44,255,.08);
+            transform: translateX(2px);
+        }
+
+    .gcd-shortcut-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 8px;
+        color: #a855f7;
+        background: rgba(139,51,255,.14);
+        font-size: 1rem;
+    }
+
+    /* RESPONSIVO */
+
+    @@media (max-width: 1100px) {
+
+        .gcd-metrics {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gcd-main-grid,
+        .gcd-bottom-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 650px) {
+
+        .gcd-dashboard {
+            padding: 20px 15px;
+        }
+
+        .gcd-heading {
+            flex-direction: column;
+        }
+
+        .gcd-date {
+            text-align: left;
+        }
+
+        .gcd-metrics {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+
+<div class="gcd-dashboard">
+
+    <!-- CABEÇALHO -->
+
+    <div class="gcd-heading">
 
         <div>
 
-            <span class="section-badge">
-                ADMINISTRAÇÃO
-            </span>
+            <div class="gcd-welcome">
+                Bem-vindo(a), @usuarioNome
+            </div>
 
-            <h1 class="gocar-section-title mb-2">
+            <h1>
                 Dashboard
             </h1>
 
-            <p class="gocar-section-subtitle mb-0">
-                Visão geral da operação GoCar.
+            <p>
+                Acompanhe o resumo das atividades
+                e o desempenho da sua locadora.
             </p>
+
+        </div>
+
+        <div class="gcd-date">
+
+            <strong>
+                📅 @DateTime.Now.ToString("dd 'de' MMMM 'de' yyyy")
+            </strong>
+
+            Última atualização:
+            @DateTime.Now.ToString("HH:mm")
 
         </div>
 
     </div>
 
+
     @if (TempData["Erro"] != null)
     {
-        <div class="alert alert-danger mb-4">
+        <div class="alert alert-danger">
             @TempData["Erro"]
         </div>
     }
 
-    <!-- ========================================== -->
-    <!-- PRINCIPAIS INDICADORES -->
-    <!-- ========================================== -->
 
-    <div class="row g-4">
+    <!-- CARDS -->
 
-        <!-- CLIENTES -->
+    <div class="gcd-metrics">
 
-        <div class="col-md-6 col-xl-3">
+        <div class="gcd-card">
 
-            <div class="gocar-card h-100">
+            <div class="gcd-card-icon">
+                🚘
+            </div>
 
-                <small class="text-secondary">
-                    CLIENTES ATIVOS
-                </small>
+            <div class="gcd-card-label">
+                Total de Veículos
+            </div>
 
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.TotalClientes
-                </h2>
+            <div class="gcd-card-value">
+                @Model.TotalVeiculos
+            </div>
 
-                <a asp-controller="Clientes"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
+            <div class="gcd-card-footer">
 
-                    Ver clientes
+                <span class="gcd-green">
+                    ↑ @Model.VeiculosDisponiveis
+                </span>
 
-                </a>
+                disponíveis na frota
 
             </div>
 
         </div>
 
-        <!-- VEÍCULOS DISPONÍVEIS -->
 
-        <div class="col-md-6 col-xl-3">
+        <div class="gcd-card">
 
-            <div class="gocar-card h-100">
-
-                <small class="text-secondary">
-                    VEÍCULOS DISPONÍVEIS
-                </small>
-
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.VeiculosDisponiveis
-                </h2>
-
-                <a asp-controller="Veiculos"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
-
-                    Ver veículos
-
-                </a>
-
+            <div class="gcd-card-icon">
+                ▣
             </div>
 
-        </div>
-
-        <!-- VEÍCULOS ALUGADOS -->
-
-        <div class="col-md-6 col-xl-3">
-
-            <div class="gocar-card h-100">
-
-                <small class="text-secondary">
-                    VEÍCULOS ALUGADOS
-                </small>
-
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.VeiculosAlugados
-                </h2>
-
-                <a asp-controller="Veiculos"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
-
-                    Ver frota
-
-                </a>
-
+            <div class="gcd-card-label">
+                Locações Ativas
             </div>
 
-        </div>
+            <div class="gcd-card-value">
+                @Model.LocacoesAtivas
+            </div>
 
-        <!-- AGUARDANDO RETIRADA -->
+            <div class="gcd-card-footer">
 
-        <div class="col-md-6 col-xl-3">
-
-            <div class="gocar-card h-100">
-
-                <small class="text-secondary">
-                    AGUARDANDO RETIRADA
-                </small>
-
-                <h2 class="fw-bold mt-2 mb-3">
+                <span class="gcd-green">
                     @Model.ReservasPendentes
-                </h2>
+                </span>
 
-                <a asp-controller="Reservas"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
-
-                    Ver reservas
-
-                </a>
+                reservas aguardando retirada
 
             </div>
 
         </div>
 
-        <!-- LOCAÇÕES ATIVAS -->
 
-        <div class="col-md-6 col-xl-3">
+        <div class="gcd-card">
 
-            <div class="gocar-card h-100">
+            <div class="gcd-card-icon">
+                ♙
+            </div>
 
-                <small class="text-secondary">
-                    LOCAÇÕES ATIVAS
-                </small>
+            <div class="gcd-card-label">
+                Clientes Cadastrados
+            </div>
 
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.LocacoesAtivas
-                </h2>
+            <div class="gcd-card-value">
+                @Model.TotalClientes
+            </div>
 
-                <a asp-controller="Locacoes"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
-
-                    Ver locações
-
-                </a>
-
+            <div class="gcd-card-footer">
+                Clientes ativos no sistema
             </div>
 
         </div>
 
-        <!-- PAGAMENTOS PENDENTES -->
 
-        <div class="col-md-6 col-xl-3">
+        <div class="gcd-card">
 
-            <div class="gocar-card h-100">
-
-                <small class="text-secondary">
-                    PAGAMENTOS PENDENTES
-                </small>
-
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.PagamentosPendentes
-                </h2>
-
-                <a asp-controller="Pagamentos"
-                   asp-action="Index"
-                   class="btn btn-outline-light btn-sm">
-
-                    Ver pagamentos
-
-                </a>
-
+            <div class="gcd-card-icon">
+                $
             </div>
 
-        </div>
+            <div class="gcd-card-label">
+                Receita
+            </div>
 
-        <!-- TOTAL RECEBIDO -->
+            <div class="gcd-card-value">
+                @Model.TotalRecebido.ToString("C")
+            </div>
 
-        <div class="col-md-6 col-xl-6">
+            <div class="gcd-card-footer">
 
-            <div class="gocar-card h-100">
+                <span class="gcd-green">
+                    ↑
+                </span>
 
-                <small class="text-secondary">
-                    TOTAL RECEBIDO
-                </small>
-
-                <h2 class="fw-bold mt-2 mb-3">
-                    @Model.TotalRecebido.ToString("C")
-                </h2>
-
-                <p class="text-secondary mb-3">
-                    Soma dos pagamentos com status Pago.
-                </p>
-
-                <a asp-controller="Pagamentos"
-                   asp-action="Index"
-                   class="btn btn-success btn-sm">
-
-                    Consultar pagamentos
-
-                </a>
+                pagamentos confirmados
 
             </div>
 
@@ -227,73 +648,471 @@
 
     </div>
 
-    <!-- ========================================== -->
-    <!-- GERENCIAMENTO -->
-    <!-- ========================================== -->
 
-    <div class="gocar-card mt-5">
+    <!-- CENTRO -->
 
-        <div class="mb-4">
+    <div class="gcd-main-grid">
 
-            <span class="section-badge">
-                GERENCIAMENTO
-            </span>
+        <!-- GRÁFICO -->
 
-            <h3 class="mt-2 mb-1">
-                Administração
-            </h3>
+        <section class="gcd-panel">
 
-            <p class="text-secondary mb-0">
-                Acesso rápido aos módulos do sistema.
-            </p>
+            <div class="gcd-panel-header">
 
-        </div>
+                <span class="gcd-panel-title">
+                    Locações nos últimos 7 dias
+                </span>
 
-        <div class="d-flex flex-wrap gap-2">
+                <span class="gcd-link">
+                    Últimos 7 dias
+                </span>
 
-            <a class="btn btn-dark"
-               asp-controller="Clientes"
-               asp-action="Index">
-                Clientes
-            </a>
+            </div>
 
-            <a class="btn btn-dark"
-               asp-controller="Veiculos"
-               asp-action="Index">
-                Veículos
-            </a>
+            <div class="gcd-chart">
 
-            <a class="btn btn-dark"
-               asp-controller="Reservas"
-               asp-action="Index">
-                Reservas
-            </a>
+                <div class="gcd-chart-lines">
 
-            <a class="btn btn-dark"
-               asp-controller="Locacoes"
-               asp-action="Index">
-                Locações
-            </a>
+                    <div class="gcd-chart-line"></div>
+                    <div class="gcd-chart-line"></div>
+                    <div class="gcd-chart-line"></div>
+                    <div class="gcd-chart-line"></div>
+                    <div class="gcd-chart-line"></div>
 
-            <a class="btn btn-dark"
-               asp-controller="Pagamentos"
-               asp-action="Index">
-                Pagamentos
-            </a>
+                </div>
 
-            <a class="btn btn-dark"
-               asp-controller="Categorias"
-               asp-action="Index">
-                Categorias
-            </a>
+                <svg class="gcd-chart-svg"
+                     viewBox="0 0 700 150"
+                     preserveAspectRatio="none">
 
-            <a class="btn btn-dark"
-               asp-controller="Filiais"
-               asp-action="Index">
-                Filiais
-            </a>
+                    <defs>
 
-        </div>
+                        <linearGradient id="chartFill"
+                                        x1="0"
+                                        y1="0"
+                                        x2="0"
+                                        y2="1">
+
+                            <stop offset="0%"
+                                  stop-color="#9b4dff"
+                                  stop-opacity=".35" />
+
+                            <stop offset="100%"
+                                  stop-color="#9b4dff"
+                                  stop-opacity="0" />
+
+                        </linearGradient>
+
+                    </defs>
+
+                    <path d="
+                    M0,115
+                    L115,82
+                    L230,55
+                    L345,88
+                    L460,84
+                    L575,62
+                    L700,24
+                    L700,150
+                    L0,150 Z"
+                          fill="url(#chartFill)" />
+
+                    <polyline points="
+                    0,115
+                    115,82
+                    230,55
+                    345,88
+                    460,84
+                    575,62
+                    700,24"
+                              fill="none"
+                              stroke="#a855f7"
+                              stroke-width="3" />
+
+                    <g fill="#c084fc">
+
+                        <circle cx="0"
+                                cy="115"
+                                r="4" />
+
+                        <circle cx="115"
+                                cy="82"
+                                r="4" />
+
+                        <circle cx="230"
+                                cy="55"
+                                r="4" />
+
+                        <circle cx="345"
+                                cy="88"
+                                r="4" />
+
+                        <circle cx="460"
+                                cy="84"
+                                r="4" />
+
+                        <circle cx="575"
+                                cy="62"
+                                r="4" />
+
+                        <circle cx="700"
+                                cy="24"
+                                r="4" />
+
+                    </g>
+
+                </svg>
+
+                <div class="gcd-chart-labels">
+
+                    @for (var i = 6; i >= 0; i--)
+                    {
+                        <span>
+                            @DateTime.Today
+                            .AddDays(-i)
+                            .ToString("dd/MM")
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- OPERAÇÃO DO DIA -->
+
+        <section class="gcd-panel">
+
+            <div class="gcd-panel-header">
+
+                <span class="gcd-panel-title">
+                    Operação de hoje
+                </span>
+
+                <span class="gcd-link">
+                    @(Model.RetiradasHoje.Count
+                    + Model.DevolucoesHoje.Count)
+                    operações
+                </span>
+
+            </div>
+
+            <div class="gcd-operation">
+
+                @if (Model.RetiradasHoje.Count > 0)
+                {
+                    @foreach (var item in
+                        Model.RetiradasHoje.Take(3))
+                    {
+                        <div class="gcd-operation-item">
+
+                            <div class="gcd-operation-icon">
+                                🚗
+                            </div>
+
+                            <div class="gcd-operation-info">
+
+                                <strong>
+                                    Retirada -
+                                    @item.ClienteNome
+                                </strong>
+
+                                <span>
+                                    @item.VeiculoNome
+                                    •
+                                    @item.VeiculoPlaca
+                                </span>
+
+                            </div>
+
+                            <div class="gcd-operation-time">
+                                @item.DataHora.ToString("HH:mm")
+                            </div>
+
+                        </div>
+                    }
+                }
+
+
+                @if (Model.DevolucoesHoje.Count > 0)
+                {
+                    @foreach (var item in
+                        Model.DevolucoesHoje.Take(3))
+                    {
+                        <div class="gcd-operation-item">
+
+                            <div class="gcd-operation-icon">
+                                ↩
+                            </div>
+
+                            <div class="gcd-operation-info">
+
+                                <strong>
+                                    Devolução -
+                                    @item.ClienteNome
+                                </strong>
+
+                                <span>
+                                    @item.VeiculoNome
+                                    •
+                                    @item.VeiculoPlaca
+                                </span>
+
+                            </div>
+
+                            <div class="gcd-operation-time">
+                                @item.DataHora.ToString("HH:mm")
+                            </div>
+
+                        </div>
+                    }
+                }
+
+
+                @if (Model.RetiradasHoje.Count == 0 &&
+                     Model.DevolucoesHoje.Count == 0)
+                {
+                    <div class="gcd-empty">
+
+                        ✓
+
+                        <br /><br />
+
+                        Nenhuma retirada ou devolução
+                        prevista para hoje.
+
+                    </div>
+                }
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- INFERIOR -->
+
+    <div class="gcd-bottom-grid">
+
+        <!-- VEÍCULOS -->
+
+        <section class="gcd-panel">
+
+            <div class="gcd-panel-header">
+
+                <span class="gcd-panel-title">
+                    Últimos veículos cadastrados
+                </span>
+
+                <a asp-controller="Veiculos"
+                   asp-action="Index"
+                   class="gcd-link">
+
+                    Ver todos
+
+                </a>
+
+            </div>
+
+            <div class="gcd-table-wrap">
+
+                <table class="gcd-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                VEÍCULO
+                            </th>
+
+                            <th>
+                                CATEGORIA
+                            </th>
+
+                            <th>
+                                PLACA
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var veiculo in
+                            Model.VeiculosRecentes)
+                        {
+                            var imagem =
+                                VeiculoImagemHelper.ObterImagem(
+                                    veiculo.Marca,
+                                    veiculo.Modelo);
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="gcd-car">
+
+                                        <img src="@imagem"
+                                             alt="@veiculo.Modelo"
+                                             class="gcd-car-img" />
+
+                                        <div>
+
+                                            <div class="gcd-car-name">
+                                                @veiculo.Marca
+                                                @veiculo.Modelo
+                                            </div>
+
+                                            <div class="gcd-car-brand">
+                                                @veiculo.AnoModelo
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    Categoria
+                                    #@veiculo.CategoriaId
+                                </td>
+
+                                <td>
+                                    @veiculo.Placa
+                                </td>
+
+                                <td>
+
+                                    <span class="
+                                        gcd-status
+                                        @ClasseStatus(veiculo.Status)">
+
+                                        @StatusVeiculo(
+                                            veiculo.Status)
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-controller="Veiculos"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@veiculo.Id"
+                                       class="gcd-link">
+
+                                        •••
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ATALHOS -->
+
+        <section class="gcd-panel">
+
+            <div class="gcd-panel-header">
+
+                <span class="gcd-panel-title">
+                    Atalhos
+                </span>
+
+            </div>
+
+            <div class="gcd-shortcuts">
+
+                <a asp-controller="Veiculos"
+                   asp-action="Criar"
+                   class="gcd-shortcut">
+
+                    <div class="gcd-shortcut-icon">
+                        🚘
+                    </div>
+
+                    Cadastrar Veículo
+
+                </a>
+
+
+                <a asp-controller="Clientes"
+                   asp-action="Index"
+                   class="gcd-shortcut">
+
+                    <div class="gcd-shortcut-icon">
+                        ♙
+                    </div>
+
+                    Gerenciar Clientes
+
+                </a>
+
+
+                <a asp-controller="Reservas"
+                   asp-action="Index"
+                   class="gcd-shortcut">
+
+                    <div class="gcd-shortcut-icon">
+                        ▣
+                    </div>
+
+                    Ver Reservas
+
+                </a>
+
+
+                <a asp-controller="Locacoes"
+                   asp-action="Index"
+                   class="gcd-shortcut">
+
+                    <div class="gcd-shortcut-icon">
+                        ▦
+                    </div>
+
+                    Gerenciar Locações
+
+                </a>
+
+
+                <a asp-controller="Pagamentos"
+                   asp-action="Index"
+                   class="gcd-shortcut">
+
+                    <div class="gcd-shortcut-icon">
+                        $
+                    </div>
+
+                    Financeiro
+
+                </a>
+
+            </div>
+
+        </section>
 
     </div>
 

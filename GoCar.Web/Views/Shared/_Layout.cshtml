@@ -8,242 +8,885 @@
 
     <script type="importmap"></script>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GoCar.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/GoCar.Web.styles.css"
+          asp-append-version="true" />
+
+    <style>
+            /* =========================================
+                       ÁREA ADMINISTRATIVA
+                    ========================================= */
+
+            .admin-body {
+                margin: 0;
+                background: radial-gradient(circle at top right, rgba(112, 42, 255, .12), transparent 32%), #080511;
+                color: #f8f7ff;
+                min-height: 100vh;
+            }
+
+            .admin-shell {
+                min-height: 100vh;
+                display: flex;
+            }
+
+            /* SIDEBAR */
+
+            .admin-sidebar {
+                width: 245px;
+                min-width: 245px;
+                min-height: 100vh;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                flex-direction: column;
+                background: linear-gradient( 180deg, #10071f 0%, #090510 100% );
+                border-right: 1px solid rgba(151, 71, 255, .15);
+                z-index: 1030;
+            }
+
+            .admin-brand {
+                height: 82px;
+                display: flex;
+                align-items: center;
+                padding: 0 24px;
+                border-bottom: 1px solid rgba(255,255,255,.06);
+                text-decoration: none;
+            }
+
+            .admin-brand-logo {
+                font-size: 1.65rem;
+                font-weight: 900;
+                font-style: italic;
+                letter-spacing: -1.5px;
+                color: #ffffff;
+            }
+
+                .admin-brand-logo span {
+                    color: #9747ff;
+                }
+
+            /* MENU */
+
+            .admin-menu {
+                padding: 22px 13px;
+                flex: 1;
+            }
+
+            .admin-menu-label {
+                padding: 0 13px;
+                margin: 8px 0 10px;
+                color: #665c78;
+                font-size: .68rem;
+                font-weight: 800;
+                letter-spacing: 1.2px;
+            }
+
+            .admin-nav-link {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                gap: 13px;
+                padding: 0 15px;
+                margin-bottom: 6px;
+                color: #a9a1b8;
+                text-decoration: none;
+                border-radius: 10px;
+                font-size: .91rem;
+                font-weight: 600;
+                transition: .18s ease;
+            }
+
+                .admin-nav-link:hover {
+                    background: rgba(126, 48, 255, .12);
+                    color: #ffffff;
+                }
+
+                .admin-nav-link.active {
+                    color: #ffffff;
+                    background: linear-gradient( 90deg, rgba(123, 44, 255, .32), rgba(123, 44, 255, .10) );
+                    box-shadow: inset 3px 0 0 #9747ff;
+                }
+
+            .admin-nav-icon {
+                width: 22px;
+                text-align: center;
+                font-size: 1.05rem;
+            }
+
+            .admin-sidebar-footer {
+                padding: 20px 25px 26px;
+                color: #625a70;
+                font-size: .72rem;
+            }
+
+                .admin-sidebar-footer strong {
+                    color: #ffffff;
+                    font-size: 1rem;
+                    font-style: italic;
+                }
+
+            /* CONTEÚDO */
+
+            .admin-content {
+                width: calc(100% - 245px);
+                min-height: 100vh;
+                margin-left: 245px;
+            }
+
+            /* TOPBAR */
+
+            .admin-topbar {
+                height: 82px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 30px;
+                position: sticky;
+                top: 0;
+                background: rgba(8, 5, 17, .94);
+                backdrop-filter: blur(16px);
+                border-bottom: 1px solid rgba(255,255,255,.06);
+                z-index: 1020;
+            }
+
+            .admin-topbar-left {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+            }
+
+            .admin-menu-toggle {
+                width: 40px;
+                height: 40px;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(255,255,255,.08);
+                border-radius: 9px;
+                background: #130b20;
+                color: white;
+            }
+
+            .admin-search {
+                width: min(440px, 38vw);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 15px;
+                border: 1px solid rgba(151, 71, 255, .15);
+                border-radius: 9px;
+                background: rgba(18, 10, 31, .7);
+            }
+
+                .admin-search span {
+                    color: #766d85;
+                }
+
+                .admin-search input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    color: #ffffff;
+                    font-size: .85rem;
+                }
+
+                    .admin-search input::placeholder {
+                        color: #6f6879;
+                    }
+
+            /* USUÁRIO */
+
+            .admin-user {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+            }
+
+            .admin-avatar {
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: linear-gradient( 135deg, #7c2cff, #b96cff );
+                color: #ffffff;
+                font-weight: 800;
+            }
+
+            .admin-user-info {
+                line-height: 1.2;
+            }
+
+            .admin-user-name {
+                color: #ffffff;
+                font-size: .85rem;
+                font-weight: 700;
+            }
+
+            .admin-user-profile {
+                margin-top: 3px;
+                color: #776e86;
+                font-size: .7rem;
+            }
+
+            .admin-logout {
+                margin-left: 9px;
+                border: 1px solid rgba(255,255,255,.08);
+                border-radius: 8px;
+                background: #130b20;
+                color: #aaa1b9;
+                padding: 7px 12px;
+                font-size: .78rem;
+                transition: .18s ease;
+            }
+
+                .admin-logout:hover {
+                    color: white;
+                    border-color: rgba(151, 71, 255, .5);
+                }
+
+            .admin-main {
+                padding: 0;
+            }
+
+            /* =========================================
+                       RESPONSIVO
+                    ========================================= */
+
+            @@media (max-width: 991px) {
+
+                .admin-sidebar {
+                    transform: translateX(-100%);
+                    transition: transform .22s ease;
+                }
+
+                    .admin-sidebar.open {
+                        transform: translateX(0);
+                    }
+
+                .admin-content {
+                    width: 100%;
+                    margin-left: 0;
+                }
+
+                .admin-menu-toggle {
+                    display: flex;
+                }
+
+                .admin-search {
+                    width: 45vw;
+                }
+            }
+
+            @@media (max-width: 650px) {
+
+                .admin-topbar {
+                    padding: 0 15px;
+                }
+
+                .admin-search {
+                    display: none;
+                }
+
+                .admin-user-info {
+                    display: none;
+                }
+            }
+    </style>
 </head>
 
-<body class="gocar-body">
+@{
+    var usuarioNome =
+        Context.Session.GetString("UsuarioNome");
 
-    @{
-        var usuarioNome = Context.Session.GetString("UsuarioNome");
-        var usuarioPerfil = Context.Session.GetString("UsuarioPerfil");
+    var usuarioPerfil =
+        Context.Session.GetString("UsuarioPerfil");
 
-        var usuarioLogado = !string.IsNullOrWhiteSpace(usuarioNome);
+    var usuarioLogado =
+        !string.IsNullOrWhiteSpace(usuarioNome);
 
-        var ehFuncionario =
-            usuarioPerfil == "Administrador"
-            || usuarioPerfil == "Gerente"
-            || usuarioPerfil == "Atendente";
+    var ehFuncionario =
+        usuarioPerfil == "Administrador"
+        || usuarioPerfil == "Gerente"
+        || usuarioPerfil == "Atendente";
 
-        var ehCliente =
-            usuarioPerfil == "Cliente";
+    var ehCliente =
+        usuarioPerfil == "Cliente";
+
+    var controllerAtual =
+        ViewContext.RouteData.Values["controller"]
+            ?.ToString();
+
+    string MenuAtivo(string controller)
+    {
+        return string.Equals(
+            controllerAtual,
+            controller,
+            StringComparison.OrdinalIgnoreCase)
+                ? "active"
+                : "";
     }
 
-    <header class="gocar-header">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
+    var inicialUsuario =
+        !string.IsNullOrWhiteSpace(usuarioNome)
+            ? usuarioNome.Substring(0, 1).ToUpper()
+            : "U";
+}
 
-                <a class="navbar-brand gocar-logo"
-                   asp-area=""
-                   asp-controller="Home"
-                   asp-action="Index">
+@if (usuarioLogado && ehFuncionario)
+{
+    <!-- =========================================
+         LAYOUT ADMINISTRATIVO
+    ========================================== -->
 
-                    GoCar
+    <body class="admin-body">
+
+        <div class="admin-shell">
+
+            <!-- SIDEBAR -->
+
+            <aside class="admin-sidebar"
+                   id="adminSidebar">
+
+                <a asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="admin-brand">
+
+                    <div class="admin-brand-logo">
+                        GO<span>CAR</span>
+                    </div>
+
                 </a>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#gocarNavbar"
-                        aria-controls="gocarNavbar"
-                        aria-expanded="false"
-                        aria-label="Abrir menu">
+                <nav class="admin-menu">
 
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <div class="admin-menu-label">
+                        MENU PRINCIPAL
+                    </div>
 
-                <div class="collapse navbar-collapse"
-                     id="gocarNavbar">
+                    <a asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Dashboard")">
 
-                    <ul class="navbar-nav mx-auto">
+                        <span class="admin-nav-icon">
+                            ◈
+                        </span>
 
-                        <li class="nav-item">
-                            <a class="nav-link gocar-nav-link"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
+                        Dashboard
 
-                                Início
-                            </a>
-                        </li>
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link gocar-nav-link"
-                               href="/#veiculos">
+                    <a asp-controller="Veiculos"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Veiculos")">
 
-                                Veículos
-                            </a>
-                        </li>
+                        <span class="admin-nav-icon">
+                            🚗
+                        </span>
 
-                        <li class="nav-item">
-                            <a class="nav-link gocar-nav-link"
-                               href="/#como-funciona">
+                        Veículos
 
-                                Como funciona
-                            </a>
-                        </li>
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link gocar-nav-link"
-                               href="/#sobre">
+                    <a asp-controller="Categorias"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Categorias")">
 
-                                Sobre
-                            </a>
-                        </li>
+                        <span class="admin-nav-icon">
+                            ◇
+                        </span>
 
-                    </ul>
+                        Categorias
 
-                    <div class="d-flex align-items-center gap-3">
+                    </a>
 
-                        @if (usuarioLogado)
-                        {
-                            <span class="text-white">
-                                Olá, @usuarioNome
-                            </span>
+                    <a asp-controller="Clientes"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Clientes")">
 
-                            @if (ehFuncionario)
-                            {
-                                <a class="gocar-btn-outline"
-                                   asp-controller="Dashboard"
-                                   asp-action="Index">
+                        <span class="admin-nav-icon">
+                            ♙
+                        </span>
 
-                                    Dashboard
-                                </a>
-                            }
-                            else if (ehCliente)
-                            {
-                                <a class="gocar-btn-outline"
-                                   asp-controller="Reservas"
-                                   asp-action="Index">
+                        Clientes
 
-                                    Minhas Reservas
-                                </a>
-                            }
+                    </a>
 
-                            <form asp-controller="Account"
-                                  asp-action="Logout"
-                                  method="post"
-                                  class="m-0">
+                    <a asp-controller="Reservas"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Reservas")">
 
-                                <button type="submit"
-                                        class="btn gocar-login-btn">
+                        <span class="admin-nav-icon">
+                            ▣
+                        </span>
 
-                                    Sair
-                                </button>
+                        Reservas
 
-                            </form>
-                        }
-                        else
-                        {
-                            <a class="btn gocar-login-btn"
-                               asp-controller="Account"
-                               asp-action="Login">
+                    </a>
 
-                                Entrar
-                            </a>
-                        }
+                    <a asp-controller="Locacoes"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Locacoes")">
+
+                        <span class="admin-nav-icon">
+                            ▦
+                        </span>
+
+                        Locações
+
+                    </a>
+
+                    <a asp-controller="Pagamentos"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Pagamentos")">
+
+                        <span class="admin-nav-icon">
+                            $
+                        </span>
+
+                        Financeiro
+
+                    </a>
+
+                    <a asp-controller="Filiais"
+                       asp-action="Index"
+                       class="admin-nav-link @MenuAtivo("Filiais")">
+
+                        <span class="admin-nav-icon">
+                            ⌂
+                        </span>
+
+                        Filiais
+
+                    </a>
+
+                    <div class="admin-menu-label"
+                         style="margin-top:25px;">
+
+                        NAVEGAÇÃO
 
                     </div>
 
-                </div>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="admin-nav-link">
 
-            </div>
-        </nav>
-    </header>
+                        <span class="admin-nav-icon">
+                            ↗
+                        </span>
 
-    <main role="main">
-        @RenderBody()
-    </main>
+                        Ver site
 
-    <footer class="gocar-footer">
+                    </a>
 
-        <div class="container">
+                </nav>
 
-            <div class="row">
+                <div class="admin-sidebar-footer">
 
-                <div class="col-md-4">
-
-                    <h5 class="gocar-footer-logo">
+                    <strong>
                         GoCar
-                    </h5>
+                    </strong>
 
-                    <p>
-                        Sua jornada começa aqui.
-                        Alugue seu carro de forma simples,
-                        rápida e segura.
-                    </p>
+                    <br />
 
-                </div>
+                    Sistema de Gerenciamento
 
-                <div class="col-md-4">
+                    <br />
 
-                    <h6>Navegação</h6>
-
-                    <ul class="list-unstyled">
-
-                        <li>
-                            <a asp-controller="Home"
-                               asp-action="Index">
-
-                                Início
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/#veiculos">
-                                Veículos
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/#como-funciona">
-                                Como funciona
-                            </a>
-                        </li>
-
-                    </ul>
+                    v1.0.0
 
                 </div>
 
-                <div class="col-md-4">
+            </aside>
 
-                    <h6>Contato</h6>
+            <!-- ÁREA PRINCIPAL -->
 
-                    <p>
-                        contato@gocar.com
-                    </p>
+            <div class="admin-content">
 
-                    <p>
-                        São Paulo - SP
-                    </p>
+                <!-- TOPBAR -->
 
-                </div>
+                <header class="admin-topbar">
 
-            </div>
+                    <div class="admin-topbar-left">
 
-            <hr />
+                        <button type="button"
+                                class="admin-menu-toggle"
+                                id="adminMenuToggle">
 
-            <div class="text-center gocar-copyright">
+                            ☰
 
-                © 2026 GoCar.
-                Todos os direitos reservados.
+                        </button>
+
+                        <div class="admin-search">
+
+                            <span>
+                                ⌕
+                            </span>
+
+                            <input type="text"
+                                   id="adminSearch"
+                                   placeholder="Buscar por veículo, cliente, reserva..." />
+
+                        </div>
+
+                    </div>
+
+                    <div class="admin-user">
+
+                        <div class="admin-avatar">
+                            @inicialUsuario
+                        </div>
+
+                        <div class="admin-user-info">
+
+                            <div class="admin-user-name">
+                                @usuarioNome
+                            </div>
+
+                            <div class="admin-user-profile">
+                                @usuarioPerfil
+                            </div>
+
+                        </div>
+
+                        <form asp-controller="Account"
+                              asp-action="Logout"
+                              method="post"
+                              class="m-0">
+
+                            <button type="submit"
+                                    class="admin-logout">
+
+                                Sair
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </header>
+
+                <!-- CONTEÚDO DAS TELAS -->
+
+                <main role="main"
+                      class="admin-main">
+
+                    @RenderBody()
+
+                </main>
 
             </div>
 
         </div>
 
-    </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js"
+                asp-append-version="true">
+        </script>
 
-    <script src="~/js/site.js"
-            asp-append-version="true">
-    </script>
+        <script>
+                document.addEventListener(
+                    "DOMContentLoaded",
+                    function () {
 
-    @await RenderSectionAsync("Scripts", required: false)
+                        const sidebar =
+                            document.getElementById(
+                                "adminSidebar"
+                            );
 
-</body>
+                        const toggle =
+                            document.getElementById(
+                                "adminMenuToggle"
+                            );
+
+                        if (toggle && sidebar) {
+
+                            toggle.addEventListener(
+                                "click",
+                                function () {
+
+                                    sidebar.classList.toggle(
+                                        "open"
+                                    );
+
+                                }
+                            );
+                        }
+
+                    }
+                );
+        </script>
+
+        @await RenderSectionAsync(
+            "Scripts",
+            required: false)
+
+    </body>
+}
+else
+{
+    <!-- =========================================
+         SITE / ÁREA DO CLIENTE
+    ========================================== -->
+
+    <body class="gocar-body">
+
+        <header class="gocar-header">
+
+            <nav class="navbar navbar-expand-lg navbar-dark">
+
+                <div class="container">
+
+                    <a class="navbar-brand gocar-logo"
+                       asp-area=""
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        GoCar
+
+                    </a>
+
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#gocarNavbar"
+                            aria-controls="gocarNavbar"
+                            aria-expanded="false"
+                            aria-label="Abrir menu">
+
+                        <span class="navbar-toggler-icon">
+                        </span>
+
+                    </button>
+
+                    <div class="collapse navbar-collapse"
+                         id="gocarNavbar">
+
+                        <ul class="navbar-nav mx-auto">
+
+                            <li class="nav-item">
+
+                                <a class="nav-link gocar-nav-link"
+                                   asp-controller="Home"
+                                   asp-action="Index">
+
+                                    Início
+
+                                </a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link gocar-nav-link"
+                                   href="/#veiculos">
+
+                                    Veículos
+
+                                </a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link gocar-nav-link"
+                                   href="/#como-funciona">
+
+                                    Como funciona
+
+                                </a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link gocar-nav-link"
+                                   href="/#sobre">
+
+                                    Sobre
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            @if (usuarioLogado)
+                            {
+                                <span class="text-white">
+                                    Olá, @usuarioNome
+                                </span>
+
+                                @if (ehCliente)
+                                {
+                                    <a class="gocar-btn-outline"
+                                       asp-controller="Reservas"
+                                       asp-action="Index">
+
+                                        Minhas Reservas
+
+                                    </a>
+                                }
+
+                                <form asp-controller="Account"
+                                      asp-action="Logout"
+                                      method="post"
+                                      class="m-0">
+
+                                    <button type="submit"
+                                            class="btn gocar-login-btn">
+
+                                        Sair
+
+                                    </button>
+
+                                </form>
+                            }
+                            else
+                            {
+                                <a class="btn gocar-login-btn"
+                                   asp-controller="Account"
+                                   asp-action="Login">
+
+                                    Entrar
+
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+        </header>
+
+        <main role="main">
+            @RenderBody()
+        </main>
+
+        <footer class="gocar-footer">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <h5 class="gocar-footer-logo">
+                            GoCar
+                        </h5>
+
+                        <p>
+                            Sua jornada começa aqui.
+                            Alugue seu carro de forma simples,
+                            rápida e segura.
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <h6>
+                            Navegação
+                        </h6>
+
+                        <ul class="list-unstyled">
+
+                            <li>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index">
+
+                                    Início
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="/#veiculos">
+                                    Veículos
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="/#como-funciona">
+                                    Como funciona
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <h6>
+                            Contato
+                        </h6>
+
+                        <p>
+                            contato@gocar.com
+                        </p>
+
+                        <p>
+                            São Paulo - SP
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <div class="text-center gocar-copyright">
+
+                    © 2026 GoCar.
+                    Todos os direitos reservados.
+
+                </div>
+
+            </div>
+
+        </footer>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="~/js/site.js"
+                asp-append-version="true">
+        </script>
+
+        @await RenderSectionAsync(
+            "Scripts",
+            required: false)
+
+    </body>
+}
+
 </html>
