@@ -2,140 +2,567 @@
 
 @{
     ViewData["Title"] = "Detalhes do Cliente";
+
+    var iniciais = "?";
+
+    if (!string.IsNullOrWhiteSpace(Model.Nome))
+    {
+        var partes = Model.Nome
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        iniciais = partes.Length >= 2
+            ? $"{partes[0][0]}{partes[^1][0]}".ToUpper()
+            : partes[0][0].ToString().ToUpper();
+    }
 }
 
-<div class="container py-5">
+<style>
+    .client-details-page {
+        max-width: 1500px;
+        margin: auto;
+        padding: 32px;
+        color: #fff;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    .client-details-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
 
+    .client-eyebrow {
+        margin-bottom: 4px;
+        color: #8d849a;
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .client-title {
+        margin: 0;
+        color: #fff;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .client-description {
+        margin: 6px 0 0;
+        color: #81778e;
+        font-size: .8rem;
+    }
+
+    .client-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .client-btn-secondary,
+    .client-btn-primary {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: .7rem;
+        font-weight: 700;
+        transition: .18s ease;
+    }
+
+    .client-btn-secondary {
+        border: 1px solid rgba(151,71,255,.24);
+        background: rgba(126,44,255,.06);
+        color: #bca9d4;
+    }
+
+        .client-btn-secondary:hover {
+            color: #fff;
+            background: rgba(126,44,255,.12);
+            border-color: rgba(151,71,255,.45);
+        }
+
+    .client-btn-primary {
+        border: 1px solid #8b3dff;
+        background: linear-gradient(135deg,#7c2cff,#9b4dff);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(126,44,255,.18);
+    }
+
+        .client-btn-primary:hover {
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+    .client-profile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 16px;
+        padding: 24px;
+        border: 1px solid rgba(151,71,255,.16);
+        border-radius: 11px;
+        background: radial-gradient(circle at 90% 20%,rgba(126,44,255,.12),transparent 30%), linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+    }
+
+    .client-profile-main {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+    }
+
+    .client-avatar {
+        width: 62px;
+        height: 62px;
+        flex: 0 0 62px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(151,71,255,.25);
+        border-radius: 50%;
+        background: linear-gradient(135deg,rgba(124,44,255,.2),rgba(155,77,255,.08));
+        color: #c49aff;
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    .client-profile-label {
+        color: #776d82;
+        font-size: .57rem;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .client-profile-name {
+        margin: 3px 0 7px;
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 800;
+    }
+
+    .client-profile-meta {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .client-chip {
+        padding: 5px 8px;
+        border: 1px solid rgba(151,71,255,.13);
+        border-radius: 6px;
+        background: rgba(126,44,255,.04);
+        color: #9f95aa;
+        font-size: .58rem;
+    }
+
+    .client-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: .58rem;
+        font-weight: 700;
+    }
+
+        .client-status::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+    .client-status-active {
+        color: #3ce78c;
+        background: rgba(26,192,103,.12);
+    }
+
+    .client-status-inactive {
+        color: #93899d;
+        background: rgba(148,163,184,.10);
+    }
+
+    .client-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 16px;
+    }
+
+    .client-info-card {
+        overflow: hidden;
+        border: 1px solid rgba(151,71,255,.16);
+        border-radius: 11px;
+        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+    }
+
+    .client-info-header {
+        padding: 17px 19px;
+        border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+        .client-info-header small {
+            display: block;
+            margin-bottom: 3px;
+            color: #766c81;
+            font-size: .55rem;
+            text-transform: uppercase;
+            letter-spacing: .55px;
+            font-weight: 700;
+        }
+
+        .client-info-header h3 {
+            margin: 0;
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+    .client-info-body {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .client-data {
+        min-height: 79px;
+        padding: 15px 19px;
+        border-right: 1px solid rgba(255,255,255,.035);
+        border-bottom: 1px solid rgba(255,255,255,.035);
+    }
+
+        .client-data:nth-child(even) {
+            border-right: 0;
+        }
+
+    .client-data-label {
+        margin-bottom: 5px;
+        color: #716778;
+        font-size: .54rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+
+    .client-data-value {
+        color: #d9d3df;
+        font-size: .69rem;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+
+    .client-details-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 16px;
+        padding: 18px;
+        border: 1px solid rgba(151,71,255,.13);
+        border-radius: 10px;
+        background: rgba(15,8,27,.85);
+    }
+
+    @@media (max-width: 850px) {
+        .client-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 650px) {
+        .client-details-page {
+            padding: 20px 15px;
+        }
+
+        .client-details-header,
+        .client-profile {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .client-actions {
+            width: 100%;
+        }
+
+            .client-actions a {
+                flex: 1;
+            }
+
+        .client-info-body {
+            grid-template-columns: 1fr;
+        }
+
+        .client-data {
+            border-right: 0;
+        }
+
+        .client-details-footer {
+            flex-direction: column-reverse;
+        }
+
+            .client-details-footer a {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="client-details-page">
+
+    <div class="client-details-header">
         <div>
-            <h1>Detalhes do Cliente</h1>
+            <div class="client-eyebrow">Gestão de clientes</div>
 
-            <p class="text-muted mb-0">
+            <h1 class="client-title">
+                Detalhes do Cliente
+            </h1>
+
+            <p class="client-description">
                 Informações completas do cadastro.
             </p>
         </div>
 
-        <a class="btn btn-outline-light"
-           asp-controller="Clientes"
-           asp-action="Index">
+        <div class="client-actions">
+            <a asp-controller="Clientes"
+               asp-action="Index"
+               class="client-btn-secondary">
+                ← Voltar
+            </a>
 
-            Voltar
-        </a>
+            <a asp-controller="Clientes"
+               asp-action="Editar"
+               asp-route-id="@Model.Id"
+               class="client-btn-primary">
+                Editar Cliente
+            </a>
+        </div>
+    </div>
+
+    <div class="client-profile">
+
+        <div class="client-profile-main">
+
+            <div class="client-avatar">
+                @iniciais
+            </div>
+
+            <div>
+                <div class="client-profile-label">
+                    Cliente #@Model.Id
+                </div>
+
+                <h2 class="client-profile-name">
+                    @Model.Nome
+                </h2>
+
+                <div class="client-profile-meta">
+                    <span class="client-chip">
+                        CPF @Model.CPF
+                    </span>
+
+                    <span class="client-chip">
+                        CNH @Model.CNH
+                    </span>
+
+                    <span class="client-chip">
+                        @Model.Cidade/@Model.Estado
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        @if (Model.IsAtivo)
+        {
+            <span class="client-status client-status-active">
+                Ativo
+            </span>
+        }
+        else
+        {
+            <span class="client-status client-status-inactive">
+                Inativo
+            </span>
+        }
 
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="client-info-grid">
 
-        <div class="card-body">
+        <div class="client-info-card">
 
-            <div class="row g-4">
-
-                <div class="col-md-6">
-                    <strong>ID</strong>
-                    <p>@Model.Id</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Nome</strong>
-                    <p>@Model.Nome</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>CPF</strong>
-                    <p>@Model.CPF</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Telefone</strong>
-                    <p>@Model.Telefone</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Data de Nascimento</strong>
-                    <p>@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>CNH</strong>
-                    <p>@Model.CNH</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Categoria CNH</strong>
-                    <p>@Model.CategoriaCNH</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Validade CNH</strong>
-                    <p>@Model.DataValidadeCNH.ToString("dd/MM/yyyy")</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Endereço</strong>
-                    <p>
-                        @Model.Endereco, @Model.Numero
-                    </p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Bairro</strong>
-                    <p>@Model.Bairro</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Cidade</strong>
-                    <p>
-                        @Model.Cidade - @Model.Estado
-                    </p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>CEP</strong>
-                    <p>@Model.CEP</p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Status</strong>
-
-                    <p>
-                        @if (Model.IsAtivo)
-                        {
-                            <span class="badge bg-success">
-                                Ativo
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">
-                                Inativo
-                            </span>
-                        }
-                    </p>
-                </div>
-
-                <div class="col-md-6">
-                    <strong>Data de Cadastro</strong>
-                    <p>
-                        @Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")
-                    </p>
-                </div>
-
+            <div class="client-info-header">
+                <small>Cadastro</small>
+                <h3>Dados pessoais</h3>
             </div>
 
-            <div class="mt-4">
+            <div class="client-info-body">
 
-                <a class="btn btn-dark"
-                   asp-controller="Clientes"
-                   asp-action="Editar"
-                   asp-route-id="@Model.Id">
+                <div class="client-data">
+                    <div class="client-data-label">ID</div>
+                    <div class="client-data-value">@Model.Id</div>
+                </div>
 
-                    Editar Cliente
-                </a>
+                <div class="client-data">
+                    <div class="client-data-label">Nome</div>
+                    <div class="client-data-value">@Model.Nome</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">CPF</div>
+                    <div class="client-data-value">@Model.CPF</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Telefone</div>
+                    <div class="client-data-value">@Model.Telefone</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Data de Nascimento</div>
+                    <div class="client-data-value">
+                        @(Model.DataNascimento.ToString("dd/MM/yyyy"))
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Data de Cadastro</div>
+                    <div class="client-data-value">
+                        @(Model.DataCadastro.ToString("dd/MM/yyyy HH:mm"))
+                    </div>
+                </div>
 
             </div>
 
         </div>
+
+        <div class="client-info-card">
+
+            <div class="client-info-header">
+                <small>Habilitação</small>
+                <h3>Dados da CNH</h3>
+            </div>
+
+            <div class="client-info-body">
+
+                <div class="client-data">
+                    <div class="client-data-label">CNH</div>
+                    <div class="client-data-value">@Model.CNH</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Categoria</div>
+                    <div class="client-data-value">@Model.CategoriaCNH</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Validade</div>
+                    <div class="client-data-value">
+                        @(Model.DataValidadeCNH.ToString("dd/MM/yyyy"))
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Status do Cadastro</div>
+                    <div class="client-data-value">
+                        @(Model.IsAtivo ? "Ativo" : "Inativo")
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="client-info-card">
+
+            <div class="client-info-header">
+                <small>Localização</small>
+                <h3>Endereço</h3>
+            </div>
+
+            <div class="client-info-body">
+
+                <div class="client-data">
+                    <div class="client-data-label">Endereço</div>
+                    <div class="client-data-value">
+                        @Model.Endereco, @Model.Numero
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Bairro</div>
+                    <div class="client-data-value">@Model.Bairro</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Cidade / Estado</div>
+                    <div class="client-data-value">
+                        @Model.Cidade - @Model.Estado
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">CEP</div>
+                    <div class="client-data-value">@Model.CEP</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="client-info-card">
+
+            <div class="client-info-header">
+                <small>Sistema</small>
+                <h3>Informações do cadastro</h3>
+            </div>
+
+            <div class="client-info-body">
+
+                <div class="client-data">
+                    <div class="client-data-label">Cliente</div>
+                    <div class="client-data-value">#@Model.Id</div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Situação</div>
+                    <div class="client-data-value">
+                        @(Model.IsAtivo ? "Cadastro ativo" : "Cadastro inativo")
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Cadastrado em</div>
+                    <div class="client-data-value">
+                        @(Model.DataCadastro.ToString("dd/MM/yyyy"))
+                    </div>
+                </div>
+
+                <div class="client-data">
+                    <div class="client-data-label">Telefone</div>
+                    <div class="client-data-value">@Model.Telefone</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="client-details-footer">
+
+        <a asp-controller="Clientes"
+           asp-action="Index"
+           class="client-btn-secondary">
+            Voltar
+        </a>
+
+        <a asp-controller="Clientes"
+           asp-action="Editar"
+           asp-route-id="@Model.Id"
+           class="client-btn-primary">
+            Editar Cliente
+        </a>
 
     </div>
 

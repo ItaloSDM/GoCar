@@ -4,225 +4,514 @@
     ViewData["Title"] = "Editar Filial";
 }
 
-<div class="container py-5">
+<style>
+    .branch-form-page {
+        max-width: 1500px;
+        margin: auto;
+        padding: 32px;
+        color: #fff;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    .branch-form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .branch-eyebrow {
+        margin-bottom: 4px;
+        color: #8d849a;
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .branch-title {
+        margin: 0;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .branch-description {
+        margin: 6px 0 0;
+        color: #81778e;
+        font-size: .8rem;
+    }
+
+    .form-btn,
+    .form-btn-primary {
+        min-height: 40px;
+        padding: 0 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: .7rem;
+        font-weight: 700;
+        transition: .18s ease;
+    }
+
+    .form-btn {
+        border: 1px solid rgba(151,71,255,.24);
+        background: rgba(126,44,255,.06);
+        color: #bca9d4;
+    }
+
+        .form-btn:hover {
+            color: #fff;
+            background: rgba(126,44,255,.12);
+        }
+
+    .form-btn-primary {
+        border: 1px solid #8b3dff;
+        background: linear-gradient(135deg,#7c2cff,#9b4dff);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .branch-summary {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 16px;
+        padding: 20px 22px;
+        border: 1px solid rgba(151,71,255,.16);
+        border-radius: 11px;
+        background: radial-gradient(circle at 90% 20%,rgba(126,44,255,.12),transparent 30%), linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+    }
+
+    .branch-summary-icon {
+        width: 52px;
+        height: 52px;
+        flex: 0 0 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(151,71,255,.2);
+        border-radius: 11px;
+        background: rgba(126,44,255,.08);
+        color: #bd91ff;
+        font-size: 1.15rem;
+    }
+
+    .branch-summary small {
+        color: #766c81;
+        font-size: .56rem;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .branch-summary h2 {
+        margin: 3px 0 0;
+        font-size: 1rem;
+        font-weight: 750;
+    }
+
+    .branch-form-card {
+        overflow: hidden;
+        border: 1px solid rgba(151,71,255,.16);
+        border-radius: 11px;
+        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+    }
+
+    .branch-form-section {
+        padding: 22px;
+        border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+    .section-heading {
+        margin-bottom: 18px;
+    }
+
+        .section-heading small {
+            display: block;
+            margin-bottom: 3px;
+            color: #766c81;
+            font-size: .56rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .55px;
+        }
+
+        .section-heading h3 {
+            margin: 0;
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+    .branch-form-grid {
+        display: grid;
+        grid-template-columns: repeat(12,minmax(0,1fr));
+        gap: 15px;
+    }
+
+    .col-4x {
+        grid-column: span 4;
+    }
+
+    .col-6x {
+        grid-column: span 6;
+    }
+
+    .col-8x {
+        grid-column: span 8;
+    }
+
+    .field label {
+        display: block;
+        margin-bottom: 6px;
+        color: #aaa0b5;
+        font-size: .62rem;
+        font-weight: 700;
+    }
+
+    .branch-input {
+        width: 100%;
+        min-height: 41px;
+        padding: 9px 11px;
+        border: 1px solid rgba(151,71,255,.17);
+        border-radius: 7px;
+        outline: none;
+        background: rgba(255,255,255,.025);
+        color: #ded8e5;
+        font-size: .7rem;
+    }
+
+        .branch-input:focus {
+            border-color: rgba(151,71,255,.65);
+            background: rgba(126,44,255,.045);
+            box-shadow: 0 0 0 3px rgba(126,44,255,.07);
+        }
+
+    .validation-text {
+        display: block;
+        margin-top: 5px;
+        color: #ff718d;
+        font-size: .56rem;
+    }
+
+    .validation-summary-errors {
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        border: 1px solid rgba(244,63,94,.22);
+        border-radius: 8px;
+        background: rgba(244,63,94,.07);
+        color: #ff91a7;
+        font-size: .65rem;
+    }
+
+    .active-box {
+        min-height: 41px;
+        display: flex;
+        align-items: center;
+        padding: 10px 13px;
+        border: 1px solid rgba(151,71,255,.13);
+        border-radius: 7px;
+        background: rgba(126,44,255,.025);
+    }
+
+    .active-check {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+        .active-check input {
+            width: 17px;
+            height: 17px;
+            margin: 0;
+            accent-color: #8b3dff;
+        }
+
+        .active-check label {
+            margin: 0;
+            color: #c6bdcf;
+            font-size: .67rem;
+            font-weight: 700;
+        }
+
+    .branch-form-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 18px 22px;
+        background: rgba(6,3,11,.22);
+    }
+
+    @@media (max-width: 750px) {
+        .branch-form-page {
+            padding: 20px 15px;
+        }
+
+        .branch-form-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .col-4x,
+        .col-6x,
+        .col-8x {
+            grid-column: span 12;
+        }
+
+        .branch-form-footer {
+            flex-direction: column-reverse;
+        }
+
+            .branch-form-footer a,
+            .branch-form-footer button {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="branch-form-page">
+
+    <div class="branch-form-header">
 
         <div>
-            <h1>Editar Filial</h1>
+            <div class="branch-eyebrow">
+                Gestão de unidades
+            </div>
 
-            <p class="text-muted mb-0">
-                Atualize as informações da filial.
+            <h1 class="branch-title">
+                Editar Filial
+            </h1>
+
+            <p class="branch-description">
+                Atualize as informações da unidade.
             </p>
         </div>
 
-        <a class="btn btn-outline-light"
-           asp-controller="Filiais"
-           asp-action="Index">
-
-            Cancelar
+        <a asp-controller="Filiais"
+           asp-action="Detalhes"
+           asp-route-id="@Model.Id"
+           class="form-btn">
+            ← Detalhes
         </a>
 
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="branch-summary">
 
-        <div class="card-body">
+        <div class="branch-summary-icon">
+            ◆
+        </div>
 
-            <form asp-controller="Filiais"
-                  asp-action="Editar"
-                  asp-route-id="@Model.Id"
-                  method="post">
+        <div>
+            <small>Filial #@Model.Id</small>
+            <h2>@Model.Nome</h2>
+        </div>
 
-                @Html.AntiForgeryToken()
+    </div>
 
-                <input type="hidden"
-                       asp-for="Id" />
+    <div class="branch-form-card">
 
-                <div asp-validation-summary="ModelOnly"
-                     class="text-danger mb-3">
+        <form asp-controller="Filiais"
+              asp-action="Editar"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <div class="branch-form-section">
+
+                <div asp-validation-summary="ModelOnly">
                 </div>
 
-                <div class="row g-3">
+                <div class="section-heading">
+                    <small>Cadastro</small>
+                    <h3>Dados da filial</h3>
+                </div>
 
-                    <div class="col-md-8">
+                <div class="branch-form-grid">
 
-                        <label asp-for="Nome"
-                               class="form-label">
+                    <div class="field col-8x">
+
+                        <label asp-for="Nome">
                             Nome da Filial
                         </label>
 
                         <input asp-for="Nome"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Nome"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="field col-4x">
 
-                        <label asp-for="CNPJ"
-                               class="form-label">
+                        <label asp-for="CNPJ">
                             CNPJ
                         </label>
 
                         <input asp-for="CNPJ"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="CNPJ"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="field col-6x">
 
-                        <label asp-for="Telefone"
-                               class="form-label">
+                        <label asp-for="Telefone">
                             Telefone
                         </label>
 
                         <input asp-for="Telefone"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Telefone"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="field col-6x">
 
-                        <label asp-for="Email"
-                               class="form-label">
+                        <label asp-for="Email">
                             E-mail
                         </label>
 
                         <input asp-for="Email"
                                type="email"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Email"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-8">
+                </div>
 
-                        <label asp-for="Endereco"
-                               class="form-label">
+            </div>
+
+            <div class="branch-form-section">
+
+                <div class="section-heading">
+                    <small>Localização</small>
+                    <h3>Endereço da unidade</h3>
+                </div>
+
+                <div class="branch-form-grid">
+
+                    <div class="field col-8x">
+
+                        <label asp-for="Endereco">
                             Endereço
                         </label>
 
                         <input asp-for="Endereco"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Endereco"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="field col-4x">
 
-                        <label asp-for="Numero"
-                               class="form-label">
+                        <label asp-for="Numero">
                             Número
                         </label>
 
                         <input asp-for="Numero"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Numero"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="field col-6x">
 
-                        <label asp-for="Bairro"
-                               class="form-label">
+                        <label asp-for="Bairro">
                             Bairro
                         </label>
 
                         <input asp-for="Bairro"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Bairro"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="field col-6x">
 
-                        <label asp-for="Cidade"
-                               class="form-label">
+                        <label asp-for="Cidade">
                             Cidade
                         </label>
 
                         <input asp-for="Cidade"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="Cidade"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="field col-4x">
 
-                        <label asp-for="Estado"
-                               class="form-label">
+                        <label asp-for="Estado">
                             Estado
                         </label>
 
                         <input asp-for="Estado"
-                               class="form-control"
+                               class="branch-input"
                                maxlength="2" />
 
                         <span asp-validation-for="Estado"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="field col-4x">
 
-                        <label asp-for="CEP"
-                               class="form-label">
+                        <label asp-for="CEP">
                             CEP
                         </label>
 
                         <input asp-for="CEP"
-                               class="form-control" />
+                               class="branch-input" />
 
                         <span asp-validation-for="CEP"
-                              class="text-danger">
+                              class="validation-text">
                         </span>
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="field col-4x">
 
-                        <label class="form-label">
-                            Status
-                        </label>
+                        <label>Status</label>
 
-                        <div class="form-check mt-2">
+                        <div class="active-box">
 
-                            <input asp-for="IsAtivo"
-                                   class="form-check-input" />
+                            <div class="active-check">
 
-                            <label asp-for="IsAtivo"
-                                   class="form-check-label">
+                                <input asp-for="IsAtivo" />
 
-                                Filial ativa
-                            </label>
+                                <label asp-for="IsAtivo">
+                                    Filial ativa
+                                </label>
+
+                            </div>
 
                         </div>
 
@@ -230,19 +519,24 @@
 
                 </div>
 
-                <div class="mt-4">
+            </div>
 
-                    <button type="submit"
-                            class="btn btn-dark">
+            <div class="branch-form-footer">
 
-                        Salvar Alterações
-                    </button>
+                <a asp-controller="Filiais"
+                   asp-action="Index"
+                   class="form-btn">
+                    Cancelar
+                </a>
 
-                </div>
+                <button type="submit"
+                        class="form-btn-primary">
+                    Salvar Alterações
+                </button>
 
-            </form>
+            </div>
 
-        </div>
+        </form>
 
     </div>
 

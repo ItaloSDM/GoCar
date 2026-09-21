@@ -4,67 +4,299 @@
     ViewData["Title"] = "Editar Categoria";
 }
 
-<div class="container py-5">
+<style>
+    .category-form-page {
+        max-width: 1500px;
+        margin: auto;
+        padding: 32px;
+        color: #fff;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    .category-form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .category-form-eyebrow {
+        color: #8d849a;
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        margin-bottom: 4px;
+    }
+
+    .category-form-title {
+        margin: 0;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .category-form-description {
+        margin: 6px 0 0;
+        color: #81778e;
+        font-size: .8rem;
+    }
+
+    .form-btn,
+    .form-btn-primary {
+        min-height: 40px;
+        padding: 0 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: .7rem;
+        font-weight: 700;
+        transition: .18s ease;
+    }
+
+    .form-btn {
+        border: 1px solid rgba(151,71,255,.24);
+        background: rgba(126,44,255,.06);
+        color: #bca9d4;
+    }
+
+        .form-btn:hover {
+            color: #fff;
+            background: rgba(126,44,255,.12);
+        }
+
+    .form-btn-primary {
+        border: 1px solid #8b3dff;
+        background: linear-gradient(135deg,#7c2cff,#9b4dff);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .category-form-card {
+        overflow: hidden;
+        border: 1px solid rgba(151,71,255,.16);
+        border-radius: 11px;
+        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+    }
+
+    .category-form-section {
+        padding: 22px;
+        border-bottom: 1px solid rgba(255,255,255,.045);
+    }
+
+    .form-section-title {
+        margin-bottom: 18px;
+    }
+
+        .form-section-title small {
+            display: block;
+            margin-bottom: 3px;
+            color: #766c81;
+            font-size: .56rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .55px;
+        }
+
+        .form-section-title h3 {
+            margin: 0;
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+    .category-form-grid {
+        display: grid;
+        grid-template-columns: repeat(12,minmax(0,1fr));
+        gap: 15px;
+    }
+
+    .category-col-3 {
+        grid-column: span 3;
+    }
+
+    .category-col-6 {
+        grid-column: span 6;
+    }
+
+    .category-col-12 {
+        grid-column: span 12;
+    }
+
+    .category-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: #aaa0b5;
+        font-size: .62rem;
+        font-weight: 700;
+    }
+
+    .category-input {
+        width: 100%;
+        min-height: 41px;
+        padding: 9px 11px;
+        border: 1px solid rgba(151,71,255,.17);
+        border-radius: 7px;
+        outline: none;
+        background: rgba(255,255,255,.025);
+        color: #ded8e5;
+        font-size: .7rem;
+    }
+
+    textarea.category-input {
+        min-height: 115px;
+        resize: vertical;
+    }
+
+    .category-input:focus {
+        border-color: rgba(151,71,255,.65);
+        background: rgba(126,44,255,.045);
+        box-shadow: 0 0 0 3px rgba(126,44,255,.07);
+    }
+
+    .category-validation {
+        display: block;
+        margin-top: 5px;
+        color: #ff718d;
+        font-size: .56rem;
+    }
+
+    .validation-summary-errors {
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        border: 1px solid rgba(244,63,94,.22);
+        border-radius: 8px;
+        background: rgba(244,63,94,.07);
+        color: #ff91a7;
+        font-size: .65rem;
+    }
+
+    .category-active-box {
+        display: flex;
+        align-items: center;
+        padding: 13px 14px;
+        border: 1px solid rgba(151,71,255,.13);
+        border-radius: 8px;
+        background: rgba(126,44,255,.025);
+    }
+
+    .category-active-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .category-active-check input {
+            width: 17px;
+            height: 17px;
+            margin: 0;
+            accent-color: #8b3dff;
+        }
+
+        .category-active-check label {
+            margin: 0;
+            color: #c6bdcf;
+            font-size: .67rem;
+            font-weight: 700;
+        }
+
+    .category-form-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 18px 22px;
+        background: rgba(6,3,11,.22);
+    }
+
+    @@media (max-width: 700px) {
+        .category-form-page {
+            padding: 20px 15px;
+        }
+
+        .category-form-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .category-col-3,
+        .category-col-6 {
+            grid-column: span 12;
+        }
+
+        .category-form-footer {
+            flex-direction: column-reverse;
+        }
+
+            .category-form-footer a,
+            .category-form-footer button {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="category-form-page">
+
+    <div class="category-form-header">
 
         <div>
-            <h1>Editar Categoria</h1>
+            <div class="category-form-eyebrow">
+                Gestão da frota
+            </div>
 
-            <p class="text-muted mb-0">
-                Atualize as informações da categoria.
+            <h1 class="category-form-title">
+                Editar Categoria
+            </h1>
+
+            <p class="category-form-description">
+                Atualize os valores e informações da categoria.
             </p>
         </div>
 
-        <a class="btn btn-outline-light"
-           asp-controller="Categorias"
-           asp-action="Index">
-
-            Cancelar
+        <a asp-controller="Categorias"
+           asp-action="Detalhes"
+           asp-route-id="@Model.Id"
+           class="form-btn">
+            ← Detalhes
         </a>
 
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="category-form-card">
 
-        <div class="card-body">
+        <form asp-controller="Categorias"
+              asp-action="Editar"
+              asp-route-id="@Model.Id"
+              method="post">
 
-            <form asp-controller="Categorias"
-                  asp-action="Editar"
-                  asp-route-id="@Model.Id"
-                  method="post">
+            @Html.AntiForgeryToken()
 
-                @Html.AntiForgeryToken()
+            <input type="hidden"
+                   asp-for="Id" />
 
-                <input type="hidden"
-                       asp-for="Id" />
+            <div class="category-form-section">
 
-                <div asp-validation-summary="ModelOnly"
-                     class="text-danger mb-3">
+                <div asp-validation-summary="ModelOnly">
                 </div>
 
-                <div class="row g-3">
+                <div class="form-section-title">
+                    <small>Categoria #@Model.Id</small>
+                    <h3>Informações principais</h3>
+                </div>
 
-                    <div class="col-md-6">
+                <div class="category-form-grid">
 
-                        <label asp-for="Nome"
-                               class="form-label">
-                            Nome
-                        </label>
+                    <div class="category-field category-col-6">
+                        <label asp-for="Nome">Nome</label>
 
                         <input asp-for="Nome"
-                               class="form-control" />
+                               class="category-input" />
 
                         <span asp-validation-for="Nome"
-                              class="text-danger">
+                              class="category-validation">
                         </span>
-
                     </div>
 
-                    <div class="col-md-3">
-
-                        <label asp-for="DiariaBase"
-                               class="form-label">
+                    <div class="category-field category-col-3">
+                        <label asp-for="DiariaBase">
                             Diária Base
                         </label>
 
@@ -72,62 +304,57 @@
                                type="number"
                                step="0.01"
                                min="0"
-                               class="form-control" />
+                               class="category-input" />
 
                         <span asp-validation-for="DiariaBase"
-                              class="text-danger">
+                              class="category-validation">
                         </span>
-
                     </div>
 
-                    <div class="col-md-3">
-
-                        <label asp-for="KmLivre"
-                               class="form-label">
+                    <div class="category-field category-col-3">
+                        <label asp-for="KmLivre">
                             KM Livre
                         </label>
 
                         <input asp-for="KmLivre"
                                type="number"
                                min="0"
-                               class="form-control" />
+                               class="category-input" />
 
                         <span asp-validation-for="KmLivre"
-                              class="text-danger">
+                              class="category-validation">
                         </span>
-
                     </div>
 
-                    <div class="col-12">
-
-                        <label asp-for="Descricao"
-                               class="form-label">
+                    <div class="category-field category-col-12">
+                        <label asp-for="Descricao">
                             Descrição
                         </label>
 
                         <textarea asp-for="Descricao"
-                                  class="form-control"
-                                  rows="4">
-                        </textarea>
+                                  class="category-input"
+                                  rows="4"></textarea>
 
                         <span asp-validation-for="Descricao"
-                              class="text-danger">
+                              class="category-validation">
                         </span>
-
                     </div>
 
-                    <div class="col-12">
+                    <div class="category-field category-col-12">
 
-                        <div class="form-check">
+                        <label>Situação</label>
 
-                            <input asp-for="IsAtivo"
-                                   class="form-check-input" />
+                        <div class="category-active-box">
 
-                            <label asp-for="IsAtivo"
-                                   class="form-check-label">
+                            <div class="category-active-check">
 
-                                Categoria ativa
-                            </label>
+                                <input asp-for="IsAtivo" />
+
+                                <label asp-for="IsAtivo">
+                                    Categoria ativa
+                                </label>
+
+                            </div>
 
                         </div>
 
@@ -135,19 +362,24 @@
 
                 </div>
 
-                <div class="mt-4">
+            </div>
 
-                    <button type="submit"
-                            class="btn btn-dark">
+            <div class="category-form-footer">
 
-                        Salvar Alterações
-                    </button>
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   class="form-btn">
+                    Cancelar
+                </a>
 
-                </div>
+                <button type="submit"
+                        class="form-btn-primary">
+                    Salvar Alterações
+                </button>
 
-            </form>
+            </div>
 
-        </div>
+        </form>
 
     </div>
 
