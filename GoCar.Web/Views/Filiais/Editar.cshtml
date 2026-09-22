@@ -22,8 +22,9 @@
 
     .branch-eyebrow {
         margin-bottom: 4px;
-        color: #8d849a;
-        font-size: .7rem;
+        color: #a99fb4;
+        font-size: .90rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .6px;
     }
@@ -36,8 +37,8 @@
 
     .branch-description {
         margin: 6px 0 0;
-        color: #81778e;
-        font-size: .8rem;
+        color: #aaa0b5;
+        font-size: .96rem;
     }
 
     .form-btn,
@@ -49,7 +50,7 @@
         justify-content: center;
         border-radius: 8px;
         text-decoration: none;
-        font-size: .7rem;
+        font-size: .90rem;
         font-weight: 700;
         transition: .18s ease;
     }
@@ -57,20 +58,27 @@
     .form-btn {
         border: 1px solid rgba(151,71,255,.24);
         background: rgba(126,44,255,.06);
-        color: #bca9d4;
+        color: #fff;
     }
 
         .form-btn:hover {
             color: #fff;
             background: rgba(126,44,255,.12);
+            border-color: rgba(151,71,255,.45);
         }
 
     .form-btn-primary {
         border: 1px solid #8b3dff;
-        background: linear-gradient(135deg,#7c2cff,#9b4dff);
+        background: linear-gradient( 135deg, #7c2cff, #9b4dff );
         color: #fff;
         cursor: pointer;
+        box-shadow: 0 8px 25px rgba(126,44,255,.18);
     }
+
+        .form-btn-primary:hover {
+            color: #fff;
+            transform: translateY(-1px);
+        }
 
     .branch-summary {
         display: flex;
@@ -80,7 +88,7 @@
         padding: 20px 22px;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: radial-gradient(circle at 90% 20%,rgba(126,44,255,.12),transparent 30%), linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: radial-gradient( circle at 90% 20%, rgba(126,44,255,.12), transparent 30% ), linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .branch-summary-icon {
@@ -94,19 +102,21 @@
         border-radius: 11px;
         background: rgba(126,44,255,.08);
         color: #bd91ff;
-        font-size: 1.15rem;
+        font-size: 1.25rem;
     }
 
     .branch-summary small {
-        color: #766c81;
-        font-size: .56rem;
+        color: #aaa0b5;
+        font-size: .82rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .5px;
     }
 
     .branch-summary h2 {
         margin: 3px 0 0;
-        font-size: 1rem;
+        color: #fff;
+        font-size: 1.05rem;
         font-weight: 750;
     }
 
@@ -114,7 +124,7 @@
         overflow: hidden;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .branch-form-section {
@@ -129,8 +139,8 @@
         .section-heading small {
             display: block;
             margin-bottom: 3px;
-            color: #766c81;
-            font-size: .56rem;
+            color: #aaa0b5;
+            font-size: .82rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: .55px;
@@ -138,7 +148,8 @@
 
         .section-heading h3 {
             margin: 0;
-            font-size: .9rem;
+            color: #fff;
+            font-size: 1rem;
             font-weight: 700;
         }
 
@@ -163,8 +174,8 @@
     .field label {
         display: block;
         margin-bottom: 6px;
-        color: #aaa0b5;
-        font-size: .62rem;
+        color: #c3bacb;
+        font-size: .88rem;
         font-weight: 700;
     }
 
@@ -177,7 +188,8 @@
         outline: none;
         background: rgba(255,255,255,.025);
         color: #ded8e5;
-        font-size: .7rem;
+        font-size: .90rem;
+        transition: .15s ease;
     }
 
         .branch-input:focus {
@@ -190,7 +202,7 @@
         display: block;
         margin-top: 5px;
         color: #ff718d;
-        font-size: .56rem;
+        font-size: .82rem;
     }
 
     .validation-summary-errors {
@@ -200,8 +212,13 @@
         border-radius: 8px;
         background: rgba(244,63,94,.07);
         color: #ff91a7;
-        font-size: .65rem;
+        font-size: .86rem;
     }
+
+        .validation-summary-errors ul {
+            margin: 0;
+            padding-left: 18px;
+        }
 
     .active-box {
         min-height: 41px;
@@ -224,13 +241,15 @@
             height: 17px;
             margin: 0;
             accent-color: #8b3dff;
+            cursor: pointer;
         }
 
         .active-check label {
             margin: 0;
             color: #c6bdcf;
-            font-size: .67rem;
+            font-size: .88rem;
             font-weight: 700;
+            cursor: pointer;
         }
 
     .branch-form-footer {
@@ -241,6 +260,10 @@
         background: rgba(6,3,11,.22);
     }
 
+        .branch-form-footer button {
+            font-family: inherit;
+        }
+
     @@media (max-width: 750px) {
         .branch-form-page {
             padding: 20px 15px;
@@ -250,6 +273,10 @@
             align-items: flex-start;
             flex-direction: column;
         }
+
+            .branch-form-header .form-btn {
+                width: 100%;
+            }
 
         .col-4x,
         .col-6x,
@@ -273,6 +300,7 @@
     <div class="branch-form-header">
 
         <div>
+
             <div class="branch-eyebrow">
                 Gestão de unidades
             </div>
@@ -284,16 +312,20 @@
             <p class="branch-description">
                 Atualize as informações da unidade.
             </p>
+
         </div>
 
         <a asp-controller="Filiais"
            asp-action="Detalhes"
            asp-route-id="@Model.Id"
            class="form-btn">
+
             ← Detalhes
+
         </a>
 
     </div>
+
 
     <div class="branch-summary">
 
@@ -302,11 +334,19 @@
         </div>
 
         <div>
-            <small>Filial #@Model.Id</small>
-            <h2>@Model.Nome</h2>
+
+            <small>
+                Filial #@Model.Id
+            </small>
+
+            <h2>
+                @Model.Nome
+            </h2>
+
         </div>
 
     </div>
+
 
     <div class="branch-form-card">
 
@@ -320,15 +360,24 @@
             <input type="hidden"
                    asp-for="Id" />
 
+
             <div class="branch-form-section">
 
                 <div asp-validation-summary="ModelOnly">
                 </div>
 
                 <div class="section-heading">
-                    <small>Cadastro</small>
-                    <h3>Dados da filial</h3>
+
+                    <small>
+                        Cadastro
+                    </small>
+
+                    <h3>
+                        Dados da filial
+                    </h3>
+
                 </div>
+
 
                 <div class="branch-form-grid">
 
@@ -347,6 +396,7 @@
 
                     </div>
 
+
                     <div class="field col-4x">
 
                         <label asp-for="CNPJ">
@@ -362,6 +412,7 @@
 
                     </div>
 
+
                     <div class="field col-6x">
 
                         <label asp-for="Telefone">
@@ -376,6 +427,7 @@
                         </span>
 
                     </div>
+
 
                     <div class="field col-6x">
 
@@ -397,12 +449,21 @@
 
             </div>
 
+
             <div class="branch-form-section">
 
                 <div class="section-heading">
-                    <small>Localização</small>
-                    <h3>Endereço da unidade</h3>
+
+                    <small>
+                        Localização
+                    </small>
+
+                    <h3>
+                        Endereço da unidade
+                    </h3>
+
                 </div>
+
 
                 <div class="branch-form-grid">
 
@@ -421,6 +482,7 @@
 
                     </div>
 
+
                     <div class="field col-4x">
 
                         <label asp-for="Numero">
@@ -435,6 +497,7 @@
                         </span>
 
                     </div>
+
 
                     <div class="field col-6x">
 
@@ -451,6 +514,7 @@
 
                     </div>
 
+
                     <div class="field col-6x">
 
                         <label asp-for="Cidade">
@@ -465,6 +529,7 @@
                         </span>
 
                     </div>
+
 
                     <div class="field col-4x">
 
@@ -482,6 +547,7 @@
 
                     </div>
 
+
                     <div class="field col-4x">
 
                         <label asp-for="CEP">
@@ -497,9 +563,12 @@
 
                     </div>
 
+
                     <div class="field col-4x">
 
-                        <label>Status</label>
+                        <label>
+                            Status
+                        </label>
 
                         <div class="active-box">
 
@@ -521,17 +590,22 @@
 
             </div>
 
+
             <div class="branch-form-footer">
 
                 <a asp-controller="Filiais"
                    asp-action="Index"
                    class="form-btn">
+
                     Cancelar
+
                 </a>
 
                 <button type="submit"
                         class="form-btn-primary">
+
                     Salvar Alterações
+
                 </button>
 
             </div>

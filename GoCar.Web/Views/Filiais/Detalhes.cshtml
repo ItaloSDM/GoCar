@@ -22,10 +22,11 @@
 
     .branch-eyebrow {
         margin-bottom: 4px;
-        color: #8d849a;
-        font-size: .7rem;
+        color: #a99fb4;
+        font-size: .90rem;
         text-transform: uppercase;
         letter-spacing: .6px;
+        font-weight: 700;
     }
 
     .branch-title {
@@ -36,8 +37,8 @@
 
     .branch-description {
         margin: 6px 0 0;
-        color: #81778e;
-        font-size: .8rem;
+        color: #aaa0b5;
+        font-size: .96rem;
     }
 
     .branch-actions {
@@ -54,7 +55,7 @@
         justify-content: center;
         border-radius: 8px;
         text-decoration: none;
-        font-size: .7rem;
+        font-size: .90rem;
         font-weight: 700;
         transition: .18s ease;
     }
@@ -62,18 +63,20 @@
     .branch-btn {
         border: 1px solid rgba(151,71,255,.24);
         background: rgba(126,44,255,.06);
-        color: #bca9d4;
+        color: #fff;
     }
 
         .branch-btn:hover {
             color: #fff;
             background: rgba(126,44,255,.12);
+            border-color: rgba(151,71,255,.45);
         }
 
     .branch-btn-primary {
         border: 1px solid #8b3dff;
-        background: linear-gradient(135deg,#7c2cff,#9b4dff);
+        background: linear-gradient( 135deg, #7c2cff, #9b4dff );
         color: #fff;
+        box-shadow: 0 8px 25px rgba(126,44,255,.18);
     }
 
         .branch-btn-primary:hover {
@@ -90,7 +93,7 @@
         padding: 24px;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: radial-gradient(circle at 90% 20%,rgba(126,44,255,.13),transparent 32%), linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: radial-gradient( circle at 90% 20%, rgba(126,44,255,.13), transparent 32% ), linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .branch-hero-main {
@@ -114,8 +117,8 @@
     }
 
     .branch-hero small {
-        color: #766c81;
-        font-size: .56rem;
+        color: #aaa0b5;
+        font-size: .82rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .5px;
@@ -123,13 +126,14 @@
 
     .branch-hero h2 {
         margin: 3px 0 5px;
+        color: #fff;
         font-size: 1.25rem;
         font-weight: 800;
     }
 
     .branch-location {
-        color: #82788d;
-        font-size: .63rem;
+        color: #b7adbf;
+        font-size: .90rem;
     }
 
     .branch-status {
@@ -138,7 +142,7 @@
         gap: 5px;
         padding: 6px 10px;
         border-radius: 999px;
-        font-size: .58rem;
+        font-size: .84rem;
         font-weight: 700;
     }
 
@@ -156,7 +160,7 @@
     }
 
     .branch-inactive {
-        color: #93899d;
+        color: #b4aabd;
         background: rgba(148,163,184,.10);
     }
 
@@ -170,8 +174,14 @@
         overflow: hidden;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
+        transition: .18s ease;
     }
+
+        .branch-card:hover {
+            border-color: rgba(151,71,255,.27);
+            transform: translateY(-1px);
+        }
 
     .branch-card-header {
         padding: 17px 19px;
@@ -181,8 +191,8 @@
         .branch-card-header small {
             display: block;
             margin-bottom: 3px;
-            color: #766c81;
-            font-size: .55rem;
+            color: #aaa0b5;
+            font-size: .82rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: .55px;
@@ -190,7 +200,8 @@
 
         .branch-card-header h3 {
             margin: 0;
-            font-size: .85rem;
+            color: #fff;
+            font-size: 1rem;
             font-weight: 700;
         }
 
@@ -200,7 +211,7 @@
     }
 
     .branch-data {
-        min-height: 79px;
+        min-height: 88px;
         padding: 15px 19px;
         border-right: 1px solid rgba(255,255,255,.035);
         border-bottom: 1px solid rgba(255,255,255,.035);
@@ -211,17 +222,17 @@
         }
 
     .branch-data-label {
-        margin-bottom: 5px;
-        color: #716778;
-        font-size: .54rem;
+        margin-bottom: 6px;
+        color: #aaa0b5;
+        font-size: .82rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .4px;
     }
 
     .branch-data-value {
-        color: #d9d3df;
-        font-size: .69rem;
+        color: #ded8e5;
+        font-size: .92rem;
         line-height: 1.5;
         word-break: break-word;
     }
@@ -231,6 +242,8 @@
         justify-content: flex-end;
         gap: 8px;
         margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255,255,255,.04);
     }
 
     @@media (max-width: 800px) {
@@ -265,6 +278,14 @@
         .branch-data {
             border-right: 0;
         }
+
+        .branch-footer {
+            flex-direction: column-reverse;
+        }
+
+            .branch-footer a {
+                width: 100%;
+            }
     }
 </style>
 
@@ -273,6 +294,7 @@
     <div class="branch-header">
 
         <div>
+
             <div class="branch-eyebrow">
                 Gestão de unidades
             </div>
@@ -284,6 +306,7 @@
             <p class="branch-description">
                 Informações completas da unidade GoCar.
             </p>
+
         </div>
 
         <div class="branch-actions">
@@ -305,6 +328,7 @@
 
     </div>
 
+
     <div class="branch-hero">
 
         <div class="branch-hero-main">
@@ -314,6 +338,7 @@
             </div>
 
             <div>
+
                 <small>
                     Filial #@Model.Id
                 </small>
@@ -325,6 +350,7 @@
                 <div class="branch-location">
                     @Model.Cidade / @Model.Estado
                 </div>
+
             </div>
 
         </div>
@@ -344,116 +370,230 @@
 
     </div>
 
+
     <div class="branch-grid">
 
         <div class="branch-card">
 
             <div class="branch-card-header">
-                <small>Cadastro</small>
-                <h3>Dados da filial</h3>
+
+                <small>
+                    Cadastro
+                </small>
+
+                <h3>
+                    Dados da filial
+                </h3>
+
             </div>
 
             <div class="branch-card-body">
 
                 <div class="branch-data">
-                    <div class="branch-data-label">ID</div>
-                    <div class="branch-data-value">@Model.Id</div>
+
+                    <div class="branch-data-label">
+                        ID
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Id
+                    </div>
+
                 </div>
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Status</div>
+
+                    <div class="branch-data-label">
+                        Status
+                    </div>
+
                     <div class="branch-data-value">
                         @(Model.IsAtivo ? "Ativa" : "Inativa")
                     </div>
+
                 </div>
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Nome</div>
-                    <div class="branch-data-value">@Model.Nome</div>
+
+                    <div class="branch-data-label">
+                        Nome
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Nome
+                    </div>
+
                 </div>
 
                 <div class="branch-data">
-                    <div class="branch-data-label">CNPJ</div>
-                    <div class="branch-data-value">@Model.CNPJ</div>
-                </div>
 
-            </div>
+                    <div class="branch-data-label">
+                        CNPJ
+                    </div>
 
-        </div>
+                    <div class="branch-data-value">
+                        @Model.CNPJ
+                    </div>
 
-        <div class="branch-card">
-
-            <div class="branch-card-header">
-                <small>Contato</small>
-                <h3>Canais da unidade</h3>
-            </div>
-
-            <div class="branch-card-body">
-
-                <div class="branch-data">
-                    <div class="branch-data-label">Telefone</div>
-                    <div class="branch-data-value">@Model.Telefone</div>
-                </div>
-
-                <div class="branch-data">
-                    <div class="branch-data-label">E-mail</div>
-                    <div class="branch-data-value">@Model.Email</div>
                 </div>
 
             </div>
 
         </div>
 
+
         <div class="branch-card">
 
             <div class="branch-card-header">
-                <small>Localização</small>
-                <h3>Endereço da filial</h3>
+
+                <small>
+                    Contato
+                </small>
+
+                <h3>
+                    Canais da unidade
+                </h3>
+
             </div>
 
             <div class="branch-card-body">
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Endereço</div>
-                    <div class="branch-data-value">@Model.Endereco</div>
+
+                    <div class="branch-data-label">
+                        Telefone
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Telefone
+                    </div>
+
                 </div>
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Número</div>
-                    <div class="branch-data-value">@Model.Numero</div>
-                </div>
 
-                <div class="branch-data">
-                    <div class="branch-data-label">Bairro</div>
-                    <div class="branch-data-value">@Model.Bairro</div>
-                </div>
+                    <div class="branch-data-label">
+                        E-mail
+                    </div>
 
-                <div class="branch-data">
-                    <div class="branch-data-label">CEP</div>
-                    <div class="branch-data-value">@Model.CEP</div>
+                    <div class="branch-data-value">
+                        @Model.Email
+                    </div>
+
                 </div>
 
             </div>
 
         </div>
 
+
         <div class="branch-card">
 
             <div class="branch-card-header">
-                <small>Região</small>
-                <h3>Cidade e estado</h3>
+
+                <small>
+                    Localização
+                </small>
+
+                <h3>
+                    Endereço da filial
+                </h3>
+
             </div>
 
             <div class="branch-card-body">
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Cidade</div>
-                    <div class="branch-data-value">@Model.Cidade</div>
+
+                    <div class="branch-data-label">
+                        Endereço
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Endereco
+                    </div>
+
                 </div>
 
                 <div class="branch-data">
-                    <div class="branch-data-label">Estado</div>
-                    <div class="branch-data-value">@Model.Estado</div>
+
+                    <div class="branch-data-label">
+                        Número
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Numero
+                    </div>
+
+                </div>
+
+                <div class="branch-data">
+
+                    <div class="branch-data-label">
+                        Bairro
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Bairro
+                    </div>
+
+                </div>
+
+                <div class="branch-data">
+
+                    <div class="branch-data-label">
+                        CEP
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.CEP
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="branch-card">
+
+            <div class="branch-card-header">
+
+                <small>
+                    Região
+                </small>
+
+                <h3>
+                    Cidade e estado
+                </h3>
+
+            </div>
+
+            <div class="branch-card-body">
+
+                <div class="branch-data">
+
+                    <div class="branch-data-label">
+                        Cidade
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Cidade
+                    </div>
+
+                </div>
+
+                <div class="branch-data">
+
+                    <div class="branch-data-label">
+                        Estado
+                    </div>
+
+                    <div class="branch-data-value">
+                        @Model.Estado
+                    </div>
+
                 </div>
 
             </div>
@@ -461,6 +601,7 @@
         </div>
 
     </div>
+
 
     <div class="branch-footer">
 

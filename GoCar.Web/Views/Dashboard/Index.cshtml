@@ -43,8 +43,8 @@
 <style>
 
     /* =========================================================
-       DASHBOARD
-    ========================================================= */
+           DASHBOARD
+        ========================================================= */
 
     .gcd-dashboard {
         width: 100%;
@@ -55,8 +55,8 @@
     }
 
     /* =========================================================
-       CABEÇALHO
-    ========================================================= */
+           CABEÇALHO
+        ========================================================= */
 
     .gcd-heading {
         display: flex;
@@ -71,51 +71,51 @@
     }
 
     .gcd-welcome {
-        margin-bottom: 5px;
-        color: #8e849d;
-        font-size: .76rem;
-        font-weight: 600;
+        margin-bottom: 6px;
+        color: #c4b9d0;
+        font-size: 1rem;
+        font-weight: 650;
     }
 
     .gcd-heading h1 {
         margin: 0;
         color: #fff;
-        font-size: 1.9rem;
+        font-size: 2rem;
         font-weight: 850;
         letter-spacing: -.7px;
     }
 
     .gcd-heading p {
-        margin: 6px 0 0;
-        color: #81778e;
-        font-size: .8rem;
-        line-height: 1.5;
+        margin: 7px 0 0;
+        color: #aaa0b6;
+        font-size: .98rem;
+        line-height: 1.55;
     }
 
     .gcd-date-box {
-        min-width: 190px;
-        padding: 12px 15px;
-        border: 1px solid rgba(151, 71, 255, .13);
+        min-width: 210px;
+        padding: 14px 17px;
+        border: 1px solid rgba(151, 71, 255, .18);
         border-radius: 11px;
         background: rgba(20, 10, 34, .65);
         text-align: right;
     }
 
-    .gcd-date-box strong {
-        display: block;
-        margin-bottom: 3px;
-        color: #fff;
-        font-size: .76rem;
-    }
+        .gcd-date-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: .94rem;
+        }
 
-    .gcd-date-box span {
-        color: #746b80;
-        font-size: .65rem;
-    }
+        .gcd-date-box span {
+            color: #aaa0b6;
+            font-size: .84rem;
+        }
 
     /* =========================================================
-       ALERTA
-    ========================================================= */
+           ALERTA
+        ========================================================= */
 
     .gcd-alert {
         display: flex;
@@ -127,12 +127,12 @@
         border-radius: 11px;
         background: rgba(220, 53, 69, .08);
         color: #ff9ca5;
-        font-size: .78rem;
+        font-size: .95rem;
     }
 
     /* =========================================================
-       MÉTRICAS
-    ========================================================= */
+           MÉTRICAS
+        ========================================================= */
 
     .gcd-metrics {
         display: grid;
@@ -143,46 +143,37 @@
 
     .gcd-card {
         position: relative;
-        min-height: 154px;
+        min-height: 164px;
         overflow: hidden;
-        padding: 19px;
+        padding: 20px;
         border: 1px solid rgba(151, 71, 255, .16);
         border-radius: 13px;
-        background:
-            linear-gradient(
-                145deg,
-                rgba(27, 14, 46, .98),
-                rgba(14, 8, 26, .98)
-            );
-        box-shadow:
-            0 8px 30px rgba(0, 0, 0, .12),
-            inset 0 1px 0 rgba(255,255,255,.025);
+        background: linear-gradient( 145deg, rgba(27, 14, 46, .98), rgba(14, 8, 26, .98) );
+        box-shadow: 0 8px 30px rgba(0, 0, 0, .12), inset 0 1px 0 rgba(255,255,255,.025);
         transition: .2s ease;
     }
 
-    .gcd-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(151, 71, 255, .30);
-        box-shadow:
-            0 12px 35px rgba(0,0,0,.20),
-            0 0 0 1px rgba(151,71,255,.04);
-    }
+        .gcd-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(151, 71, 255, .30);
+            box-shadow: 0 12px 35px rgba(0,0,0,.20), 0 0 0 1px rgba(151,71,255,.04);
+        }
 
-    .gcd-card::after {
-        content: "";
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        right: -55px;
-        top: -55px;
-        border-radius: 50%;
-        background: rgba(126, 44, 255, .08);
-        pointer-events: none;
-    }
+        .gcd-card::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            right: -55px;
+            top: -55px;
+            border-radius: 50%;
+            background: rgba(126, 44, 255, .08);
+            pointer-events: none;
+        }
 
     .gcd-card-icon {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -191,27 +182,28 @@
         border-radius: 10px;
         background: rgba(137, 48, 255, .13);
         color: #b56cff;
-        font-size: 1rem;
+        font-size: 1.05rem;
     }
 
     .gcd-card-label {
-        color: #a9a0b6;
-        font-size: .7rem;
+        color: #c8bfD1;
+        font-size: .94rem;
         font-weight: 650;
     }
 
     .gcd-card-value {
-        margin-top: 4px;
+        margin-top: 5px;
         color: #fff;
-        font-size: 1.55rem;
+        font-size: 1.7rem;
         font-weight: 850;
         letter-spacing: -.4px;
     }
 
     .gcd-card-footer {
         margin-top: 8px;
-        color: #70677d;
-        font-size: .65rem;
+        color: #aaa0b5;
+        font-size: .88rem;
+        line-height: 1.4;
     }
 
     .gcd-green {
@@ -220,8 +212,8 @@
     }
 
     /* =========================================================
-       PAINÉIS
-    ========================================================= */
+           PAINÉIS
+        ========================================================= */
 
     .gcd-main-grid {
         display: grid;
@@ -234,64 +226,58 @@
         overflow: hidden;
         border: 1px solid rgba(151, 71, 255, .13);
         border-radius: 13px;
-        background:
-            linear-gradient(
-                145deg,
-                rgba(22, 11, 38, .97),
-                rgba(13, 7, 24, .98)
-            );
-        box-shadow:
-            0 8px 30px rgba(0,0,0,.10);
+        background: linear-gradient( 145deg, rgba(22, 11, 38, .97), rgba(13, 7, 24, .98) );
+        box-shadow: 0 8px 30px rgba(0,0,0,.10);
     }
 
     .gcd-panel-header {
-        min-height: 57px;
+        min-height: 67px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 15px;
-        padding: 0 18px;
+        padding: 0 20px;
         border-bottom: 1px solid rgba(255,255,255,.045);
     }
 
     .gcd-panel-title {
         color: #f4f1f7;
-        font-size: .82rem;
+        font-size: 1.02rem;
         font-weight: 750;
     }
 
     .gcd-panel-subtitle {
-        margin-top: 3px;
-        color: #665d70;
-        font-size: .62rem;
+        margin-top: 4px;
+        color: #aaa0b5;
+        font-size: .86rem;
     }
 
     .gcd-link {
-        color: #a855f7;
+        color: #c17cff;
         text-decoration: none;
-        font-size: .69rem;
-        font-weight: 650;
+        font-size: .9rem;
+        font-weight: 700;
         white-space: nowrap;
         transition: .18s ease;
     }
 
-    .gcd-link:hover {
-        color: #c084fc;
-    }
+        .gcd-link:hover {
+            color: #fff;
+        }
 
     /* =========================================================
-       RESUMO OPERACIONAL
-    ========================================================= */
+           RESUMO OPERACIONAL
+        ========================================================= */
 
     .gcd-overview {
-        padding: 20px;
+        padding: 22px;
     }
 
     .gcd-overview-intro {
-        margin-bottom: 18px;
-        color: #7b7287;
-        font-size: .7rem;
-        line-height: 1.5;
+        margin-bottom: 20px;
+        color: #aaa0b5;
+        font-size: .94rem;
+        line-height: 1.55;
     }
 
     .gcd-overview-grid {
@@ -301,66 +287,69 @@
     }
 
     .gcd-overview-item {
-        padding: 15px;
+        padding: 17px;
         border: 1px solid rgba(255,255,255,.055);
         border-radius: 10px;
         background: rgba(255,255,255,.018);
     }
 
     .gcd-overview-icon {
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 10px;
+        margin-bottom: 11px;
         border-radius: 8px;
         background: rgba(151,71,255,.10);
         color: #ae64ff;
+        font-size: 1.05rem;
     }
 
     .gcd-overview-label {
-        color: #777080;
-        font-size: .63rem;
+        color: #b7adbf;
+        font-size: .9rem;
+        font-weight: 600;
     }
 
     .gcd-overview-value {
-        margin-top: 3px;
+        margin-top: 5px;
         color: #fff;
-        font-size: 1.15rem;
+        font-size: 1.35rem;
         font-weight: 800;
     }
 
     /* =========================================================
-       OPERAÇÃO DO DIA
-    ========================================================= */
+           OPERAÇÃO DO DIA
+        ========================================================= */
 
     .gcd-operation {
-        padding: 6px 17px 15px;
+        padding: 7px 18px 16px;
     }
 
     .gcd-operation-item {
         display: flex;
         align-items: center;
-        gap: 11px;
-        padding: 12px 4px;
+        gap: 12px;
+        padding: 14px 4px;
         border-bottom: 1px solid rgba(255,255,255,.045);
     }
 
-    .gcd-operation-item:last-child {
-        border-bottom: 0;
-    }
+        .gcd-operation-item:last-child {
+            border-bottom: 0;
+        }
 
     .gcd-operation-icon {
-        width: 35px;
-        height: 35px;
-        min-width: 35px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 9px;
         background: rgba(139,51,255,.13);
         color: #b56cff;
+        font-size: 1rem;
     }
 
     .gcd-operation-info {
@@ -368,49 +357,49 @@
         min-width: 0;
     }
 
-    .gcd-operation-info strong {
-        display: block;
-        overflow: hidden;
-        color: #ded8e5;
-        font-size: .71rem;
-        font-weight: 700;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+        .gcd-operation-info strong {
+            display: block;
+            overflow: hidden;
+            color: #f1edf4;
+            font-size: .94rem;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-    .gcd-operation-info span {
-        display: block;
-        margin-top: 3px;
-        overflow: hidden;
-        color: #6f667b;
-        font-size: .61rem;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+        .gcd-operation-info span {
+            display: block;
+            margin-top: 4px;
+            overflow: hidden;
+            color: #aaa0b5;
+            font-size: .85rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
     .gcd-operation-time {
-        color: #b167ff;
-        font-size: .68rem;
+        color: #c17cff;
+        font-size: .9rem;
         font-weight: 750;
     }
 
     .gcd-empty {
-        padding: 32px 15px;
-        color: #70677a;
+        padding: 35px 15px;
+        color: #aaa0b5;
         text-align: center;
-        font-size: .7rem;
+        font-size: .94rem;
         line-height: 1.5;
     }
 
     .gcd-empty-icon {
         margin-bottom: 8px;
         color: #38d98c;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
 
     /* =========================================================
-       PARTE INFERIOR
-    ========================================================= */
+           PARTE INFERIOR
+        ========================================================= */
 
     .gcd-bottom-grid {
         display: grid;
@@ -419,8 +408,8 @@
     }
 
     /* =========================================================
-       TABELA
-    ========================================================= */
+           TABELA
+        ========================================================= */
 
     .gcd-table-wrap {
         overflow-x: auto;
@@ -428,103 +417,100 @@
 
     .gcd-table {
         width: 100%;
-        min-width: 650px;
+        min-width: 700px;
         border-collapse: collapse;
     }
 
-    .gcd-table th {
-        padding: 12px 15px;
-        border-bottom: 1px solid rgba(255,255,255,.045);
-        background: rgba(255,255,255,.012);
-        color: #6d6479;
-        font-size: .61rem;
-        font-weight: 700;
-        text-align: left;
-        letter-spacing: .3px;
-    }
+        .gcd-table th {
+            padding: 14px 15px;
+            border-bottom: 1px solid rgba(255,255,255,.045);
+            background: rgba(255,255,255,.012);
+            color: #aaa0b5;
+            font-size: .82rem;
+            font-weight: 750;
+            text-align: left;
+            letter-spacing: .3px;
+        }
 
-    .gcd-table td {
-        padding: 12px 15px;
-        border-bottom: 1px solid rgba(255,255,255,.04);
-        color: #c9c2d1;
-        font-size: .69rem;
-        vertical-align: middle;
-    }
+        .gcd-table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid rgba(255,255,255,.04);
+            color: #ddd7e3;
+            font-size: .92rem;
+            vertical-align: middle;
+        }
 
-    .gcd-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
+        .gcd-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
 
-    .gcd-table tbody tr {
-        transition: .16s ease;
-    }
+        .gcd-table tbody tr {
+            transition: .16s ease;
+        }
 
-    .gcd-table tbody tr:hover {
-        background: rgba(126,44,255,.045);
-    }
+            .gcd-table tbody tr:hover {
+                background: rgba(126,44,255,.045);
+            }
 
     .gcd-car {
         display: flex;
         align-items: center;
-        gap: 11px;
+        gap: 12px;
     }
 
     .gcd-car-img {
-        width: 67px;
-        height: 40px;
+        width: 72px;
+        height: 44px;
         object-fit: contain;
         border-radius: 7px;
-        background:
-            radial-gradient(
-                circle,
-                rgba(151,71,255,.09),
-                transparent 70%
-            );
+        background: radial-gradient( circle, rgba(151,71,255,.09), transparent 70% );
     }
 
     .gcd-car-name {
-        color: #eeeaf3;
-        font-weight: 700;
+        color: #fff;
+        font-size: .98rem;
+        font-weight: 750;
     }
 
     .gcd-car-brand {
-        margin-top: 2px;
-        color: #6f667a;
-        font-size: .6rem;
+        margin-top: 3px;
+        color: #aaa0b5;
+        font-size: .84rem;
     }
 
     .gcd-plate {
         display: inline-block;
-        padding: 4px 7px;
-        border: 1px solid rgba(255,255,255,.08);
+        padding: 5px 8px;
+        border: 1px solid rgba(255,255,255,.10);
         border-radius: 5px;
         background: rgba(255,255,255,.025);
-        color: #cfc8d8;
+        color: #f0ebf4;
         font-family: monospace;
-        font-size: .64rem;
+        font-size: .88rem;
+        font-weight: 650;
     }
 
     /* =========================================================
-       STATUS
-    ========================================================= */
+           STATUS
+        ========================================================= */
 
     .gcd-status {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        padding: 5px 9px;
+        gap: 6px;
+        padding: 6px 10px;
         border-radius: 999px;
-        font-size: .57rem;
+        font-size: .82rem;
         font-weight: 750;
     }
 
-    .gcd-status::before {
-        content: "";
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: currentColor;
-    }
+        .gcd-status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
 
     .status-disponivel {
         color: #3ce78c;
@@ -547,7 +533,7 @@
     }
 
     .status-inativo {
-        color: #94a3b8;
+        color: #cbd5e1;
         background: rgba(148,163,184,.10);
     }
 
@@ -555,69 +541,78 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 30px;
-        height: 30px;
-        border: 1px solid rgba(151,71,255,.12);
+        width: 34px;
+        height: 34px;
+        border: 1px solid rgba(151,71,255,.30);
         border-radius: 7px;
-        background: rgba(151,71,255,.04);
-        color: #8e829d;
+        background: rgba(151,71,255,.16);
+        color: #fff !important;
         text-decoration: none;
+        font-size: 1rem;
+        font-weight: 800;
         transition: .18s ease;
     }
 
-    .gcd-action:hover {
-        border-color: rgba(151,71,255,.35);
-        background: rgba(151,71,255,.10);
-        color: #fff;
-    }
+        .gcd-action:visited,
+        .gcd-action:focus,
+        .gcd-action:active {
+            color: #fff !important;
+        }
+
+        .gcd-action:hover {
+            border-color: rgba(192,132,252,.65);
+            background: rgba(151,71,255,.30);
+            color: #fff !important;
+            transform: translateY(-1px);
+        }
 
     /* =========================================================
-       ATALHOS
-    ========================================================= */
+           ATALHOS
+        ========================================================= */
 
     .gcd-shortcuts {
-        padding: 14px;
+        padding: 15px;
     }
 
     .gcd-shortcut {
-        min-height: 55px;
+        min-height: 61px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 9px 11px;
-        margin-bottom: 9px;
+        gap: 13px;
+        padding: 11px 12px;
+        margin-bottom: 10px;
         border: 1px solid rgba(151,71,255,.10);
         border-radius: 9px;
         background: rgba(255,255,255,.014);
-        color: #bcb4c7;
+        color: #ded7e5;
         text-decoration: none;
-        font-size: .71rem;
+        font-size: .95rem;
         font-weight: 650;
         transition: .18s ease;
     }
 
-    .gcd-shortcut:last-child {
-        margin-bottom: 0;
-    }
+        .gcd-shortcut:last-child {
+            margin-bottom: 0;
+        }
 
-    .gcd-shortcut:hover {
-        border-color: rgba(151,71,255,.32);
-        background: rgba(126,44,255,.07);
-        color: #fff;
-        transform: translateX(2px);
-    }
+        .gcd-shortcut:hover {
+            border-color: rgba(151,71,255,.32);
+            background: rgba(126,44,255,.07);
+            color: #fff;
+            transform: translateX(2px);
+        }
 
     .gcd-shortcut-icon {
-        width: 35px;
-        height: 35px;
+        width: 39px;
+        height: 39px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
         border-radius: 8px;
         background: rgba(139,51,255,.12);
-        color: #a855f7;
-        font-size: .95rem;
+        color: #b56cff;
+        font-size: 1.05rem;
     }
 
     .gcd-shortcut-text {
@@ -625,19 +620,20 @@
     }
 
     .gcd-shortcut-arrow {
-        color: #5e556a;
-        font-size: .85rem;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 750;
         transition: .18s ease;
     }
 
     .gcd-shortcut:hover .gcd-shortcut-arrow {
-        color: #b56cff;
+        color: #fff;
         transform: translateX(2px);
     }
 
     /* =========================================================
-       RESPONSIVO
-    ========================================================= */
+           RESPONSIVO
+        ========================================================= */
 
     @@media (max-width: 1150px) {
 
@@ -649,7 +645,6 @@
         .gcd-bottom-grid {
             grid-template-columns: 1fr;
         }
-
     }
 
     @@media (max-width: 700px) {
@@ -675,7 +670,6 @@
         .gcd-overview-grid {
             grid-template-columns: 1fr;
         }
-
     }
 
     @@media (max-width: 480px) {
@@ -685,13 +679,12 @@
         }
 
         .gcd-heading h1 {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
         }
 
         .gcd-card {
-            min-height: 140px;
+            min-height: 150px;
         }
-
     }
 
 </style>
@@ -741,7 +734,6 @@
     <!-- =====================================================
          ALERTA
     ====================================================== -->
-
     @if (TempData["Erro"] != null)
     {
         <div class="gcd-alert">
@@ -872,8 +864,6 @@
 
     <div class="gcd-main-grid">
 
-        <!-- RESUMO DA OPERAÇÃO -->
-
         <section class="gcd-panel">
 
             <div class="gcd-panel-header">
@@ -965,8 +955,6 @@
 
         </section>
 
-
-        <!-- OPERAÇÃO DE HOJE -->
 
         <section class="gcd-panel">
 
@@ -1085,8 +1073,6 @@
     ====================================================== -->
 
     <div class="gcd-bottom-grid">
-
-        <!-- VEÍCULOS RECENTES -->
 
         <section class="gcd-panel">
 
@@ -1242,8 +1228,6 @@
 
         </section>
 
-
-        <!-- ATALHOS -->
 
         <section class="gcd-panel">
 

@@ -52,18 +52,210 @@
     }
 }
 
-<section class="gocar-section">
+<style>
+
+    .payment-details-page {
+        color: #fff;
+    }
+
+        .payment-details-page .container {
+            max-width: 1500px;
+        }
+
+    .payment-details-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .payment-details-eyebrow {
+        margin-bottom: 5px;
+        color: #a98cc9;
+        font-size: .86rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .65px;
+    }
+
+    .payment-details-title {
+        margin: 0;
+        color: #fff;
+        font-size: 1.85rem;
+        font-weight: 800;
+    }
+
+    .payment-details-description {
+        margin: 6px 0 0;
+        color: #aaa0b5;
+        font-size: .96rem;
+        line-height: 1.5;
+    }
+
+    .payment-details-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .payment-details-page .btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 8px;
+        font-size: .90rem;
+        font-weight: 700;
+    }
+
+    .payment-details-page .btn-outline-dark {
+        border-color: rgba(151,71,255,.24);
+        background: rgba(126,44,255,.06);
+        color: #c7b6dc;
+    }
+
+        .payment-details-page .btn-outline-dark:hover {
+            border-color: rgba(151,71,255,.45);
+            background: rgba(126,44,255,.12);
+            color: #fff;
+        }
+
+    .payment-details-page .btn-dark {
+        border-color: rgba(151,71,255,.35);
+        background: rgba(126,44,255,.15);
+        color: #fff;
+    }
+
+        .payment-details-page .btn-dark:hover {
+            background: rgba(126,44,255,.25);
+        }
+
+    .payment-details-page .btn-success {
+        border-color: rgba(34,197,94,.55);
+        background: linear-gradient( 135deg, #159447, #22b95f );
+        color: #fff;
+    }
+
+    .payment-details-page .btn-danger {
+        border-color: rgba(244,63,94,.55);
+        background: rgba(220,38,68,.88);
+        color: #fff;
+    }
+
+    .payment-details-page .btn-warning {
+        border-color: rgba(245,158,11,.55);
+        background: rgba(245,158,11,.90);
+        color: #1b1203;
+    }
+
+    .payment-details-page .alert {
+        border-radius: 9px;
+        font-size: .90rem;
+        line-height: 1.55;
+    }
+
+    .payment-details-card {
+        border: 1px solid rgba(151,71,255,.16) !important;
+        border-radius: 11px !important;
+        background: radial-gradient( circle at 92% 8%, rgba(126,44,255,.07), transparent 30% ), linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) ) !important;
+        color: #fff;
+        box-shadow: none !important;
+    }
+
+        .payment-details-card .card-body {
+            padding: 24px !important;
+        }
+
+        .payment-details-card strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa0b5;
+            font-size: .84rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+        }
+
+        .payment-details-card .text-muted {
+            color: #e0d9e7 !important;
+            font-size: .92rem;
+            line-height: 1.5;
+        }
+
+        .payment-details-card .fw-semibold {
+            font-weight: 800 !important;
+        }
+
+        .payment-details-card .badge {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: .82rem;
+            font-weight: 700;
+        }
+
+        .payment-details-card .text-success {
+            color: #4ade80 !important;
+            font-size: .90rem;
+        }
+
+        .payment-details-card .text-danger {
+            color: #fb7185 !important;
+            font-size: .90rem;
+        }
+
+        .payment-details-card hr {
+            margin: 22px 0;
+            border-color: rgba(255,255,255,.08);
+            opacity: 1;
+        }
+
+    @@media (max-width: 768px) {
+
+        .payment-details-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .payment-details-actions {
+            width: 100%;
+        }
+
+            .payment-details-actions .btn {
+                flex: 1;
+            }
+
+        .payment-details-card .card-body {
+            padding: 18px !important;
+        }
+
+        .payment-details-title {
+            font-size: 1.55rem;
+        }
+    }
+
+</style>
+
+
+<section class="gocar-section payment-details-page">
+
     <div class="container">
 
-        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+        <div class="payment-details-header">
 
             <div>
 
-                <h1 class="fw-bold mb-1">
+                <div class="payment-details-eyebrow">
+                    Financeiro
+                </div>
+
+                <h1 class="payment-details-title">
                     Pagamento #@Model.Id
                 </h1>
 
-                <p class="text-muted mb-0">
+                <p class="payment-details-description">
 
                     @if (Model.ReservaId.HasValue)
                     {
@@ -88,13 +280,17 @@
 
             </div>
 
-            <div class="d-flex gap-2 flex-wrap">
+
+            <div class="payment-details-actions">
 
                 <a asp-controller="Pagamentos"
                    asp-action="Index"
                    class="btn btn-outline-dark">
+
                     Voltar
+
                 </a>
+
 
                 @if (Model.LocacaoId.HasValue)
                 {
@@ -102,9 +298,12 @@
                        asp-action="Detalhes"
                        asp-route-id="@Model.LocacaoId"
                        class="btn btn-dark">
+
                         Ver Locação
+
                     </a>
                 }
+
 
                 @if (Model.ReservaId.HasValue)
                 {
@@ -112,13 +311,16 @@
                        asp-action="Detalhes"
                        asp-route-id="@Model.ReservaId"
                        class="btn btn-dark">
+
                         Ver Reserva
+
                     </a>
                 }
 
             </div>
 
         </div>
+
 
         @if (TempData["Sucesso"] != null)
         {
@@ -127,6 +329,7 @@
             </div>
         }
 
+
         @if (TempData["Erro"] != null)
         {
             <div class="alert alert-danger">
@@ -134,9 +337,10 @@
             </div>
         }
 
-        <div class="card shadow-sm border-0">
 
-            <div class="card-body p-4">
+        <div class="card payment-details-card">
+
+            <div class="card-body">
 
                 <div class="row g-4">
 
@@ -151,6 +355,7 @@
                         </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
@@ -187,6 +392,7 @@
 
                     </div>
 
+
                     <div class="col-md-6">
 
                         <strong>
@@ -199,6 +405,7 @@
 
                     </div>
 
+
                     <div class="col-md-6">
 
                         <strong>
@@ -210,6 +417,7 @@
                         </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
@@ -254,6 +462,7 @@
 
                     </div>
 
+
                     <div class="col-md-6">
 
                         <strong>
@@ -265,6 +474,7 @@
                         </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
@@ -289,6 +499,7 @@
 
                     </div>
 
+
                     <div class="col-md-6">
 
                         <strong>
@@ -300,6 +511,7 @@
                         </div>
 
                     </div>
+
 
                     <div class="col-md-6">
 
@@ -326,6 +538,7 @@
 
                     </div>
 
+
                     <div class="col-12">
 
                         <strong>
@@ -351,7 +564,9 @@
 
                 </div>
 
+
                 <hr class="my-4" />
+
 
                 <div class="d-flex gap-2 flex-wrap align-items-center">
 
@@ -369,10 +584,13 @@
 
                             <button type="submit"
                                     class="btn btn-success">
+
                                 Marcar como Pago
+
                             </button>
 
                         </form>
+
 
                         <form asp-controller="Pagamentos"
                               asp-action="Cancelar"
@@ -387,11 +605,14 @@
                             <button type="submit"
                                     class="btn btn-danger"
                                     onclick="return confirm('Deseja realmente cancelar este pagamento?');">
+
                                 Cancelar Pagamento
+
                             </button>
 
                         </form>
                     }
+
 
                     @if (Model.Status == 2)
                     {
@@ -410,12 +631,15 @@
 
                             <button type="submit"
                                     class="btn btn-warning">
+
                                 @(ehEntrada
                                     ? "Estornar Entrada"
                                     : "Estornar Pagamento")
+
                             </button>
 
                         </form>
+
 
                         @if (ehEntrada)
                         {
@@ -432,12 +656,14 @@
                         }
                     }
 
+
                     @if (Model.Status == 3)
                     {
                         <div class="alert alert-danger mb-0">
                             Este pagamento foi cancelado.
                         </div>
                     }
+
 
                     @if (Model.Status == 4)
                     {
@@ -459,4 +685,5 @@
         </div>
 
     </div>
+
 </section>

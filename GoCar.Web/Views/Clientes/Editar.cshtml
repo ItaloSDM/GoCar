@@ -33,9 +33,10 @@
     }
 
     .client-edit-eyebrow {
-        margin-bottom: 4px;
-        color: #8d849a;
-        font-size: .7rem;
+        margin-bottom: 5px;
+        color: #b0a5bb;
+        font-size: .9rem;
+        font-weight: 650;
         text-transform: uppercase;
         letter-spacing: .6px;
     }
@@ -43,68 +44,77 @@
     .client-edit-title {
         margin: 0;
         color: #fff;
-        font-size: 1.85rem;
+        font-size: 2rem;
         font-weight: 800;
     }
 
     .client-edit-description {
-        margin: 6px 0 0;
-        color: #81778e;
-        font-size: .8rem;
+        margin: 7px 0 0;
+        color: #aaa0b5;
+        font-size: .96rem;
+        line-height: 1.5;
     }
 
     .edit-btn-secondary,
     .edit-btn-primary {
-        min-height: 40px;
+        min-height: 42px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0 16px;
+        padding: 0 17px;
         border-radius: 8px;
         text-decoration: none;
-        font-size: .7rem;
+        font-size: .92rem;
         font-weight: 700;
         transition: .18s ease;
     }
 
     .edit-btn-secondary {
-        border: 1px solid rgba(151,71,255,.24);
-        background: rgba(126,44,255,.06);
-        color: #bca9d4;
+        border: 1px solid rgba(151,71,255,.28);
+        background: rgba(126,44,255,.08);
+        color: #fff !important;
     }
 
+        .edit-btn-secondary:visited,
+        .edit-btn-secondary:focus,
+        .edit-btn-secondary:active {
+            color: #fff !important;
+        }
+
         .edit-btn-secondary:hover {
-            color: #fff;
-            background: rgba(126,44,255,.12);
+            color: #fff !important;
+            border-color: rgba(151,71,255,.52);
+            background: rgba(126,44,255,.16);
         }
 
     .edit-btn-primary {
         border: 1px solid #8b3dff;
         background: linear-gradient(135deg,#7c2cff,#9b4dff);
-        color: #fff;
+        color: #fff !important;
         cursor: pointer;
         box-shadow: 0 8px 25px rgba(126,44,255,.18);
     }
 
         .edit-btn-primary:hover {
+            color: #fff !important;
             transform: translateY(-1px);
         }
 
     .client-edit-profile {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 17px;
         margin-bottom: 16px;
-        padding: 20px 22px;
+        padding: 21px 22px;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: radial-gradient(circle at 90% 20%,rgba(126,44,255,.12),transparent 30%), linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: radial-gradient( circle at 90% 20%, rgba(126,44,255,.12), transparent 30% ), linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .client-edit-avatar {
-        width: 54px;
-        height: 54px;
-        flex: 0 0 54px;
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -112,21 +122,22 @@
         border-radius: 50%;
         background: rgba(126,44,255,.10);
         color: #c49aff;
-        font-size: .9rem;
+        font-size: 1.05rem;
         font-weight: 800;
     }
 
     .client-edit-profile small {
-        color: #766c81;
-        font-size: .56rem;
+        color: #aaa0b5;
+        font-size: .82rem;
+        font-weight: 650;
         text-transform: uppercase;
         letter-spacing: .5px;
     }
 
     .client-edit-profile h2 {
-        margin: 3px 0 0;
+        margin: 4px 0 0;
         color: #fff;
-        font-size: 1rem;
+        font-size: 1.15rem;
         font-weight: 750;
     }
 
@@ -134,23 +145,23 @@
         overflow: hidden;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: linear-gradient(145deg,rgba(21,11,37,.98),rgba(13,7,24,.98));
+        background: linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .client-edit-section {
-        padding: 22px;
+        padding: 24px;
         border-bottom: 1px solid rgba(255,255,255,.045);
     }
 
     .edit-section-heading {
-        margin-bottom: 18px;
+        margin-bottom: 20px;
     }
 
         .edit-section-heading small {
             display: block;
-            margin-bottom: 3px;
-            color: #766c81;
-            font-size: .56rem;
+            margin-bottom: 4px;
+            color: #aaa0b5;
+            font-size: .82rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: .55px;
@@ -159,14 +170,14 @@
         .edit-section-heading h3 {
             margin: 0;
             color: #fff;
-            font-size: .9rem;
+            font-size: 1.05rem;
             font-weight: 700;
         }
 
     .edit-form-grid {
         display: grid;
         grid-template-columns: repeat(12,minmax(0,1fr));
-        gap: 15px;
+        gap: 17px;
     }
 
     .edit-col-4 {
@@ -187,22 +198,22 @@
 
     .edit-field label {
         display: block;
-        margin-bottom: 6px;
-        color: #aaa0b5;
-        font-size: .62rem;
+        margin-bottom: 7px;
+        color: #c0b6c9;
+        font-size: .88rem;
         font-weight: 700;
     }
 
     .edit-input {
         width: 100%;
-        min-height: 41px;
-        padding: 9px 11px;
-        border: 1px solid rgba(151,71,255,.17);
+        min-height: 44px;
+        padding: 10px 12px;
+        border: 1px solid rgba(151,71,255,.20);
         border-radius: 7px;
         outline: none;
         background: rgba(255,255,255,.025);
-        color: #ded8e5;
-        font-size: .7rem;
+        color: #f0ebf4;
+        font-size: .94rem;
         transition: .15s ease;
     }
 
@@ -214,19 +225,20 @@
 
     .edit-validation {
         display: block;
-        margin-top: 5px;
-        color: #ff718d;
-        font-size: .56rem;
+        margin-top: 6px;
+        color: #ff8299;
+        font-size: .82rem;
     }
 
     .validation-summary-errors {
         margin-bottom: 18px;
-        padding: 12px 14px;
+        padding: 13px 15px;
         border: 1px solid rgba(244,63,94,.22);
         border-radius: 8px;
         background: rgba(244,63,94,.07);
-        color: #ff91a7;
-        font-size: .65rem;
+        color: #ff9caf;
+        font-size: .88rem;
+        line-height: 1.5;
     }
 
         .validation-summary-errors ul {
@@ -237,9 +249,9 @@
     .client-active-box {
         display: flex;
         align-items: center;
-        min-height: 46px;
+        min-height: 48px;
         padding: 12px 14px;
-        border: 1px solid rgba(151,71,255,.13);
+        border: 1px solid rgba(151,71,255,.15);
         border-radius: 8px;
         background: rgba(126,44,255,.025);
     }
@@ -247,12 +259,12 @@
     .client-active-check {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 11px;
     }
 
         .client-active-check input {
-            width: 17px;
-            height: 17px;
+            width: 18px;
+            height: 18px;
             margin: 0;
             accent-color: #8b3dff;
             cursor: pointer;
@@ -260,8 +272,8 @@
 
         .client-active-check label {
             margin: 0;
-            color: #c6bdcf;
-            font-size: .67rem;
+            color: #ddd5e4;
+            font-size: .92rem;
             font-weight: 700;
             cursor: pointer;
         }
@@ -269,8 +281,8 @@
     .client-edit-footer {
         display: flex;
         justify-content: flex-end;
-        gap: 8px;
-        padding: 18px 22px;
+        gap: 9px;
+        padding: 19px 22px;
         background: rgba(6,3,11,.22);
     }
 

@@ -16,7 +16,6 @@
 }
 
 <style>
-
     .branches-page {
         max-width: 1600px;
         margin: auto;
@@ -36,8 +35,8 @@
 
     .branches-eyebrow {
         margin-bottom: 4px;
-        color: #8d849a;
-        font-size: .72rem;
+        color: #a99fb4;
+        font-size: .90rem;
         text-transform: uppercase;
         letter-spacing: .6px;
     }
@@ -51,8 +50,8 @@
 
     .branches-description {
         margin: 6px 0 0;
-        color: #81778e;
-        font-size: .8rem;
+        color: #aaa0b5;
+        font-size: .96rem;
     }
 
     .branches-actions {
@@ -71,38 +70,34 @@
         padding: 0 15px;
         border-radius: 8px;
         text-decoration: none;
-        font-size: .72rem;
+        font-size: .90rem;
         font-weight: 700;
         transition: .18s ease;
     }
 
     .branch-primary-btn {
         border: 1px solid #8b3dff;
-        background: linear-gradient(
-            135deg,
-            #7c2cff,
-            #9b4dff
-        );
+        background: linear-gradient( 135deg, #7c2cff, #9b4dff );
         color: #fff;
         box-shadow: 0 8px 25px rgba(126,44,255,.18);
     }
 
-    .branch-primary-btn:hover {
-        color: #fff;
-        transform: translateY(-1px);
-    }
+        .branch-primary-btn:hover {
+            color: #fff;
+            transform: translateY(-1px);
+        }
 
     .branch-secondary-btn {
         border: 1px solid rgba(151,71,255,.24);
         background: rgba(126,44,255,.06);
-        color: #bca9d4;
+        color: #fff;
     }
 
-    .branch-secondary-btn:hover {
-        color: #fff;
-        background: rgba(126,44,255,.12);
-        border-color: rgba(151,71,255,.45);
-    }
+        .branch-secondary-btn:hover {
+            color: #fff;
+            background: rgba(126,44,255,.12);
+            border-color: rgba(151,71,255,.45);
+        }
 
     /* RESUMO */
 
@@ -119,27 +114,23 @@
         padding: 16px 17px;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 10px;
-        background: linear-gradient(
-            145deg,
-            rgba(24,13,41,.96),
-            rgba(14,8,25,.96)
-        );
+        background: linear-gradient( 145deg, rgba(24,13,41,.96), rgba(14,8,25,.96) );
     }
 
-    .branch-summary-card::after {
-        content: "";
-        position: absolute;
-        width: 75px;
-        height: 75px;
-        right: -35px;
-        top: -35px;
-        border-radius: 50%;
-        background: rgba(139,51,255,.07);
-    }
+        .branch-summary-card::after {
+            content: "";
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            right: -35px;
+            top: -35px;
+            border-radius: 50%;
+            background: rgba(139,51,255,.07);
+        }
 
     .branch-summary-label {
-        color: #81778d;
-        font-size: .61rem;
+        color: #aaa0b5;
+        font-size: .86rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .5px;
@@ -167,11 +158,7 @@
         padding: 14px 16px;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 10px;
-        background: linear-gradient(
-            145deg,
-            rgba(21,11,37,.97),
-            rgba(13,7,24,.97)
-        );
+        background: linear-gradient( 145deg, rgba(21,11,37,.97), rgba(13,7,24,.97) );
     }
 
     .branches-search {
@@ -185,22 +172,22 @@
         background: rgba(255,255,255,.025);
     }
 
-    .branches-search span {
-        color: #786d85;
-    }
+        .branches-search span {
+            color: #b6aabd;
+        }
 
-    .branches-search input {
-        width: 100%;
-        border: 0;
-        outline: 0;
-        background: transparent;
-        color: #fff;
-        font-size: .74rem;
-    }
+        .branches-search input {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #fff;
+            font-size: .92rem;
+        }
 
-    .branches-search input::placeholder {
-        color: #665d72;
-    }
+            .branches-search input::placeholder {
+                color: #8e8499;
+            }
 
     .branches-toolbar-right {
         display: flex;
@@ -209,14 +196,14 @@
     }
 
     .branches-count {
-        color: #71677d;
-        font-size: .66rem;
+        color: #aaa0b5;
+        font-size: .88rem;
         white-space: nowrap;
     }
 
-    .branches-count strong {
-        color: #c2b7cf;
-    }
+        .branches-count strong {
+            color: #fff;
+        }
 
     .branches-filter {
         padding: 9px 12px;
@@ -224,8 +211,8 @@
         border-radius: 8px;
         outline: none;
         background: #130b20;
-        color: #aaa1b7;
-        font-size: .72rem;
+        color: #ddd5e4;
+        font-size: .90rem;
     }
 
     /* TABELA */
@@ -234,11 +221,7 @@
         overflow: hidden;
         border: 1px solid rgba(151,71,255,.16);
         border-radius: 11px;
-        background: linear-gradient(
-            145deg,
-            rgba(21,11,37,.98),
-            rgba(13,7,24,.98)
-        );
+        background: linear-gradient( 145deg, rgba(21,11,37,.98), rgba(13,7,24,.98) );
     }
 
     .branches-table-wrap {
@@ -251,50 +234,50 @@
         border-collapse: collapse;
     }
 
-    .branches-table thead {
-        background: rgba(126,44,255,.055);
-    }
+        .branches-table thead {
+            background: rgba(126,44,255,.055);
+        }
 
-    .branches-table th {
-        padding: 13px 15px;
-        border-bottom: 1px solid rgba(151,71,255,.13);
-        color: #756b80;
-        font-size: .57rem;
-        font-weight: 700;
-        text-align: left;
-        text-transform: uppercase;
-        letter-spacing: .45px;
-        white-space: nowrap;
-    }
+        .branches-table th {
+            padding: 13px 15px;
+            border-bottom: 1px solid rgba(151,71,255,.13);
+            color: #a99fb4;
+            font-size: .82rem;
+            font-weight: 700;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: .45px;
+            white-space: nowrap;
+        }
 
-    .branches-table td {
-        padding: 14px 15px;
-        border-bottom: 1px solid rgba(255,255,255,.04);
-        color: #bdb5c7;
-        font-size: .68rem;
-        vertical-align: middle;
-    }
+        .branches-table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid rgba(255,255,255,.04);
+            color: #bdb5c7;
+            font-size: .90rem;
+            vertical-align: middle;
+        }
 
-    .branches-table tbody tr {
-        transition: .15s ease;
-    }
+        .branches-table tbody tr {
+            transition: .15s ease;
+        }
 
-    .branches-table tbody tr:hover {
-        background: rgba(126,44,255,.035);
-    }
+            .branches-table tbody tr:hover {
+                background: rgba(126,44,255,.035);
+            }
 
-    .branches-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
+            .branches-table tbody tr:last-child td {
+                border-bottom: 0;
+            }
 
     .branch-id {
-        color: #746a80;
+        color: #a99fb4;
         font-weight: 700;
     }
 
     .branch-name {
         color: #fff;
-        font-size: .72rem;
+        font-size: .90rem;
         font-weight: 700;
     }
 
@@ -318,7 +301,7 @@
 
     .branch-location-icon {
         color: #9d5cf6;
-        font-size: .65rem;
+        font-size: .82rem;
     }
 
     .branch-state {
@@ -332,7 +315,7 @@
         border-radius: 6px;
         background: rgba(126,44,255,.05);
         color: #c6b6d9;
-        font-size: .58rem;
+        font-size: .82rem;
         font-weight: 800;
     }
 
@@ -344,18 +327,18 @@
         gap: 5px;
         padding: 5px 9px;
         border-radius: 999px;
-        font-size: .56rem;
+        font-size: .82rem;
         font-weight: 700;
         white-space: nowrap;
     }
 
-    .branch-status::before {
-        content: "";
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: currentColor;
-    }
+        .branch-status::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
 
     .branch-status-active {
         color: #3ce78c;
@@ -363,7 +346,7 @@
     }
 
     .branch-status-inactive {
-        color: #918799;
+        color: #b4aabd;
         background: rgba(148,163,184,.10);
     }
 
@@ -385,22 +368,22 @@
         border: 1px solid rgba(151,71,255,.18);
         border-radius: 6px;
         background: rgba(255,255,255,.02);
-        color: #aca2b7;
+        color: #fff;
         text-decoration: none;
-        font-size: .56rem;
+        font-size: .82rem;
         font-weight: 700;
         transition: .15s ease;
         cursor: pointer;
     }
 
-    .branch-action:hover {
-        color: #fff;
-        border-color: rgba(151,71,255,.4);
-        background: rgba(126,44,255,.09);
-    }
+        .branch-action:hover {
+            color: #fff;
+            border-color: rgba(151,71,255,.4);
+            background: rgba(126,44,255,.09);
+        }
 
     .branch-action-edit {
-        color: #c9a8f5;
+        color: #fff;
         background: rgba(126,44,255,.07);
     }
 
@@ -410,11 +393,11 @@
         background: rgba(244,63,94,.055);
     }
 
-    .branch-action-danger:hover {
-        color: #ff9bae;
-        border-color: rgba(244,63,94,.4);
-        background: rgba(244,63,94,.10);
-    }
+        .branch-action-danger:hover {
+            color: #ff9bae;
+            border-color: rgba(244,63,94,.4);
+            background: rgba(244,63,94,.10);
+        }
 
     .branch-action-success {
         color: #3ce78c;
@@ -422,11 +405,11 @@
         background: rgba(26,192,103,.06);
     }
 
-    .branch-action-success:hover {
-        color: #65f3a5;
-        border-color: rgba(26,192,103,.4);
-        background: rgba(26,192,103,.10);
-    }
+        .branch-action-success:hover {
+            color: #65f3a5;
+            border-color: rgba(26,192,103,.4);
+            background: rgba(26,192,103,.10);
+        }
 
     .branch-action-form {
         margin: 0;
@@ -460,8 +443,8 @@
 
     .branches-empty p {
         margin: 0;
-        color: #746b7e;
-        font-size: .7rem;
+        color: #aaa0b5;
+        font-size: .90rem;
     }
 
     .branch-hidden {
@@ -469,14 +452,12 @@
     }
 
     @@media (max-width: 1000px) {
-
         .branches-summary {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @@media (max-width: 700px) {
-
         .branches-page {
             padding: 20px 15px;
         }
@@ -498,10 +479,13 @@
         .branches-toolbar-right {
             justify-content: space-between;
         }
+
+        .branches-summary {
+            grid-template-columns: 1fr;
+        }
     }
 
 </style>
-
 
 <div class="branches-page">
 
@@ -510,7 +494,7 @@
         <div>
 
             <div class="branches-eyebrow">
-                Estrutura operacional
+                Gestão operacional
             </div>
 
             <h1 class="branches-title">
@@ -522,7 +506,6 @@
             </p>
 
         </div>
-
 
         <div class="branches-actions">
 
@@ -546,7 +529,6 @@
 
     </div>
 
-
     @if (TempData["Sucesso"] != null)
     {
         <div class="alert alert-success">
@@ -568,13 +550,12 @@
         </div>
     }
 
-
     <div class="branches-summary">
 
         <div class="branch-summary-card">
 
             <div class="branch-summary-label">
-                Total de filiais
+                Total de Filiais
             </div>
 
             <div class="branch-summary-value">
@@ -583,11 +564,10 @@
 
         </div>
 
-
         <div class="branch-summary-card">
 
             <div class="branch-summary-label">
-                Filiais ativas
+                Filiais Ativas
             </div>
 
             <div class="branch-summary-value">
@@ -596,11 +576,10 @@
 
         </div>
 
-
         <div class="branch-summary-card">
 
             <div class="branch-summary-label">
-                Filiais inativas
+                Filiais Inativas
             </div>
 
             <div class="branch-summary-value">
@@ -609,11 +588,10 @@
 
         </div>
 
-
         <div class="branch-summary-card">
 
             <div class="branch-summary-label">
-                Cidades atendidas
+                Cidades Atendidas
             </div>
 
             <div class="
@@ -628,19 +606,19 @@
 
     </div>
 
-
     <div class="branches-toolbar">
 
         <div class="branches-search">
 
-            <span>⌕</span>
+            <span>
+                ⌕
+            </span>
 
             <input id="branchSearch"
                    type="text"
-                   placeholder="Buscar filial, CNPJ, telefone ou cidade..." />
+                   placeholder="Buscar por filial, CNPJ, telefone ou cidade..." />
 
         </div>
-
 
         <div class="branches-toolbar-right">
 
@@ -653,7 +631,6 @@
                 filiais
 
             </span>
-
 
             <select id="branchStatusFilter"
                     class="branches-filter">
@@ -675,7 +652,6 @@
         </div>
 
     </div>
-
 
     <div class="branches-table-card">
 
@@ -700,7 +676,6 @@
 
                     </thead>
 
-
                     <tbody>
 
                         @foreach (var filial in Model)
@@ -715,41 +690,48 @@
                                 $"{filial.Nome} " +
                                 $"{filial.CNPJ} " +
                                 $"{filial.Telefone} " +
+                                $"{filial.Email} " +
+                                $"{filial.Endereco} " +
+                                $"{filial.Bairro} " +
                                 $"{filial.Cidade} " +
-                                $"{filial.Estado}";
-
+                                $"{filial.Estado} " +
+                                $"{filial.CEP}";
 
                             <tr class="branch-item"
                                 data-status="@statusFiltro"
                                 data-search="@textoBusca">
 
                                 <td>
+
                                     <span class="branch-id">
                                         #@filial.Id
                                     </span>
+
                                 </td>
 
-
                                 <td>
+
                                     <span class="branch-name">
                                         @filial.Nome
                                     </span>
+
                                 </td>
 
-
                                 <td>
+
                                     <span class="branch-cnpj">
                                         @filial.CNPJ
                                     </span>
+
                                 </td>
 
-
                                 <td>
+
                                     <span class="branch-phone">
                                         @filial.Telefone
                                     </span>
-                                </td>
 
+                                </td>
 
                                 <td>
 
@@ -767,7 +749,6 @@
 
                                 </td>
 
-
                                 <td>
 
                                     <span class="branch-state">
@@ -775,7 +756,6 @@
                                     </span>
 
                                 </td>
-
 
                                 <td>
 
@@ -802,7 +782,6 @@
 
                                 </td>
 
-
                                 <td>
 
                                     <div class="branch-row-actions">
@@ -816,18 +795,16 @@
 
                                         </a>
 
-
                                         <a asp-controller="Filiais"
                                            asp-action="Editar"
                                            asp-route-id="@filial.Id"
                                            class="
-                                               branch-action
-                                               branch-action-edit">
+                                            branch-action
+                                            branch-action-edit">
 
                                             Editar
 
                                         </a>
-
 
                                         @if (filial.IsAtivo)
                                         {
@@ -842,8 +819,8 @@
 
                                                 <button type="submit"
                                                         class="
-                                                            branch-action
-                                                            branch-action-danger">
+                                                    branch-action
+                                                    branch-action-danger">
 
                                                     Desativar
 
@@ -864,8 +841,8 @@
 
                                                 <button type="submit"
                                                         class="
-                                                            branch-action
-                                                            branch-action-success">
+                                                    branch-action
+                                                    branch-action-success">
 
                                                     Ativar
 
@@ -886,7 +863,6 @@
                 </table>
 
             </div>
-
 
             <div id="branchNoResults"
                  class="branches-empty d-none">
@@ -928,14 +904,13 @@
 
 </div>
 
-
 @section Scripts
 {
     <script>
 
         document.addEventListener(
             "DOMContentLoaded",
-            function () {
+            function() {
 
                 const search =
                     document.getElementById(
@@ -962,7 +937,6 @@
                         ".branch-item"
                     );
 
-
                 function normalizarTexto(texto) {
 
                     return (texto || "")
@@ -973,7 +947,6 @@
                             ""
                         );
                 }
-
 
                 function filtrarFiliais() {
 
@@ -987,9 +960,8 @@
 
                     let visiveis = 0;
 
-
                     items.forEach(
-                        function (item) {
+                        function(item) {
 
                             const dados =
                                 normalizarTexto(
@@ -1000,27 +972,22 @@
                                 item.dataset.status
                                 || "";
 
-
                             const correspondeTexto =
                                 !texto ||
                                 dados.includes(texto);
-
 
                             const correspondeStatus =
                                 !status ||
                                 statusItem === status;
 
-
                             const mostrar =
                                 correspondeTexto &&
                                 correspondeStatus;
-
 
                             item.classList.toggle(
                                 "branch-hidden",
                                 !mostrar
                             );
-
 
                             if (mostrar) {
                                 visiveis++;
@@ -1029,12 +996,10 @@
                         }
                     );
 
-
                     if (count) {
                         count.textContent =
                             visiveis;
                     }
-
 
                     if (noResults) {
 
@@ -1046,12 +1011,10 @@
 
                 }
 
-
                 search?.addEventListener(
                     "input",
                     filtrarFiliais
                 );
-
 
                 statusFilter?.addEventListener(
                     "change",
