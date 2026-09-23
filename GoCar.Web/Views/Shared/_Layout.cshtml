@@ -24,8 +24,8 @@
     <style>
 
             /* =========================================================
-                       GO CAR - ÁREA ADMINISTRATIVA
-                    ========================================================= */
+                                   GO CAR - ÁREA ADMINISTRATIVA
+                                ========================================================= */
 
             :root {
                 --gocar-purple: #9747ff;
@@ -43,8 +43,8 @@
 
 
             /* =========================================================
-                       BODY ADMIN
-                    ========================================================= */
+                                   BODY ADMIN
+                                ========================================================= */
 
             .admin-body {
                 margin: 0;
@@ -62,8 +62,8 @@
 
 
             /* =========================================================
-                       SIDEBAR
-                    ========================================================= */
+                                   SIDEBAR
+                                ========================================================= */
 
             .admin-sidebar {
                 width: 255px;
@@ -83,8 +83,8 @@
 
 
             /* =========================================================
-                       LOGO
-                    ========================================================= */
+                                   LOGO
+                                ========================================================= */
 
             .admin-brand {
                 height: 82px;
@@ -133,8 +133,8 @@
 
 
             /* =========================================================
-                       MENU
-                    ========================================================= */
+                                   MENU
+                                ========================================================= */
 
             .admin-menu {
                 flex: 1;
@@ -229,8 +229,8 @@
 
 
             /* =========================================================
-                       SIDEBAR FOOTER
-                    ========================================================= */
+                                   SIDEBAR FOOTER
+                                ========================================================= */
 
             .admin-sidebar-footer {
                 margin: 0 13px;
@@ -263,8 +263,8 @@
 
 
             /* =========================================================
-                       CONTEÚDO
-                    ========================================================= */
+                                   CONTEÚDO
+                                ========================================================= */
 
             .admin-content {
                 width: calc(100% - 255px);
@@ -274,8 +274,8 @@
 
 
             /* =========================================================
-                       TOPBAR
-                    ========================================================= */
+                                   TOPBAR
+                                ========================================================= */
 
             .admin-topbar {
                 height: 82px;
@@ -301,8 +301,8 @@
 
 
             /* =========================================================
-                       MENU MOBILE
-                    ========================================================= */
+                                   MENU MOBILE
+                                ========================================================= */
 
             .admin-menu-toggle {
                 width: 40px;
@@ -327,8 +327,8 @@
 
 
             /* =========================================================
-                       BUSCA
-                    ========================================================= */
+                                   BUSCA
+                                ========================================================= */
 
             .admin-search {
                 width: min(450px, 38vw);
@@ -372,8 +372,8 @@
 
 
             /* =========================================================
-                       USUÁRIO
-                    ========================================================= */
+                                   USUÁRIO
+                                ========================================================= */
 
             .admin-user {
                 display: flex;
@@ -446,8 +446,8 @@
 
 
             /* =========================================================
-                       MAIN
-                    ========================================================= */
+                                   MAIN
+                                ========================================================= */
 
             .admin-main {
                 min-height: calc(100vh - 82px);
@@ -456,8 +456,8 @@
 
 
             /* =========================================================
-                       OVERLAY MOBILE
-                    ========================================================= */
+                                   OVERLAY MOBILE
+                                ========================================================= */
 
             .admin-sidebar-overlay {
                 display: none;
@@ -475,8 +475,8 @@
 
 
             /* =========================================================
-                       RESPONSIVO - TABLET
-                    ========================================================= */
+                                   RESPONSIVO - TABLET
+                                ========================================================= */
 
             @@media (max-width: 1100px) {
 
@@ -501,8 +501,8 @@
 
 
             /* =========================================================
-                       RESPONSIVO - MOBILE
-                    ========================================================= */
+                                   RESPONSIVO - MOBILE
+                                ========================================================= */
 
             @@media (max-width: 991px) {
 
@@ -538,8 +538,8 @@
 
 
             /* =========================================================
-                       RESPONSIVO - CELULAR
-                    ========================================================= */
+                                   RESPONSIVO - CELULAR
+                                ========================================================= */
 
             @@media (max-width: 650px) {
 
@@ -583,8 +583,8 @@
 
 
             /* =========================================================
-                       CELULAR PEQUENO
-                    ========================================================= */
+                                   CELULAR PEQUENO
+                                ========================================================= */
 
             @@media (max-width: 420px) {
 
@@ -649,15 +649,15 @@
     {
 
         <!-- =========================================================
-         ÁREA ADMINISTRATIVA
-    ========================================================== -->
+             ÁREA ADMINISTRATIVA
+        ========================================================== -->
 
         <div class="admin-shell">
 
 
             <!-- =====================================================
-             SIDEBAR
-        ====================================================== -->
+                 SIDEBAR
+            ====================================================== -->
 
             <aside class="admin-sidebar"
                    id="adminSidebar">
@@ -868,15 +868,15 @@
 
 
             <!-- =====================================================
-             CONTEÚDO
-        ====================================================== -->
+                 CONTEÚDO
+            ====================================================== -->
 
             <div class="admin-content">
 
 
                 <!-- =================================================
-                 TOPBAR
-            ================================================== -->
+                     TOPBAR
+                ================================================== -->
 
                 <header class="admin-topbar">
 
@@ -966,8 +966,8 @@
 
 
                 <!-- =================================================
-                 CONTEÚDO DAS PÁGINAS
-            ================================================== -->
+                     CONTEÚDO DAS PÁGINAS
+                ================================================== -->
 
                 <main role="main"
                       class="admin-main">
@@ -983,8 +983,8 @@
 
 
         <!-- =========================================================
-         SCRIPTS ADMIN
-    ========================================================== -->
+             SCRIPTS ADMIN
+        ========================================================== -->
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
@@ -999,7 +999,7 @@
 
                 document.addEventListener(
                     "DOMContentLoaded",
-                    function () {
+                    function() {
 
                         const sidebar =
                             document.getElementById(
@@ -1057,7 +1057,7 @@
 
                             toggle.addEventListener(
                                 "click",
-                                function () {
+                                function() {
 
                                     if (
                                         sidebar &&
@@ -1091,11 +1091,11 @@
 
                         document
                             .querySelectorAll(".admin-nav-link")
-                            .forEach(function (link) {
+                            .forEach(function(link) {
 
                                 link.addEventListener(
                                     "click",
-                                    function () {
+                                    function() {
 
                                         if (
                                             window.innerWidth <= 991
@@ -1113,7 +1113,7 @@
 
                         window.addEventListener(
                             "resize",
-                            function () {
+                            function() {
 
                                 if (
                                     window.innerWidth > 991
@@ -1142,296 +1142,800 @@
     {
 
         <!-- =========================================================
-         SITE / ÁREA DO CLIENTE
-    ========================================================== -->
+             GOCAR - SITE PÚBLICO / ÁREA DO CLIENTE
+             Visual baseado no protótipo oficial do Figma
+        ========================================================== -->
 
-        <header class="gocar-header">
+        <div class="gocar-public-site">
 
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <!-- =====================================================
+                 BARRA SUPERIOR
+            ====================================================== -->
+
+            <div class="gocar-public-topbar">
 
                 <div class="container">
 
+                    <div class="gocar-public-topbar-content">
 
-                    <!-- LOGO -->
+                        <div class="gocar-public-topbar-left">
 
-                    <a class="navbar-brand gocar-logo"
-                       asp-area=""
-                       asp-controller="Home"
-                       asp-action="Index">
+                            <a href="/#sobre"
+                               class="gocar-topbar-link">
 
-                        GoCar
-
-                    </a>
-
-
-                    <!-- MENU MOBILE -->
-
-                    <button class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#gocarNavbar"
-                            aria-controls="gocarNavbar"
-                            aria-expanded="false"
-                            aria-label="Abrir menu">
-
-                        <span class="navbar-toggler-icon">
-                        </span>
-
-                    </button>
-
-
-                    <!-- NAVEGAÇÃO -->
-
-                    <div class="collapse navbar-collapse"
-                         id="gocarNavbar">
-
-
-                        <ul class="navbar-nav mx-auto">
-
-
-                            <li class="nav-item">
-
-                                <a class="nav-link gocar-nav-link"
-                                   asp-controller="Home"
-                                   asp-action="Index">
-
-                                    Início
-
-                                </a>
-
-                            </li>
-
-
-                            <li class="nav-item">
-
-                                <a class="nav-link gocar-nav-link"
-                                   href="/#veiculos">
-
-                                    Veículos
-
-                                </a>
-
-                            </li>
-
-
-                            <li class="nav-item">
-
-                                <a class="nav-link gocar-nav-link"
-                                   href="/#como-funciona">
-
-                                    Como funciona
-
-                                </a>
-
-                            </li>
-
-
-                            <li class="nav-item">
-
-                                <a class="nav-link gocar-nav-link"
-                                   href="/#sobre">
-
-                                    Sobre
-
-                                </a>
-
-                            </li>
-
-
-                        </ul>
-
-
-                        <!-- ÁREA DO USUÁRIO -->
-
-                        <div class="d-flex align-items-center gap-3">
-
-
-                            @if (usuarioLogado)
-                            {
-
-                                <span class="text-white">
-                                    Olá, @usuarioNome
+                                <span class="gocar-topbar-icon">
+                                    ◆
                                 </span>
 
+                                Sobre a GoCar
 
-                                @if (ehCliente)
-                                {
-
-                                    <a class="gocar-btn-outline"
-                                       asp-controller="Reservas"
-                                       asp-action="Index">
-
-                                        Minhas Reservas
-
-                                    </a>
-
-                                }
+                            </a>
 
 
-                                <form asp-controller="Account"
-                                      asp-action="Logout"
-                                      method="post"
-                                      class="m-0">
+                            <a href="/#como-funciona"
+                               class="gocar-topbar-link">
 
-                                    @Html.AntiForgeryToken()
+                                <span class="gocar-topbar-icon">
+                                    ?
+                                </span>
 
-                                    <button type="submit"
-                                            class="btn gocar-login-btn">
+                                Como funciona
 
-                                        Sair
+                            </a>
 
-                                    </button>
 
-                                </form>
+                            <a href="/#contato"
+                               class="gocar-topbar-link">
 
-                            }
-                            else
-                            {
+                                <span class="gocar-topbar-icon">
+                                    ✦
+                                </span>
 
-                                <a class="btn gocar-login-btn"
-                                   asp-controller="Account"
-                                   asp-action="Login">
+                                Central de ajuda
 
-                                    Entrar
-
-                                </a>
-
-                            }
-
+                            </a>
 
                         </div>
 
 
+                        <div class="gocar-public-topbar-right">
+
+                            <a href="tel:+551140028922"
+                               class="gocar-topbar-link">
+
+                                <span class="gocar-topbar-icon">
+                                    ☎
+                                </span>
+
+                                (11) 4002-8922
+
+                            </a>
+
+
+                            <a href="#contato"
+                               class="gocar-topbar-link">
+
+                                Atendimento
+
+                            </a>
+
+                        </div>
+
                     </div>
 
                 </div>
-
-            </nav>
-
-        </header>
-
-
-        <!-- CONTEÚDO -->
-
-        <main role="main">
-
-            @RenderBody()
-
-        </main>
-
-
-        <!-- =========================================================
-         FOOTER
-    ========================================================== -->
-
-        <footer class="gocar-footer">
-
-            <div class="container">
-
-
-                <div class="row">
-
-
-                    <div class="col-md-4">
-
-                        <h5 class="gocar-footer-logo">
-                            GoCar
-                        </h5>
-
-                        <p>
-                            Sua jornada começa aqui.
-                            Alugue seu carro de forma simples,
-                            rápida e segura.
-                        </p>
-
-                    </div>
-
-
-                    <div class="col-md-4">
-
-                        <h6>
-                            Navegação
-                        </h6>
-
-                        <ul class="list-unstyled">
-
-
-                            <li>
-
-                                <a asp-controller="Home"
-                                   asp-action="Index">
-
-                                    Início
-
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a href="/#veiculos">
-
-                                    Veículos
-
-                                </a>
-
-                            </li>
-
-
-                            <li>
-
-                                <a href="/#como-funciona">
-
-                                    Como funciona
-
-                                </a>
-
-                            </li>
-
-
-                        </ul>
-
-                    </div>
-
-
-                    <div class="col-md-4">
-
-                        <h6>
-                            Contato
-                        </h6>
-
-                        <p>
-                            contato@gocar.com
-                        </p>
-
-                        <p>
-                            São Paulo - SP
-                        </p>
-
-                    </div>
-
-
-                </div>
-
-
-                <hr />
-
-
-                <div class="text-center gocar-copyright">
-
-                    © 2026 GoCar.
-                    Todos os direitos reservados.
-
-                </div>
-
 
             </div>
 
-        </footer>
+
+            <!-- =====================================================
+                 NAVEGAÇÃO PRINCIPAL
+            ====================================================== -->
+
+            <header class="gocar-public-header">
+
+                <nav class="navbar navbar-expand-lg gocar-public-navbar">
+
+                    <div class="container">
+
+                        <!-- LOGO OFICIAL GOCAR -->
+
+                        <a class="navbar-brand gocar-public-logo"
+                           asp-area=""
+                           asp-controller="Home"
+                           asp-action="Index"
+                           aria-label="GoCar - Página inicial">
+
+                            <img src="~/images/identidade/logo.png"
+                                 alt="GoCar - Locadora de Automóveis"
+                                 class="gocar-public-logo-image" />
+
+                        </a>
 
 
-        <!-- SCRIPTS -->
+                        <!-- BOTÃO MOBILE -->
+
+                        <button class="navbar-toggler gocar-public-toggler"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#gocarPublicNavbar"
+                                aria-controls="gocarPublicNavbar"
+                                aria-expanded="false"
+                                aria-label="Abrir menu">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                        </button>
+
+
+                        <!-- MENU -->
+
+                        <div class="collapse navbar-collapse"
+                             id="gocarPublicNavbar">
+
+                            <ul class="navbar-nav gocar-public-nav">
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link gocar-public-nav-link"
+                                       asp-controller="Home"
+                                       asp-action="Index">
+
+                                        Aluguel de carros
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link gocar-public-nav-link"
+                                       href="/#veiculos">
+
+                                        Grupos de carros
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link gocar-public-nav-link"
+                                       href="/#como-funciona">
+
+                                        Como funciona
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link gocar-public-nav-link"
+                                       href="/#sobre">
+
+                                        Sobre a GoCar
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+
+                            <!-- =============================================
+                                 USUÁRIO
+                            ============================================== -->
+
+                            <div class="gocar-public-user-area">
+
+                                @if (usuarioLogado)
+                                {
+                                    @if (ehCliente)
+                                    {
+                                        <a class="gocar-header-reservas"
+                                           asp-controller="Reservas"
+                                           asp-action="Index">
+
+                                            <span class="gocar-header-reservas-icon">
+                                                ▣
+                                            </span>
+
+                                            Minhas reservas
+
+                                        </a>
+                                    }
+
+
+                                    <div class="dropdown">
+
+                                        <button class="gocar-user-dropdown"
+                                                type="button"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+
+                                            <span class="gocar-user-avatar">
+                                                @inicialUsuario
+                                            </span>
+
+                                            <span class="gocar-user-info">
+
+                                                <small>
+                                                    Bem-vindo
+                                                </small>
+
+                                                <strong>
+                                                    @usuarioNome
+                                                </strong>
+
+                                            </span>
+
+                                            <span class="gocar-user-arrow">
+                                                ▾
+                                            </span>
+
+                                        </button>
+
+
+                                        <ul class="dropdown-menu dropdown-menu-end gocar-user-menu">
+
+                                            @if (ehCliente)
+                                            {
+                                                <li>
+
+                                                    <a class="dropdown-item"
+                                                       asp-controller="Reservas"
+                                                       asp-action="Index">
+
+                                                        Minhas reservas
+
+                                                    </a>
+
+                                                </li>
+
+                                                <li>
+                                                    <hr class="dropdown-divider" />
+                                                </li>
+                                            }
+
+
+                                            <li>
+
+                                                <form asp-controller="Account"
+                                                      asp-action="Logout"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="dropdown-item gocar-logout-item">
+
+                                                        Sair da conta
+
+                                                    </button>
+
+                                                </form>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a class="gocar-header-reservas"
+                                       asp-controller="Account"
+                                       asp-action="Login">
+
+                                        <span class="gocar-header-reservas-icon">
+                                            ▣
+                                        </span>
+
+                                        Minhas reservas
+
+                                    </a>
+
+
+                                    <a class="gocar-header-login"
+                                       asp-controller="Account"
+                                       asp-action="Login">
+
+                                        <span class="gocar-header-login-icon">
+                                            ●
+                                        </span>
+
+                                        Entrar
+
+                                    </a>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </nav>
+
+            </header>
+
+
+            <!-- =====================================================
+                 CONTEÚDO DAS PÁGINAS
+            ====================================================== -->
+
+            <main role="main"
+                  class="gocar-public-main">
+
+                @RenderBody()
+
+            </main>
+
+
+            <!-- =====================================================
+                 FOOTER PRINCIPAL
+            ====================================================== -->
+
+            <footer class="gocar-public-footer"
+                    id="contato">
+
+                <div class="container">
+
+                    <div class="gocar-footer-links-grid">
+
+
+                        <!-- INSTITUCIONAL -->
+
+                        <div class="gocar-footer-column">
+
+                            <h6>
+                                INSTITUCIONAL
+                            </h6>
+
+                            <ul>
+
+                                <li>
+                                    <a href="/#sobre">
+                                        Sobre a GoCar
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Relação com investidores
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Sala de imprensa
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Trabalhe conosco
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <!-- NEGÓCIOS -->
+
+                        <div class="gocar-footer-column">
+
+                            <h6>
+                                NEGÓCIOS
+                            </h6>
+
+                            <ul>
+
+                                <li>
+                                    <a href="#">
+                                        Para empresas
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Aluguel de longa duração
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Gestão de frotas
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Seja um franqueado
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <!-- PARA VOCÊ -->
+
+                        <div class="gocar-footer-column">
+
+                            <h6>
+                                PARA VOCÊ
+                            </h6>
+
+                            <ul>
+
+                                <li>
+
+                                    <a asp-controller="Home"
+                                       asp-action="Index">
+
+                                        Aluguel de carros
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="/#veiculos">
+                                        Grupos de carros
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a asp-controller="Reservas"
+                                       asp-action="Index">
+
+                                        Minhas reservas
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="/#como-funciona">
+                                        Como funciona
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <!-- CONTATOS -->
+
+                        <div class="gocar-footer-column">
+
+                            <h6>
+                                CONTATOS
+                            </h6>
+
+                            <ul class="gocar-footer-contact-list">
+
+                                <li>
+
+                                    <a href="mailto:contato@gocar.com">
+
+                                        <span>
+                                            ✉
+                                        </span>
+
+                                        Envie sua mensagem
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="tel:+551140028922">
+
+                                        <span>
+                                            ☎
+                                        </span>
+
+                                        Reserve GoCar
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="#">
+
+                                        <span>
+                                            ●
+                                        </span>
+
+                                        Portal do Cliente
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="#">
+
+                                        <span>
+                                            ?
+                                        </span>
+
+                                        Perguntas frequentes
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ÁREA DO APLICATIVO
+                ================================================== -->
+
+                <section class="gocar-app-section">
+
+                    <div class="container">
+
+                        <div class="gocar-app-content">
+
+                            <div class="gocar-app-phone">
+
+                                <div class="gocar-phone-frame">
+
+                                    <div class="gocar-phone-speaker">
+                                    </div>
+
+                                    <div class="gocar-phone-screen">
+
+                                        <div class="gocar-phone-logo">
+
+                                            <span>
+                                                Go
+                                            </span>Car
+
+                                        </div>
+
+
+                                        <div class="gocar-phone-card">
+
+                                            <small>
+                                                Sua próxima viagem
+                                            </small>
+
+                                            <strong>
+                                                começa aqui.
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="gocar-app-info">
+
+                                <span class="gocar-app-eyebrow">
+                                    GOCAR NO SEU CELULAR
+                                </span>
+
+                                <h3>
+                                    Utilize o aplicativo
+                                </h3>
+
+                                <p>
+                                    Tenha a GoCar sempre com você.
+                                    Consulte suas reservas e encontre
+                                    o carro ideal para sua próxima viagem.
+                                </p>
+
+
+                                <div class="gocar-app-buttons">
+
+                                    <a href="#"
+                                       class="gocar-store-button">
+
+                                        <span class="gocar-store-icon">
+                                            ▶
+                                        </span>
+
+                                        <span>
+
+                                            <small>
+                                                DISPONÍVEL NO
+                                            </small>
+
+                                            <strong>
+                                                Google Play
+                                            </strong>
+
+                                        </span>
+
+                                    </a>
+
+
+                                    <a href="#"
+                                       class="gocar-store-button">
+
+                                        <span class="gocar-store-icon">
+                                            ●
+                                        </span>
+
+                                        <span>
+
+                                            <small>
+                                                BAIXE NA
+                                            </small>
+
+                                            <strong>
+                                                App Store
+                                            </strong>
+
+                                        </span>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     RODAPÉ INSTITUCIONAL
+                ================================================== -->
+
+                <section class="gocar-footer-bottom">
+
+                    <div class="container">
+
+                        <div class="gocar-footer-brand">
+
+                            <div class="gocar-footer-brand-logo">
+
+                                <span class="gocar-logo-go">
+                                    Go
+                                </span><span class="gocar-logo-car">Car</span>
+
+                            </div>
+
+                            <small>
+                                Vá mais longe.
+                            </small>
+
+                        </div>
+
+
+                        <div class="gocar-footer-services">
+
+                            <a asp-controller="Home"
+                               asp-action="Index">
+
+                                Aluguel de carros
+
+                            </a>
+
+                            <span></span>
+
+                            <a href="#">
+
+                                Carro para Uber
+
+                            </a>
+
+                            <span></span>
+
+                            <a href="#">
+
+                                Gestão de Frotas
+
+                            </a>
+
+                            <span></span>
+
+                            <a href="#">
+
+                                Carro por Assinatura
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="gocar-company-info">
+
+                            <p>
+                                <strong>
+                                    Informações ao consumidor:
+                                </strong>
+
+                                GoCar Locadora de Veículos
+                            </p>
+
+
+                            <p>
+                                Guarulhos - São Paulo - SP
+                            </p>
+
+
+                            <p>
+                                Central de Reservas e Assistência a Clientes:
+                                <a href="tel:+551140028922">
+                                    +55 (11) 4002-8922
+                                </a>
+                            </p>
+
+                        </div>
+
+
+                        <div class="gocar-footer-copyright">
+
+                            © 2026 GoCar - Todos os direitos reservados
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </footer>
+
+
+            <!-- =====================================================
+                 BOTÃO FLUTUANTE DE ATENDIMENTO
+            ====================================================== -->
+
+            <a href="#contato"
+               class="gocar-floating-contact"
+               aria-label="Atendimento GoCar">
+
+                <span>
+                    ☏
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================================================
+             SCRIPTS
+        ========================================================== -->
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
@@ -1446,8 +1950,8 @@
             "Scripts",
             required: false
         )
-
     }
 
 </body>
+
 </html>

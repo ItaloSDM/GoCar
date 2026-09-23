@@ -1,137 +1,115 @@
 /* =========================================================
-   GOCAR - ESTILO GLOBAL
+   =========================================================
+   GOCAR WEB - VISUAL PÚBLICO 2026
+   Referência: protótipo oficial criado no Figma
+   =========================================================
    ========================================================= */
 
-:root {
-    --gocar-bg: #0b0810;
-    --gocar-bg-secondary: #120d19;
-    --gocar-card: #17111f;
-    --gocar-card-light: #1b1425;
-    --gocar-purple: #7c3aed;
-    --gocar-purple-light: #a855f7;
-    --gocar-purple-dark: #5b21b6;
-    --gocar-text: #ffffff;
-    --gocar-text-secondary: #d8d1df;
-    --gocar-text-muted: #a8a0b3;
-    --gocar-text-dark: #716979;
-    --gocar-border: rgba(168, 85, 247, 0.16);
-    --gocar-border-light: rgba(255, 255, 255, 0.07);
-    --gocar-success: #22c55e;
-    --gocar-danger: #ef4444;
-    --gocar-warning: #f59e0b;
-    --gocar-info: #38bdf8;
-    --gocar-radius: 14px;
-    --gocar-radius-sm: 9px;
-    --gocar-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-    --gocar-shadow-hover: 0 25px 65px rgba(0, 0, 0, 0.38);
+
+/* =========================================================
+   VARIÁVEIS DO SITE PÚBLICO
+   ========================================================= */
+
+.gocar-public-site {
+    --public-bg: #100017;
+    --public-bg-soft: #18031f;
+    --public-bg-card: #21072a;
+    --public-purple: #7b1cb2;
+    --public-purple-light: #bd5bea;
+    --public-purple-bright: #d36cff;
+    --public-purple-dark: #3b0750;
+    --public-white: #ffffff;
+    --public-text: #eee8f2;
+    --public-muted: #a897b0;
+    min-height: 100vh;
+    color: var(--public-text);
+    background: var(--public-bg);
+}
+
+
+    /* =========================================================
+   CONTAINER
+   ========================================================= */
+
+    .gocar-public-site .container {
+        width: min(1180px, calc(100% - 40px));
+        max-width: 1180px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.gocar-public-topbar {
+    position: relative;
+    z-index: 1050;
+    min-height: 31px;
+    color: rgba(255,255,255,.66);
+    background: linear-gradient(90deg, #120019 0%, #1d0327 50%, #120019 100%);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.gocar-public-topbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 31px;
+}
+
+.gocar-public-topbar-left,
+.gocar-public-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.gocar-topbar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,.55) !important;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+}
+
+    .gocar-topbar-link:hover {
+        color: #d272ff !important;
+    }
+
+.gocar-topbar-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    color: #a740cf;
+    font-size: 8px;
 }
 
 
 /* =========================================================
-   BASE
+   HEADER PRINCIPAL
    ========================================================= */
 
-html {
-    font-size: 14px;
+.gocar-public-header {
     position: relative;
-    min-height: 100%;
-    scroll-behavior: smooth;
-    scroll-padding-top: 90px;
+    z-index: 1040;
+    background: linear-gradient(90deg, #21072b 0%, #2a0936 45%, #21072b 100%);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    box-shadow: 0 6px 20px rgba(0,0,0,.13);
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
+.gocar-public-navbar {
+    min-height: 66px;
     padding: 0;
 }
 
-    body.gocar-body {
-        min-height: 100vh;
-        color: var(--gocar-text);
-        background: radial-gradient( circle at 85% 0%, rgba(124, 58, 237, 0.08), transparent 28% ), var(--gocar-bg);
-        font-family: Inter, Arial, Helvetica, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-    }
-
-main {
-    min-height: calc(100vh - 72px);
-}
-
-section {
-    position: relative;
-}
-
-a {
-    transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
-}
-
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
-}
-
-
-/* =========================================================
-   SELEÇÃO DE TEXTO
-   ========================================================= */
-
-::selection {
-    color: #ffffff;
-    background: rgba(124, 58, 237, .55);
-}
-
-
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-::-webkit-scrollbar {
-    width: 9px;
-}
-
-::-webkit-scrollbar-track {
-    background: #09070d;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #342442;
-    border-radius: 10px;
-}
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #573579;
-    }
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.gocar-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(11, 8, 16, .90);
-    border-bottom: 1px solid var(--gocar-border);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-    .gocar-header .navbar {
-        min-height: 72px;
-        padding: .75rem 0;
+    .gocar-public-navbar > .container {
+        min-height: 66px;
     }
 
 
@@ -139,943 +117,1028 @@ textarea {
    LOGO
    ========================================================= */
 
-.gocar-logo {
-    position: relative;
+.gocar-public-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 48px;
+    padding: 0;
     color: #ffffff !important;
-    font-size: 1.85rem;
-    font-weight: 900;
-    letter-spacing: -1.5px;
+    line-height: .9;
     text-decoration: none;
-    transition: transform .2s ease;
 }
 
-    .gocar-logo:hover {
-        color: #ffffff !important;
-        transform: translateY(-1px);
-    }
+.gocar-logo-go {
+    color: #ffffff;
+}
 
-    .gocar-logo::first-letter {
-        color: var(--gocar-purple-light);
-    }
+.gocar-logo-car {
+    color: #d267ff;
+}
+
+.gocar-public-logo > .gocar-logo-go,
+.gocar-public-logo > .gocar-logo-car {
+    display: inline;
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1.7px;
+}
+
+.gocar-public-logo small {
+    display: block;
+    margin-top: 5px;
+    color: rgba(255,255,255,.43);
+    font-size: 6px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+.gocar-public-logo:hover {
+    transform: translateY(-1px);
+}
 
 
 /* =========================================================
    NAVEGAÇÃO
    ========================================================= */
 
-.gocar-nav-link {
-    position: relative;
-    color: #c9c2d2 !important;
-    margin: 0 8px;
-    padding: .55rem .7rem !important;
-    font-size: .91rem;
-    font-weight: 600;
-    transition: color .2s ease;
+.gocar-public-nav {
+    align-items: center;
+    gap: 4px;
 }
 
-    .gocar-nav-link::after {
+.gocar-public-nav-link {
+    position: relative;
+    padding: 24px 13px !important;
+    color: rgba(255,255,255,.73) !important;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+    .gocar-public-nav-link::after {
         content: "";
         position: absolute;
         left: 50%;
-        bottom: 2px;
+        bottom: 15px;
         width: 0;
         height: 2px;
+        background: #bd5bea;
         border-radius: 10px;
-        background: linear-gradient( 90deg, var(--gocar-purple), var(--gocar-purple-light) );
         transform: translateX(-50%);
         transition: width .2s ease;
     }
 
-    .gocar-nav-link:hover {
+    .gocar-public-nav-link:hover {
         color: #ffffff !important;
     }
 
-        .gocar-nav-link:hover::after {
-            width: 22px;
+        .gocar-public-nav-link:hover::after {
+            width: 20px;
         }
 
 
 /* =========================================================
-   BOTÕES PRINCIPAIS
+   ÁREA DO USUÁRIO
    ========================================================= */
 
-.gocar-login-btn {
-    display: inline-flex;
+.gocar-public-user-area {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    color: #ffffff !important;
-    background: linear-gradient( 135deg, var(--gocar-purple), var(--gocar-purple-light) );
-    border: 1px solid transparent;
-    border-radius: var(--gocar-radius-sm);
-    padding: 9px 22px;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 8px 22px rgba(124, 58, 237, .16);
+    gap: 17px;
+    margin-left: auto;
 }
 
-    .gocar-login-btn:hover {
-        color: #ffffff !important;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(124, 58, 237, .32);
+.gocar-header-reservas {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255,255,255,.70) !important;
+    font-size: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+    .gocar-header-reservas:hover {
+        color: #d46eff !important;
     }
 
-    .gocar-login-btn:active {
-        transform: translateY(0);
+.gocar-header-reservas-icon {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    color: #c457ef;
+    font-size: 10px;
+}
+
+.gocar-header-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 31px;
+    padding: 0 13px;
+    color: #ffffff !important;
+    background: rgba(128,28,171,.22);
+    border: 1px solid rgba(181,76,222,.42);
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+    .gocar-header-login:hover {
+        background: #771c9e;
+        border-color: #a941d0;
     }
+
+.gocar-header-login-icon {
+    color: #ce6cf7;
+    font-size: 7px;
+}
 
 
 /* =========================================================
-   SEÇÕES
+   USUÁRIO LOGADO
    ========================================================= */
 
-.gocar-section {
-    padding: 88px 0;
-}
-
-.gocar-section-title {
-    margin-bottom: 15px;
-    color: #ffffff;
-    font-size: 2.2rem;
-    line-height: 1.15;
-    font-weight: 800;
-    letter-spacing: -.7px;
-}
-
-.gocar-section-subtitle {
-    color: var(--gocar-text-muted);
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
-.section-badge,
-.hero-badge {
-    display: inline-flex;
+.gocar-user-dropdown {
+    display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 15px;
-    color: var(--gocar-purple-light);
-    font-size: .72rem;
+    padding: 4px 7px;
+    color: #ffffff;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    text-align: left;
+}
+
+    .gocar-user-dropdown:hover {
+        background: rgba(255,255,255,.05);
+    }
+
+.gocar-user-avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #74189b, #b346dd);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+    font-size: 11px;
     font-weight: 800;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
 }
 
-    .section-badge::before,
-    .hero-badge::before {
-        content: "";
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--gocar-purple-light);
-        box-shadow: 0 0 12px rgba(168,85,247,.7);
+.gocar-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+    .gocar-user-info small {
+        margin-bottom: 3px;
+        color: rgba(255,255,255,.38);
+        font-size: 7px;
     }
 
-
-/* =========================================================
-   CARDS GOCAR
-   ========================================================= */
-
-.gocar-card {
-    height: 100%;
-    padding: 25px;
-    background: linear-gradient( 145deg, rgba(27,20,38,.98), rgba(19,13,27,.98) );
-    border: 1px solid var(--gocar-border);
-    border-radius: var(--gocar-radius);
-    box-shadow: 0 10px 35px rgba(0,0,0,.12);
-    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-}
-
-    .gocar-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(168,85,247,.38);
-        box-shadow: var(--gocar-shadow-hover);
-    }
-
-
-/* =========================================================
-   BOTÕES
-   ========================================================= */
-
-.gocar-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 11px 24px;
-    color: #ffffff;
-    background: linear-gradient( 135deg, var(--gocar-purple), var(--gocar-purple-light) );
-    border: 1px solid transparent;
-    border-radius: var(--gocar-radius-sm);
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 8px 22px rgba(124,58,237,.15);
-}
-
-    .gocar-btn-primary:hover {
-        color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(124,58,237,.32);
-    }
-
-.gocar-btn-outline {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    padding: 9px 21px;
-    color: var(--gocar-purple-light);
-    background: rgba(124,58,237,.03);
-    border: 1px solid rgba(124,58,237,.55);
-    border-radius: var(--gocar-radius-sm);
-    font-weight: 700;
-    text-decoration: none;
-}
-
-    .gocar-btn-outline:hover {
-        color: #ffffff;
-        background: rgba(124,58,237,.18);
-        border-color: var(--gocar-purple-light);
-        transform: translateY(-1px);
-    }
-
-
-/* =========================================================
-   BOOTSTRAP - AJUSTES GERAIS
-   ========================================================= */
-
-.btn {
-    border-radius: var(--gocar-radius-sm);
-    font-weight: 600;
-}
-
-.btn-dark {
-    color: #ffffff !important;
-    background: #21182d;
-    border-color: #392948;
-}
-
-    .btn-dark:hover {
-        color: #ffffff !important;
-        background: #2b203a;
-        border-color: #604078;
-    }
-
-.btn-outline-dark {
-    color: #d9d2df;
-    border-color: #4b3b56;
-}
-
-    .btn-outline-dark:hover {
-        color: #ffffff;
-        background: #261b31;
-        border-color: #76518f;
-    }
-
-.btn-outline-light {
-    color: #e9e4ee;
-    border-color: rgba(255,255,255,.18);
-}
-
-    .btn-outline-light:hover {
-        color: #ffffff;
-        background: rgba(255,255,255,.08);
-        border-color: rgba(255,255,255,.3);
-    }
-
-.btn-success {
-    background: #16a34a;
-    border-color: #16a34a;
-}
-
-    .btn-success:hover {
-        background: #15803d;
-        border-color: #15803d;
-    }
-
-.btn-danger {
-    background: #dc2626;
-    border-color: #dc2626;
-}
-
-    .btn-danger:hover {
-        background: #b91c1c;
-        border-color: #b91c1c;
-    }
-
-.btn-warning {
-    color: #17120a;
-    background: #f59e0b;
-    border-color: #f59e0b;
-}
-
-
-/* =========================================================
-   FORMULÁRIOS
-   ========================================================= */
-
-.form-label {
-    color: var(--gocar-text-secondary);
-    font-size: .86rem;
-    font-weight: 650;
-}
-
-.form-control,
-.form-select,
-textarea.form-control {
-    min-height: 44px;
-    color: #ffffff;
-    background-color: #15101d;
-    border: 1px solid #342640;
-    border-radius: var(--gocar-radius-sm);
-    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-}
-
-    .form-control:hover,
-    .form-select:hover {
-        border-color: #4a3757;
-    }
-
-    .form-control:focus,
-    .form-select:focus,
-    textarea.form-control:focus {
-        color: #ffffff;
-        background-color: #17111f;
-        border-color: var(--gocar-purple);
-        box-shadow: 0 0 0 .2rem rgba(124,58,237,.16);
-    }
-
-    .form-control::placeholder {
-        color: #77707f;
-    }
-
-    .form-control:disabled,
-    .form-control[readonly],
-    .form-select:disabled {
-        color: #88808f;
-        background: #110c17;
-        border-color: #2b2033;
-    }
-
-.form-check-input {
-    background-color: #15101d;
-    border-color: #4a3954;
-}
-
-    .form-check-input:checked {
-        background-color: var(--gocar-purple);
-        border-color: var(--gocar-purple);
-    }
-
-    .form-check-input:focus {
-        box-shadow: 0 0 0 .2rem rgba(124,58,237,.15);
-    }
-
-
-/* =========================================================
-   ALERTAS
-   ========================================================= */
-
-.alert {
-    border-radius: var(--gocar-radius-sm);
-    border-width: 1px;
-}
-
-.alert-success {
-    color: #b7f7cb;
-    background: rgba(34,197,94,.10);
-    border-color: rgba(34,197,94,.25);
-}
-
-.alert-danger {
-    color: #ffc0c7;
-    background: rgba(239,68,68,.10);
-    border-color: rgba(239,68,68,.25);
-}
-
-.alert-warning {
-    color: #ffe4a3;
-    background: rgba(245,158,11,.10);
-    border-color: rgba(245,158,11,.25);
-}
-
-.alert-info {
-    color: #bdefff;
-    background: rgba(56,189,248,.09);
-    border-color: rgba(56,189,248,.22);
-}
-
-
-/* =========================================================
-   BADGES
-   ========================================================= */
-
-.badge {
-    padding: .45em .7em;
-    border-radius: 6px;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   TABELAS
-   ========================================================= */
-
-.table {
-    color: #ddd7e2;
-}
-
-    .table > :not(caption) > * > * {
-        background: transparent;
-        border-bottom-color: rgba(255,255,255,.07);
-    }
-
-    .table thead th {
-        color: #9d93a8;
-        font-size: .72rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .7px;
+    .gocar-user-info strong {
+        max-width: 110px;
+        overflow: hidden;
+        color: rgba(255,255,255,.82);
+        font-size: 9px;
+        font-weight: 700;
+        text-overflow: ellipsis;
         white-space: nowrap;
     }
 
-.table-hover > tbody > tr:hover > * {
-    color: #ffffff;
-    background: rgba(124,58,237,.045);
+.gocar-user-arrow {
+    color: rgba(255,255,255,.40);
+    font-size: 9px;
 }
 
-
-/* =========================================================
-   CARDS BOOTSTRAP
-   ========================================================= */
-
-.card {
-    color: #ddd7e2;
-    background: var(--gocar-card);
-    border-color: var(--gocar-border);
+.gocar-user-menu {
+    min-width: 190px;
+    margin-top: 9px !important;
+    padding: 7px;
+    background: #1d0626;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 6px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
 }
 
-.card-body {
-    color: inherit;
-}
-
-.card h1,
-.card h2,
-.card h3,
-.card h4,
-.card h5,
-.card h6 {
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   HOME - HERO
-   ========================================================= */
-
-.hero-section {
-    min-height: 680px;
-    display: flex;
-    align-items: center;
-    padding: 100px 0 70px;
-    background: radial-gradient( circle at 75% 40%, rgba(124,58,237,.22), transparent 35% ), radial-gradient( circle at 15% 80%, rgba(168,85,247,.06), transparent 28% ), linear-gradient( 180deg, #0d0a12 0%, #120d19 100% );
-}
-
-.hero-title {
-    max-width: 650px;
-    margin-bottom: 24px;
-    color: #ffffff;
-    font-size: 3.8rem;
-    line-height: 1.04;
-    font-weight: 850;
-    letter-spacing: -1.7px;
-}
-
-    .hero-title span {
-        color: var(--gocar-purple-light);
-        text-shadow: 0 0 35px rgba(168,85,247,.18);
+    .gocar-user-menu .dropdown-item {
+        padding: 9px 10px;
+        color: rgba(255,255,255,.68);
+        border-radius: 4px;
+        font-size: 10px;
     }
 
-.hero-text {
-    max-width: 560px;
-    color: var(--gocar-text-muted);
-    font-size: 1.08rem;
-    line-height: 1.75;
+        .gocar-user-menu .dropdown-item:hover {
+            color: #ffffff;
+            background: #351040;
+        }
+
+    .gocar-user-menu .dropdown-divider {
+        border-color: rgba(255,255,255,.07);
+    }
+
+.gocar-logout-item {
+    color: #ef9aa5 !important;
 }
 
-.hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 30px;
+
+/* =========================================================
+   BOTÃO MOBILE
+   ========================================================= */
+
+.gocar-public-toggler {
+    width: 40px;
+    height: 36px;
+    padding: 7px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 4px;
+    box-shadow: none !important;
 }
 
-.hero-visual {
-    display: flex;
-    justify-content: center;
+    .gocar-public-toggler span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        margin: 4px 0;
+        background: #ffffff;
+        border-radius: 5px;
+    }
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.gocar-public-main {
+    min-height: 400px;
+    background: #100017;
 }
 
-.hero-car-placeholder {
-    width: 100%;
-    min-height: 350px;
+
+/* =========================================================
+   FOOTER PRINCIPAL
+   ========================================================= */
+
+.gocar-public-footer {
+    position: relative;
+    color: rgba(255,255,255,.60);
+    background: linear-gradient(180deg, #17021f 0%, #100016 100%);
+    border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.gocar-footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 65px;
+    padding: 50px 0 47px;
+}
+
+.gocar-footer-column h6 {
+    position: relative;
+    margin: 0 0 19px;
+    padding-bottom: 10px;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+    .gocar-footer-column h6::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 23px;
+        height: 1px;
+        background: #8128a4;
+    }
+
+.gocar-footer-column ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.gocar-footer-column li {
+    margin-bottom: 10px;
+}
+
+.gocar-footer-column a {
+    color: rgba(255,255,255,.43);
+    font-size: 9px;
+    line-height: 1.45;
+    text-decoration: none;
+}
+
+    .gocar-footer-column a:hover {
+        color: #c75af2;
+    }
+
+.gocar-footer-contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .gocar-footer-contact-list a span {
+        display: grid;
+        place-items: center;
+        width: 17px;
+        height: 17px;
+        color: #a940d0;
+        font-size: 8px;
+    }
+
+
+/* =========================================================
+   ÁREA DO APLICATIVO
+   ========================================================= */
+
+.gocar-app-section {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #2a0735 0%, #32103e 50%, #280731 100%);
+    border-top: 1px solid rgba(255,255,255,.05);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+    .gocar-app-section::before {
+        content: "";
+        position: absolute;
+        left: 15%;
+        top: -90px;
+        width: 340px;
+        height: 250px;
+        background: rgba(128,34,161,.13);
+        border-radius: 50%;
+        filter: blur(50px);
+    }
+
+.gocar-app-content {
+    position: relative;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    align-items: center;
+    min-height: 205px;
+}
+
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+.gocar-app-phone {
+    position: relative;
+    align-self: stretch;
+}
+
+.gocar-phone-frame {
+    position: absolute;
+    left: 55px;
+    bottom: -64px;
+    width: 150px;
+    height: 270px;
+    padding: 6px;
+    background: linear-gradient(145deg, #29232d, #0c090e);
+    border: 2px solid #4c4351;
+    border-radius: 23px;
+    box-shadow: 0 25px 45px rgba(0,0,0,.38);
+    transform: rotate(-5deg);
+}
+
+.gocar-phone-speaker {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 10px;
+    width: 35px;
+    height: 4px;
+    background: #09070b;
+    border-radius: 10px;
+    transform: translateX(-50%);
+}
+
+.gocar-phone-screen {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: radial-gradient( circle, rgba(168,85,247,.22), transparent 60% ), #17101f;
-    border: 1px solid rgba(168,85,247,.25);
-    border-radius: 24px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.35);
-}
-
-    .hero-car-placeholder span {
-        color: var(--gocar-purple-light);
-        font-size: 3rem;
-        font-weight: 800;
-    }
-
-    .hero-car-placeholder p {
-        margin-top: 8px;
-        color: var(--gocar-text-muted);
-    }
-
-
-/* =========================================================
-   RESERVA / BUSCA
-   ========================================================= */
-
-.booking-section {
-    position: relative;
-    z-index: 10;
-    margin-top: -35px;
-}
-
-.booking-card {
-    padding: 28px;
-    background: linear-gradient( 145deg, #1c1426, #15101d );
-    border: 1px solid var(--gocar-border);
-    border-radius: 16px;
-    box-shadow: 0 25px 60px rgba(0,0,0,.35);
-}
-
-    .booking-card .form-label {
-        color: #d8d1df;
-        font-size: .85rem;
-        font-weight: 650;
-    }
-
-
-/* =========================================================
-   VEÍCULOS
-   ========================================================= */
-
-.vehicle-card {
-    padding: 0;
-    overflow: hidden;
-}
-
-.vehicle-image {
-    min-height: 210px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient( circle, rgba(124,58,237,.18), transparent 60% ), #120d18;
-    color: #6f6677;
-    overflow: hidden;
-}
-
-    .vehicle-image img {
-        width: 100%;
-        height: 210px;
-        display: block;
-        object-fit: cover;
-        transition: transform .4s ease;
-    }
-
-.vehicle-card:hover .vehicle-image img {
-    transform: scale(1.035);
-}
-
-.vehicle-info {
-    padding: 22px;
-}
-
-.vehicle-category {
-    color: var(--gocar-purple-light);
-    font-size: .72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-}
-
-.vehicle-info h3 {
-    margin-top: 8px;
-    margin-bottom: 16px;
-    color: #ffffff;
-    font-size: 1.35rem;
-    font-weight: 750;
-}
-
-.vehicle-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 25px;
-}
-
-    .vehicle-details span {
-        padding: 5px 9px;
-        color: #aaa2b3;
-        background: #110c17;
-        border: 1px solid #2f2339;
-        border-radius: 6px;
-        font-size: .75rem;
-    }
-
-.vehicle-footer {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 15px;
-}
-
-    .vehicle-footer div {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .vehicle-footer small {
-        color: #918999;
-    }
-
-    .vehicle-footer strong {
-        color: #ffffff;
-        font-size: 1.35rem;
-    }
-
-    .vehicle-footer div span {
-        color: #918999;
-        font-size: .8rem;
-    }
-
-
-/* =========================================================
-   COMO FUNCIONA
-   ========================================================= */
-
-.how-section {
-    background: var(--gocar-bg-secondary);
-}
-
-.step-card {
-    height: 100%;
-    padding: 32px;
-    background: linear-gradient( 145deg, #1a1322, #15101c );
-    border: 1px solid var(--gocar-border);
-    border-radius: 14px;
-    transition: transform .25s ease, border-color .25s ease;
-}
-
-    .step-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(168,85,247,.35);
-    }
-
-.step-number {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    color: #ffffff;
-    background: linear-gradient( 135deg, var(--gocar-purple-dark), var(--gocar-purple) );
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    box-shadow: 0 10px 25px rgba(124,58,237,.18);
-}
-
-.step-card h3 {
-    color: #ffffff;
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-
-.step-card p {
-    margin-bottom: 0;
-    color: var(--gocar-text-muted);
-    line-height: 1.7;
-}
-
-
-/* =========================================================
-   SOBRE
-   ========================================================= */
-
-.about-text {
-    max-width: 560px;
-    margin-bottom: 28px;
-    color: var(--gocar-text-muted);
-    line-height: 1.8;
-}
-
-.about-box {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-}
-
-    .about-box div {
-        min-height: 150px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient( 145deg, #181120, #130e19 );
-        border: 1px solid var(--gocar-border);
-        border-radius: 14px;
-        text-align: center;
-        transition: transform .2s ease, border-color .2s ease;
-    }
-
-        .about-box div:hover {
-            transform: translateY(-3px);
-            border-color: rgba(168,85,247,.35);
-        }
-
-    .about-box strong {
-        color: var(--gocar-purple-light);
-        font-size: 1.7rem;
-    }
-
-    .about-box span {
-        margin-top: 5px;
-        color: var(--gocar-text-muted);
-        font-size: .85rem;
-    }
-
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-.login-section {
-    min-height: calc(100vh - 72px);
-    display: flex;
-    align-items: center;
-    padding: 80px 0;
-    background: radial-gradient( circle at 50% 30%, rgba(124,58,237,.17), transparent 35% ), var(--gocar-bg);
-}
-
-.login-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.login-card {
     width: 100%;
-    max-width: 460px;
-    padding: 40px;
-    background: linear-gradient( 145deg, #1b1324, #15101d );
-    border: 1px solid var(--gocar-border);
-    border-radius: 18px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    height: 100%;
+    overflow: hidden;
+    color: #ffffff;
+    background: radial-gradient(circle at 60% 30%, rgba(182,72,227,.40), transparent 35%), linear-gradient(155deg, #16031e, #32083f);
+    border-radius: 17px;
 }
 
-.login-header {
-    margin-bottom: 30px;
-    text-align: center;
+    .gocar-phone-screen::after {
+        content: "";
+        position: absolute;
+        left: -25px;
+        right: -25px;
+        bottom: 55px;
+        height: 50px;
+        background: linear-gradient( 135deg, transparent 10%, rgba(255,255,255,.07) 10%, rgba(255,255,255,.07) 12%, transparent 12% );
+        transform: rotate(-7deg);
+    }
+
+.gocar-phone-logo {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 22px;
+    color: #d16af7;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
 }
 
-    .login-header h1 {
-        margin-bottom: 12px;
+    .gocar-phone-logo span {
         color: #ffffff;
-        font-size: 2rem;
-        font-weight: 800;
-        letter-spacing: -.5px;
     }
 
-    .login-header p {
-        margin: 0;
-        color: var(--gocar-text-muted);
-        line-height: 1.6;
+.gocar-phone-card {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    width: 105px;
+    padding: 10px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 5px;
+}
+
+    .gocar-phone-card small {
+        color: rgba(255,255,255,.45);
+        font-size: 6px;
     }
 
-.login-card .form-label {
-    color: #d8d1df;
-    font-weight: 600;
-}
-
-.login-card .form-control {
-    min-height: 48px;
-}
-
-.login-card .alert-danger {
-    color: #ffb4b4;
-    background: rgba(220,53,69,.12);
-    border: 1px solid rgba(220,53,69,.35);
-    border-radius: 8px;
-}
+    .gocar-phone-card strong {
+        margin-top: 3px;
+        color: #ffffff;
+        font-size: 9px;
+    }
 
 
 /* =========================================================
-   FOOTER
+   TEXTO DO APLICATIVO
    ========================================================= */
 
-.gocar-footer {
-    padding: 60px 0 25px;
-    color: var(--gocar-text-muted);
-    background: #09070d;
-    border-top: 1px solid var(--gocar-border);
+.gocar-app-info {
+    position: relative;
+    z-index: 3;
+    max-width: 580px;
+    padding: 35px 0;
 }
 
-.gocar-footer-logo {
-    margin-bottom: 15px;
+.gocar-app-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #b24adb;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+.gocar-app-info h3 {
+    margin: 0 0 9px;
     color: #ffffff;
-    font-size: 1.7rem;
-    font-weight: 850;
-    letter-spacing: -1px;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -.025em;
 }
 
-.gocar-footer h6 {
-    margin-bottom: 18px;
-    color: #ffffff;
-    font-weight: 700;
+.gocar-app-info p {
+    max-width: 480px;
+    margin: 0 0 18px;
+    color: rgba(255,255,255,.44);
+    font-size: 9px;
+    line-height: 1.6;
 }
 
-.gocar-footer p {
-    font-size: .9rem;
-    line-height: 1.7;
+.gocar-app-buttons {
+    display: flex;
+    gap: 8px;
 }
 
-.gocar-footer ul li {
-    margin-bottom: 9px;
-}
-
-.gocar-footer a {
-    color: var(--gocar-text-muted);
+.gocar-store-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 116px;
+    padding: 6px 10px;
+    color: #ffffff !important;
+    background: #09080a;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 4px;
     text-decoration: none;
 }
 
-    .gocar-footer a:hover {
-        color: var(--gocar-purple-light);
+    .gocar-store-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(206,96,247,.45);
+        box-shadow: 0 8px 18px rgba(0,0,0,.22);
     }
 
-.gocar-footer hr {
-    margin-top: 40px;
-    border-color: var(--gocar-border);
+.gocar-store-icon {
+    font-size: 14px;
 }
 
-.gocar-copyright {
-    padding-top: 5px;
-    color: #716979;
-    font-size: .82rem;
+.gocar-store-button > span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+}
+
+.gocar-store-button small {
+    color: rgba(255,255,255,.55);
+    font-size: 5px;
+}
+
+.gocar-store-button strong {
+    margin-top: 2px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
 }
 
 
 /* =========================================================
-   RESPONSIVO - HEADER
+   FOOTER INSTITUCIONAL
    ========================================================= */
 
-@media (max-width: 991px) {
+.gocar-footer-bottom {
+    padding: 32px 0 26px;
+    text-align: center;
+    background: linear-gradient(180deg, #130019, #0e0013);
+}
 
-    .gocar-header .navbar-collapse {
-        margin-top: 10px;
-        padding: 18px 0;
-        border-top: 1px solid rgba(255,255,255,.06);
+.gocar-footer-brand {
+    margin-bottom: 19px;
+}
+
+.gocar-footer-brand-logo {
+    color: #ffffff;
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1.6px;
+}
+
+.gocar-footer-brand small {
+    display: block;
+    margin-top: 3px;
+    color: rgba(255,255,255,.28);
+    font-size: 6px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.gocar-footer-services {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+    .gocar-footer-services a {
+        color: rgba(255,255,255,.45);
+        font-size: 8px;
+        text-decoration: none;
     }
 
-    .gocar-nav-link {
-        margin: 3px 0;
-        padding: 10px 0 !important;
-    }
-
-        .gocar-nav-link::after {
-            display: none;
+        .gocar-footer-services a:hover {
+            color: #bd5bea;
         }
 
-    .gocar-header .navbar-collapse > .d-flex {
-        padding-top: 14px;
-        border-top: 1px solid rgba(255,255,255,.05);
+    .gocar-footer-services > span {
+        width: 1px;
+        height: 11px;
+        background: rgba(255,255,255,.10);
     }
 
-    .gocar-login-btn {
-        margin-top: 4px;
+.gocar-company-info {
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.05);
+}
+
+    .gocar-company-info p {
+        margin: 4px 0;
+        color: rgba(255,255,255,.27);
+        font-size: 7px;
     }
 
-    .hero-section {
-        padding-top: 70px;
+    .gocar-company-info strong {
+        color: rgba(255,255,255,.42);
     }
 
-    .hero-title {
-        font-size: 3rem;
+    .gocar-company-info a {
+        color: rgba(255,255,255,.40);
+        text-decoration: none;
     }
 
-    .booking-section {
-        margin-top: 0;
-        padding-top: 30px;
+.gocar-footer-copyright {
+    margin-top: 15px;
+    color: rgba(255,255,255,.18);
+    font-size: 6px;
+}
+
+
+/* =========================================================
+   BOTÃO FLUTUANTE
+   ========================================================= */
+
+.gocar-floating-contact {
+    position: fixed;
+    z-index: 1100;
+    right: 22px;
+    bottom: 22px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6d168f, #9b2bc7);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+    box-shadow: 0 12px 30px rgba(77,8,102,.48);
+    text-decoration: none;
+    font-size: 18px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+    .gocar-floating-contact:hover {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow: 0 17px 35px rgba(100,15,132,.60);
+    }
+
+
+/* =========================================================
+   AJUSTES DA HOME PARA CASAR COM O FIGMA
+   ========================================================= */
+
+.gocar-public-site .home-search-strip {
+    padding: 13px 0 15px;
+    background: linear-gradient(90deg, #280434, #3b0b4a 48%, #290435);
+    box-shadow: 0 5px 15px rgba(0,0,0,.12);
+}
+
+.gocar-public-site .home-search-form {
+    max-width: 1010px;
+    margin: 0 auto;
+}
+
+.gocar-public-site .home-search-field label {
+    margin-bottom: 5px;
+    color: rgba(255,255,255,.65);
+    font-size: 8px;
+}
+
+.gocar-public-site .home-search-control {
+    height: 39px;
+    border-radius: 3px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.10);
+}
+
+    .gocar-public-site .home-search-control select,
+    .gocar-public-site .home-search-control input {
+        color: #554b59;
+        font-size: 10px;
+    }
+
+.gocar-public-site .home-search-icon {
+    flex-basis: 35px;
+    font-size: 10px;
+}
+
+.gocar-public-site .home-search-button {
+    height: 39px;
+    background: linear-gradient(135deg, #7a1aa2, #8f24b8);
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.gocar-public-site .home-banner {
+    min-height: 330px;
+}
+
+.gocar-public-site .home-banner-grid {
+    min-height: 330px;
+}
+
+.gocar-public-site .home-banner-content {
+    padding: 42px 0;
+}
+
+.gocar-public-site .home-banner-eyebrow {
+    margin-bottom: 11px;
+    font-size: 8px;
+}
+
+.gocar-public-site .home-banner-content h1 {
+    max-width: 360px;
+    font-size: clamp(39px, 4.3vw, 61px);
+}
+
+.gocar-public-site .home-banner-content p {
+    max-width: 370px;
+    margin: 17px 0 20px;
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+.gocar-public-site .home-banner-button {
+    gap: 24px;
+    padding: 10px 15px;
+    font-size: 9px;
+}
+
+.gocar-public-site .home-banner-car {
+    min-height: 330px;
+}
+
+    .gocar-public-site .home-banner-car img {
+        max-height: 285px;
+    }
+
+.gocar-public-site .home-benefits-grid {
+    min-height: 125px;
+}
+
+.gocar-public-site .home-benefit {
+    grid-template-columns: 54px 1fr;
+    gap: 13px;
+    padding: 24px 29px;
+}
+
+.gocar-public-site .home-benefit-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+}
+
+.gocar-public-site .home-benefit h3 {
+    margin-bottom: 5px;
+    font-size: 11px;
+}
+
+.gocar-public-site .home-benefit p {
+    min-height: 30px;
+    margin-bottom: 5px;
+    font-size: 8px;
+}
+
+.gocar-public-site .home-benefit a {
+    font-size: 8px;
+}
+
+.gocar-public-site .home-fleet {
+    padding: 48px 0 57px;
+}
+
+.gocar-public-site .home-section-heading {
+    margin-bottom: 28px;
+}
+
+    .gocar-public-site .home-section-heading > span {
+        margin-bottom: 6px;
+        font-size: 7px;
+    }
+
+    .gocar-public-site .home-section-heading h2 {
+        font-size: clamp(25px, 2.7vw, 34px);
+    }
+
+    .gocar-public-site .home-section-heading p {
+        margin-top: 6px;
+        font-size: 9px;
+    }
+
+.gocar-public-site .home-fleet-track {
+    min-height: 385px;
+}
+
+.gocar-public-site .home-fleet-card {
+    width: 285px;
+}
+
+.gocar-public-site .home-fleet-image {
+    height: 175px;
+}
+
+    .gocar-public-site .home-fleet-image img {
+        max-height: 170px;
+    }
+
+.gocar-public-site .home-fleet-card.previous {
+    transform: translateX(calc(-50% - 310px)) scale(.72);
+}
+
+.gocar-public-site .home-fleet-card.next {
+    transform: translateX(calc(-50% + 310px)) scale(.72);
+}
+
+.gocar-public-site .home-fleet-arrow {
+    top: 108px;
+    width: 37px;
+    height: 37px;
+    font-size: 26px;
+}
+
+.gocar-public-site .home-fleet-arrow-left {
+    left: 20%;
+}
+
+.gocar-public-site .home-fleet-arrow-right {
+    right: 20%;
+}
+
+.gocar-public-site .home-fleet-card h3 {
+    font-size: 14px;
+}
+
+.gocar-public-site .home-fleet-similar {
+    margin-bottom: 10px;
+    font-size: 8px;
+}
+
+.gocar-public-site .home-fleet-specs {
+    font-size: 7px;
+}
+
+.gocar-public-site .home-fleet-price {
+    margin-top: 11px;
+}
+
+    .gocar-public-site .home-fleet-price strong {
+        font-size: 15px;
+    }
+
+.gocar-public-site .home-fleet-reserve {
+    margin-top: 11px;
+    padding: 7px 13px;
+    font-size: 8px;
+}
+
+.gocar-public-site .home-fleet-all {
+    margin-top: 21px;
+}
+
+    .gocar-public-site .home-fleet-all a {
+        min-width: 220px;
+        padding: 10px 20px;
+        font-size: 8px;
+    }
+
+
+/* =========================================================
+   EFEITOS
+   ========================================================= */
+
+@keyframes gocarPublicFadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
+
+.gocar-public-site .home-banner-content {
+    animation: gocarPublicFadeUp .6s ease both;
+}
+
+.gocar-public-site .home-banner-car {
+    animation: gocarPublicFadeUp .75s .08s ease both;
+}
+
+.gocar-public-site .home-benefit {
+    transition: background .2s ease;
+}
+
+    .gocar-public-site .home-benefit:hover {
+        background: rgba(255,255,255,.018);
+    }
 
 
 /* =========================================================
    RESPONSIVO - TABLET
    ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
 
-    .gocar-section {
-        padding: 60px 0;
+    .gocar-public-site .container {
+        width: min(100% - 30px, 1180px);
     }
 
-    .gocar-section-title {
-        font-size: 1.85rem;
+    .gocar-public-topbar {
+        display: none;
     }
 
-    .hero-title {
-        font-size: 2.45rem;
-        letter-spacing: -1px;
+    .gocar-public-navbar {
+        min-height: 62px;
+        padding: 10px 0;
     }
 
-    .hero-text {
-        font-size: 1rem;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-    }
-
-        .hero-actions a {
-            width: 100%;
-            text-align: center;
+        .gocar-public-navbar > .container {
+            min-height: 42px;
         }
 
-    .vehicle-footer {
+    .gocar-public-logo {
+        margin-right: 0;
+    }
+
+        .gocar-public-logo > .gocar-logo-go,
+        .gocar-public-logo > .gocar-logo-car {
+            font-size: 25px;
+        }
+
+    .gocar-public-navbar .navbar-collapse {
+        margin-top: 12px;
+        padding: 13px;
+        background: #1a0322;
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 6px;
+        box-shadow: 0 18px 30px rgba(0,0,0,.25);
+    }
+
+    .gocar-public-nav {
+        align-items: stretch;
+    }
+
+    .gocar-public-nav-link {
+        padding: 10px 8px !important;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+        .gocar-public-nav-link::after {
+            display: none;
+        }
+
+    .gocar-public-user-area {
         align-items: stretch;
         flex-direction: column;
+        gap: 8px;
+        margin: 13px 0 0;
     }
 
-        .vehicle-footer .gocar-btn-outline {
-            width: 100%;
-            text-align: center;
-        }
-
-    .about-box {
-        grid-template-columns: 1fr;
+    .gocar-header-reservas,
+    .gocar-header-login {
+        justify-content: center;
+        min-height: 38px;
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 4px;
     }
 
-    .login-card {
-        padding: 30px 22px;
+    .gocar-user-dropdown {
+        width: 100%;
+        justify-content: center;
+        padding: 8px;
     }
 
-    .gocar-footer {
-        text-align: center;
+    .gocar-footer-links-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 35px 50px;
     }
 
-        .gocar-footer .col-md-4 {
-            margin-bottom: 30px;
-        }
+    .gocar-app-content {
+        grid-template-columns: 250px 1fr;
+    }
+
+    .gocar-phone-frame {
+        left: 30px;
+    }
+
+    .gocar-public-site .home-fleet-card.previous {
+        transform: translateX(calc(-50% - 225px)) scale(.62);
+    }
+
+    .gocar-public-site .home-fleet-card.next {
+        transform: translateX(calc(-50% + 225px)) scale(.62);
+    }
+
+    .gocar-public-site .home-fleet-arrow-left {
+        left: 5%;
+    }
+
+    .gocar-public-site .home-fleet-arrow-right {
+        right: 5%;
+    }
 }
 
 
@@ -1083,63 +1146,1139 @@ textarea.form-control {
    RESPONSIVO - CELULAR
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 650px) {
 
-    .gocar-section {
-        padding: 45px 0;
+    .gocar-public-site .container {
+        width: min(100% - 24px, 1180px);
     }
 
-    .hero-section {
+    .gocar-public-logo > .gocar-logo-go,
+    .gocar-public-logo > .gocar-logo-car {
+        font-size: 23px;
+    }
+
+    .gocar-footer-links-grid {
+        grid-template-columns: 1fr;
+        gap: 29px;
+        padding: 38px 0;
+    }
+
+    .gocar-footer-column {
+        text-align: center;
+    }
+
+        .gocar-footer-column h6::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    .gocar-footer-contact-list a {
+        justify-content: center;
+    }
+
+    .gocar-app-content {
+        display: block;
         min-height: auto;
-        padding: 60px 0 45px;
+        padding: 35px 0;
     }
 
-    .hero-title {
-        font-size: 2.05rem;
+    .gocar-app-phone {
+        display: none;
     }
 
-    .hero-car-placeholder {
-        min-height: 260px;
-        margin-top: 20px;
+    .gocar-app-info {
+        padding: 0;
+        text-align: center;
     }
 
-    .booking-card {
-        padding: 20px;
+        .gocar-app-info p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    .gocar-app-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    .gocar-card {
-        padding: 20px;
+    .gocar-footer-services {
+        flex-direction: column;
+        gap: 8px;
     }
 
-    .login-section {
-        padding: 50px 0;
+        .gocar-footer-services > span {
+            display: none;
+        }
+
+    .gocar-floating-contact {
+        right: 14px;
+        bottom: 14px;
+        width: 40px;
+        height: 40px;
     }
 
-    .login-card {
-        padding: 26px 18px;
-        border-radius: 14px;
+    .gocar-public-site .home-search-strip {
+        padding: 16px 0;
     }
 
-    .login-header h1 {
-        font-size: 1.7rem;
+    .gocar-public-site .home-search-control,
+    .gocar-public-site .home-search-button {
+        height: 43px;
+    }
+
+    .gocar-public-site .home-banner {
+        min-height: auto;
+    }
+
+    .gocar-public-site .home-banner-grid {
+        min-height: auto;
+    }
+
+    .gocar-public-site .home-banner-content {
+        padding: 45px 0 10px;
+    }
+
+        .gocar-public-site .home-banner-content h1 {
+            font-size: 40px;
+        }
+
+    .gocar-public-site .home-banner-car {
+        min-height: 230px;
+    }
+
+        .gocar-public-site .home-banner-car img {
+            max-height: 215px;
+        }
+
+    .gocar-public-site .home-fleet-card.previous,
+    .gocar-public-site .home-fleet-card.next {
+        opacity: 0;
+    }
+
+    .gocar-public-site .home-fleet-arrow-left {
+        left: 0;
+    }
+
+    .gocar-public-site .home-fleet-arrow-right {
+        right: 0;
     }
 }
 
 
 /* =========================================================
-   ACESSIBILIDADE / REDUÇÃO DE MOVIMENTO
+   TELAS MUITO PEQUENAS
    ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 390px) {
 
-    html {
-        scroll-behavior: auto;
+    .gocar-public-site .container {
+        width: calc(100% - 20px);
     }
 
-    *,
-    *::before,
-    *::after {
-        transition: none !important;
-        animation: none !important;
+    .gocar-public-site .home-banner-content h1 {
+        font-size: 35px;
+    }
+
+    .gocar-public-site .home-fleet-card {
+        width: 245px;
+    }
+
+    .gocar-app-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gocar-store-button {
+        width: 150px;
+    }
+}
+
+
+/* =========================================================
+   GOCAR - AJUSTE DO CABEÇALHO COM LOGO OFICIAL
+   ========================================================= */
+
+.gocar-public-topbar {
+    min-height: 38px;
+}
+
+.gocar-public-topbar-content {
+    min-height: 38px;
+}
+
+.gocar-topbar-link {
+    font-size: 11px;
+}
+
+.gocar-topbar-icon {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.gocar-public-navbar {
+    min-height: 88px;
+}
+
+    .gocar-public-navbar > .container {
+        min-height: 88px;
+    }
+
+
+/* =========================================================
+   LOGO OFICIAL
+   ========================================================= */
+
+.gocar-public-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 205px;
+    margin-right: 48px;
+    padding: 0;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.gocar-public-logo-image {
+    display: block;
+    width: 185px;
+    max-width: 100%;
+    height: 62px;
+    object-fit: contain;
+    object-position: left center;
+    transition: transform .2s ease, filter .2s ease;
+}
+
+.gocar-public-logo:hover .gocar-public-logo-image {
+    transform: scale(1.02);
+    filter: drop-shadow(0 5px 12px rgba(162,55,211,.18));
+}
+
+
+/* =========================================================
+   MENU PRINCIPAL MAIOR
+   ========================================================= */
+
+.gocar-public-nav {
+    gap: 8px;
+}
+
+.gocar-public-nav-link {
+    padding: 33px 15px !important;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .gocar-public-nav-link::after {
+        bottom: 23px;
+        height: 2px;
+    }
+
+    .gocar-public-nav-link:hover::after {
+        width: 27px;
+    }
+
+
+/* =========================================================
+   ÁREA DO CLIENTE
+   ========================================================= */
+
+.gocar-public-user-area {
+    gap: 20px;
+}
+
+.gocar-header-reservas {
+    gap: 9px;
+    font-size: 12px;
+}
+
+.gocar-header-reservas-icon {
+    width: 21px;
+    height: 21px;
+    font-size: 12px;
+}
+
+.gocar-header-login {
+    min-height: 39px;
+    padding: 0 17px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.gocar-header-login-icon {
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   USUÁRIO LOGADO
+   ========================================================= */
+
+.gocar-user-dropdown {
+    gap: 10px;
+    padding: 6px 9px;
+}
+
+.gocar-user-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 13px;
+}
+
+.gocar-user-info small {
+    font-size: 9px;
+}
+
+.gocar-user-info strong {
+    max-width: 130px;
+    font-size: 11px;
+}
+
+.gocar-user-arrow {
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   LOGO DO RODAPÉ
+   ========================================================= */
+
+.gocar-footer-logo-image {
+    display: block;
+    width: 185px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   RESPONSIVO DO CABEÇALHO
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+    .gocar-public-logo {
+        width: 175px;
+        margin-right: 25px;
+    }
+
+    .gocar-public-logo-image {
+        width: 165px;
+    }
+
+    .gocar-public-nav-link {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        font-size: 11px;
+    }
+
+    .gocar-header-reservas {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 991px) {
+
+    .gocar-public-navbar {
+        min-height: 76px;
+        padding: 7px 0;
+    }
+
+        .gocar-public-navbar > .container {
+            min-height: 60px;
+        }
+
+    .gocar-public-logo {
+        width: 175px;
+        margin-right: 0;
+    }
+
+    .gocar-public-logo-image {
+        width: 165px;
+        height: 55px;
+    }
+
+    .gocar-public-nav-link {
+        padding: 12px 10px !important;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .gocar-public-logo {
+        width: 145px;
+    }
+
+    .gocar-public-logo-image {
+        width: 140px;
+        height: 48px;
+    }
+}
+
+
+/* =========================================================
+   =========================================================
+   AJUSTE FINAL HOME 2026
+   NOVO HERO + FONTES MAIORES
+   =========================================================
+   ========================================================= */
+
+
+/* =========================================================
+   CABEÇALHO - ESCALA FINAL
+   ========================================================= */
+
+.gocar-public-site .gocar-public-topbar {
+    min-height: 40px;
+}
+
+.gocar-public-site .gocar-public-topbar-content {
+    min-height: 40px;
+}
+
+.gocar-public-site .gocar-topbar-link {
+    font-size: 13px;
+}
+
+.gocar-public-site .gocar-topbar-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+}
+
+.gocar-public-site .gocar-public-navbar {
+    min-height: 92px;
+}
+
+    .gocar-public-site .gocar-public-navbar > .container {
+        min-height: 92px;
+    }
+
+.gocar-public-site .gocar-public-nav-link {
+    padding-top: 34px !important;
+    padding-bottom: 34px !important;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.gocar-public-site .gocar-header-reservas {
+    font-size: 14px;
+}
+
+.gocar-public-site .gocar-header-reservas-icon {
+    width: 23px;
+    height: 23px;
+    font-size: 13px;
+}
+
+.gocar-public-site .gocar-header-login {
+    min-height: 42px;
+    padding: 0 19px;
+    font-size: 14px;
+}
+
+.gocar-public-site .gocar-user-info small {
+    font-size: 11px;
+}
+
+.gocar-public-site .gocar-user-info strong {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   NOVO HERO
+   A IMAGEM COMEÇA ATRÁS DA ÁREA DE RESERVA
+   ========================================================= */
+
+.gocar-public-site .home-hero {
+    position: relative;
+    width: 100%;
+    height: clamp(560px, 36vw, 690px);
+    min-height: 560px;
+    overflow: hidden;
+    background: #100017;
+}
+
+.gocar-public-site .home-hero-background {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.gocar-public-site .home-hero-overlay {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient( 180deg, rgba(18,0,24,.10) 0%, rgba(18,0,24,.02) 30%, rgba(18,0,24,0) 55%, rgba(18,0,24,.04) 100% );
+}
+
+
+/* =========================================================
+   BUSCA SOBRE O BANNER
+   ========================================================= */
+
+.gocar-public-site .home-search-overlay {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 28px 0 32px;
+    background: linear-gradient( 180deg, rgba(37,0,48,.82) 0%, rgba(48,4,61,.66) 70%, rgba(38,0,48,.20) 100% );
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,.10);
+}
+
+.gocar-public-site .home-search-form {
+    display: grid;
+    grid-template-columns: minmax(340px, 1.7fr) minmax(190px, .82fr) minmax(190px, .82fr) 155px;
+    align-items: end;
+    gap: 14px;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.gocar-public-site .home-search-field label {
+    display: block;
+    margin: 0 0 9px 2px;
+    color: rgba(255,255,255,.95);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: .055em;
+    text-shadow: 0 2px 7px rgba(0,0,0,.45);
+}
+
+.gocar-public-site .home-search-control {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,.82);
+    border-radius: 5px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.18);
+}
+
+.gocar-public-site .home-search-icon {
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: #821db7;
+    font-size: 15px;
+}
+
+.gocar-public-site .home-search-control select,
+.gocar-public-site .home-search-control input {
+    width: 100%;
+    height: 100%;
+    padding: 0 14px 0 0;
+    color: #4b4452;
+    background: transparent;
+    border: 0;
+    outline: none;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.gocar-public-site .home-search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    height: 56px;
+    padding: 0 22px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #7b1cb2, #a32dd5);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 5px;
+    box-shadow: 0 8px 22px rgba(0,0,0,.20);
+    font-size: 15px;
+    font-weight: 800;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+    .gocar-public-site .home-search-button:hover {
+        background: linear-gradient(135deg, #9024c7, #b33de1);
+        box-shadow: 0 10px 26px rgba(0,0,0,.25);
+        transform: translateY(-1px);
+    }
+
+.gocar-public-site .home-search-alert {
+    max-width: 1180px;
+    margin: 0 auto 15px;
+    padding: 12px 15px;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BENEFÍCIOS
+   ========================================================= */
+
+.gocar-public-site .home-benefits-grid {
+    min-height: 180px;
+}
+
+.gocar-public-site .home-benefit {
+    grid-template-columns: 72px 1fr;
+    gap: 20px;
+    padding: 34px 36px;
+}
+
+.gocar-public-site .home-benefit-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+}
+
+.gocar-public-site .home-benefit h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+.gocar-public-site .home-benefit p {
+    min-height: 40px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.gocar-public-site .home-benefit a {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   FROTA - TIPOGRAFIA MAIOR
+   ========================================================= */
+
+.gocar-public-site .home-fleet {
+    padding: 78px 0 88px;
+}
+
+.gocar-public-site .home-section-heading {
+    max-width: 700px;
+    margin-bottom: 48px;
+}
+
+    .gocar-public-site .home-section-heading > span {
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-section-heading h2 {
+        font-size: clamp(38px, 3.4vw, 48px);
+    }
+
+    .gocar-public-site .home-section-heading p {
+        margin-top: 11px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+.gocar-public-site .home-fleet-track {
+    min-height: 500px;
+}
+
+.gocar-public-site .home-fleet-card {
+    width: 340px;
+}
+
+.gocar-public-site .home-fleet-image {
+    height: 230px;
+}
+
+    .gocar-public-site .home-fleet-image img {
+        max-height: 220px;
+    }
+
+.gocar-public-site .home-fleet-card.previous {
+    transform: translateX(calc(-50% - 365px)) scale(.72);
+}
+
+.gocar-public-site .home-fleet-card.next {
+    transform: translateX(calc(-50% + 365px)) scale(.72);
+}
+
+.gocar-public-site .home-fleet-arrow {
+    top: 145px;
+    width: 44px;
+    height: 44px;
+    font-size: 31px;
+}
+
+.gocar-public-site .home-fleet-arrow-left {
+    left: 17%;
+}
+
+.gocar-public-site .home-fleet-arrow-right {
+    right: 17%;
+}
+
+.gocar-public-site .home-fleet-category {
+    font-size: 12px;
+}
+
+.gocar-public-site .home-fleet-card h3 {
+    font-size: 22px;
+}
+
+.gocar-public-site .home-fleet-similar {
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.gocar-public-site .home-fleet-specs {
+    gap: 14px;
+    font-size: 12px;
+}
+
+    .gocar-public-site .home-fleet-specs strong {
+        font-size: 10px;
+    }
+
+.gocar-public-site .home-fleet-price {
+    margin-top: 18px;
+}
+
+    .gocar-public-site .home-fleet-price > span {
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-fleet-price strong {
+        font-size: 24px;
+    }
+
+    .gocar-public-site .home-fleet-price small {
+        font-size: 12px;
+    }
+
+.gocar-public-site .home-fleet-reserve {
+    margin-top: 17px;
+    padding: 11px 18px;
+    font-size: 13px;
+}
+
+.gocar-public-site .home-fleet-all {
+    margin-top: 31px;
+}
+
+    .gocar-public-site .home-fleet-all a {
+        min-width: 255px;
+        padding: 14px 26px;
+        font-size: 12px;
+    }
+
+.gocar-public-site .home-search-result {
+    font-size: 13px;
+}
+
+    .gocar-public-site .home-search-result a {
+        font-size: 13px;
+    }
+
+
+/* =========================================================
+   TODOS OS VEÍCULOS
+   ========================================================= */
+
+.gocar-public-site .home-all-vehicles {
+    padding: 78px 0 88px;
+}
+
+.gocar-public-site .home-vehicle-card-image {
+    height: 210px;
+}
+
+    .gocar-public-site .home-vehicle-card-image img {
+        height: 170px;
+    }
+
+.gocar-public-site .home-vehicle-stock {
+    padding: 6px 9px;
+    font-size: 11px;
+}
+
+.gocar-public-site .home-vehicle-card-content {
+    padding: 20px;
+}
+
+.gocar-public-site .home-vehicle-category {
+    font-size: 12px;
+}
+
+.gocar-public-site .home-vehicle-card h3 {
+    margin: 6px 0 14px;
+    font-size: 21px;
+}
+
+.gocar-public-site .home-vehicle-card-specs span {
+    padding: 6px 8px;
+    font-size: 12px;
+}
+
+.gocar-public-site .home-vehicle-card-footer small {
+    font-size: 11px;
+}
+
+.gocar-public-site .home-vehicle-card-footer strong {
+    font-size: 22px;
+}
+
+.gocar-public-site .home-vehicle-card-footer span {
+    font-size: 12px;
+}
+
+.gocar-public-site .home-vehicle-card-footer > a {
+    padding: 10px 14px;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SOBRE
+   ========================================================= */
+
+.gocar-public-site .home-about {
+    padding: 75px 0;
+}
+
+.gocar-public-site .home-about-content > div > span {
+    font-size: 12px;
+}
+
+.gocar-public-site .home-about h2 {
+    font-size: 36px;
+}
+
+.gocar-public-site .home-about p {
+    font-size: 14px;
+}
+
+.gocar-public-site .home-about-content > a {
+    padding: 14px 19px;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   FOOTER - FONTES LEGÍVEIS
+   ========================================================= */
+
+.gocar-public-site .gocar-footer-column h6 {
+    font-size: 13px;
+}
+
+.gocar-public-site .gocar-footer-column a {
+    font-size: 12px;
+}
+
+.gocar-public-site .gocar-app-eyebrow {
+    font-size: 10px;
+}
+
+.gocar-public-site .gocar-app-info h3 {
+    font-size: 28px;
+}
+
+.gocar-public-site .gocar-app-info p {
+    font-size: 12px;
+}
+
+.gocar-public-site .gocar-store-button small {
+    font-size: 8px;
+}
+
+.gocar-public-site .gocar-store-button strong {
+    font-size: 12px;
+}
+
+.gocar-public-site .gocar-footer-services a {
+    font-size: 11px;
+}
+
+.gocar-public-site .gocar-company-info p {
+    font-size: 10px;
+}
+
+.gocar-public-site .gocar-footer-copyright {
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   RESPONSIVO FINAL - NOTEBOOK / TABLET
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+    .gocar-public-site .gocar-public-nav-link {
+        font-size: 13px;
+    }
+
+    .gocar-public-site .gocar-header-reservas {
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-search-form {
+        grid-template-columns: minmax(280px, 1.45fr) minmax(175px, .8fr) minmax(175px, .8fr) 145px;
+    }
+
+    .gocar-public-site .home-hero {
+        height: 570px;
+        min-height: 570px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVO FINAL - TABLET
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .gocar-public-site .gocar-public-navbar {
+        min-height: 76px;
+        padding: 7px 0;
+    }
+
+        .gocar-public-site .gocar-public-navbar > .container {
+            min-height: 60px;
+        }
+
+    .gocar-public-site .gocar-public-nav-link {
+        padding: 12px 10px !important;
+        font-size: 14px;
+    }
+
+    .gocar-public-site .gocar-header-reservas,
+    .gocar-public-site .gocar-header-login {
+        font-size: 13px;
+    }
+
+    .gocar-public-site .home-hero {
+        height: 650px;
+        min-height: 650px;
+    }
+
+    .gocar-public-site .home-search-overlay {
+        padding: 22px 0 25px;
+    }
+
+    .gocar-public-site .home-search-form {
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+    }
+
+    .gocar-public-site .home-search-location {
+        grid-column: 1 / -1;
+    }
+
+    .gocar-public-site .home-search-control,
+    .gocar-public-site .home-search-button {
+        height: 54px;
+    }
+
+    .gocar-public-site .home-search-field label {
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-search-control select,
+    .gocar-public-site .home-search-control input {
+        font-size: 14px;
+    }
+
+    .gocar-public-site .home-benefit {
+        grid-template-columns: 68px 1fr;
+        padding: 30px 20px;
+    }
+
+    .gocar-public-site .home-fleet-card.previous {
+        transform: translateX(calc(-50% - 235px)) scale(.58);
+    }
+
+    .gocar-public-site .home-fleet-card.next {
+        transform: translateX(calc(-50% + 235px)) scale(.58);
+    }
+
+    .gocar-public-site .home-fleet-arrow-left {
+        left: 5%;
+    }
+
+    .gocar-public-site .home-fleet-arrow-right {
+        right: 5%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVO FINAL - CELULAR
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .gocar-public-site .home-hero {
+        height: 760px;
+        min-height: 760px;
+    }
+
+    .gocar-public-site .home-hero-background {
+        object-position: center center;
+    }
+
+    .gocar-public-site .home-search-overlay {
+        padding: 18px 0 21px;
+        background: linear-gradient( 180deg, rgba(31,0,40,.88), rgba(31,0,40,.55), rgba(31,0,40,.18) );
+    }
+
+    .gocar-public-site .home-search-form {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .gocar-public-site .home-search-location {
+        grid-column: auto;
+    }
+
+    .gocar-public-site .home-search-field label {
+        margin-bottom: 6px;
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-search-control,
+    .gocar-public-site .home-search-button {
+        height: 51px;
+    }
+
+        .gocar-public-site .home-search-control select,
+        .gocar-public-site .home-search-control input {
+            font-size: 14px;
+        }
+
+    .gocar-public-site .home-search-button {
+        font-size: 14px;
+    }
+
+    .gocar-public-site .home-benefit {
+        grid-template-columns: 60px 1fr;
+        padding: 28px 8px;
+    }
+
+    .gocar-public-site .home-benefit-icon {
+        width: 54px;
+        height: 54px;
+        font-size: 21px;
+    }
+
+    .gocar-public-site .home-benefit h3 {
+        font-size: 17px;
+    }
+
+    .gocar-public-site .home-benefit p {
+        font-size: 13px;
+    }
+
+    .gocar-public-site .home-benefit a {
+        font-size: 12px;
+    }
+
+    .gocar-public-site .home-fleet {
+        padding: 60px 5px 70px;
+    }
+
+    .gocar-public-site .home-section-heading > span {
+        font-size: 11px;
+    }
+
+    .gocar-public-site .home-section-heading h2 {
+        font-size: 32px;
+    }
+
+    .gocar-public-site .home-section-heading p {
+        font-size: 14px;
+    }
+
+    .gocar-public-site .home-fleet-track {
+        min-height: 480px;
+    }
+
+    .gocar-public-site .home-fleet-card {
+        width: 285px;
+    }
+
+        .gocar-public-site .home-fleet-card.previous,
+        .gocar-public-site .home-fleet-card.next {
+            opacity: 0;
+        }
+
+    .gocar-public-site .home-fleet-arrow {
+        top: 130px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .gocar-public-site .home-fleet-arrow-left {
+        left: 0;
+    }
+
+    .gocar-public-site .home-fleet-arrow-right {
+        right: 0;
+    }
+
+    .gocar-public-site .home-vehicle-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gocar-public-site .home-about h2 {
+        font-size: 31px;
+    }
+}
+
+
+/* =========================================================
+   TELAS MUITO PEQUENAS - AJUSTE FINAL
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    .gocar-public-site .home-hero {
+        height: 720px;
+        min-height: 720px;
+    }
+
+    .gocar-public-site .home-search-control,
+    .gocar-public-site .home-search-button {
+        height: 49px;
+    }
+
+        .gocar-public-site .home-search-control select,
+        .gocar-public-site .home-search-control input {
+            font-size: 13px;
+        }
+
+    .gocar-public-site .home-fleet-card {
+        width: 270px;
     }
 }

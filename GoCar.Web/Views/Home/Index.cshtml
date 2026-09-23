@@ -9,16 +9,6 @@
             as List<HomeController.HomeVeiculoGrupoViewModel>
         ?? new List<HomeController.HomeVeiculoGrupoViewModel>();
 
-    var categorias =
-        gruposVeiculos
-            .GroupBy(v => new
-            {
-                v.CategoriaId,
-                v.CategoriaNome
-            })
-            .OrderBy(g => g.Key.CategoriaNome)
-            .ToList();
-
     int? filialSelecionadaId =
         ViewBag.FilialSelecionadaId as int?;
 
@@ -29,136 +19,139 @@
         ViewBag.DataDevolucao as DateTime?;
 
     bool buscaRealizada =
-        ViewBag.BuscaRealizada is bool br &&
-        br;
+        ViewBag.BuscaRealizada is bool br && br;
 
     bool buscaValida =
-        ViewBag.BuscaValida is bool bv &&
-        bv;
+        ViewBag.BuscaValida is bool bv && bv;
 
     string? erroBusca =
         ViewBag.ErroBusca as string;
+
+    var gruposDestaque =
+        gruposVeiculos
+            .OrderByDescending(v => v.QuantidadeDisponivel)
+            .ThenBy(v => v.ValorDiaria)
+            .Take(5)
+            .ToList();
+
+    string ImagemVeiculo(string categoria)
+    {
+        var nome =
+            (categoria ?? string.Empty)
+                .ToLowerInvariant();
+
+        if (nome.Contains("suv"))
+            return "/images/veiculos/suv.png";
+
+        if (nome.Contains("sedan"))
+            return "/images/veiculos/sedan.png";
+
+        if (nome.Contains("hatch"))
+            return "/images/veiculos/hatch.png";
+
+        if (nome.Contains("econ"))
+            return "/images/veiculos/economico.png";
+
+        return "/images/veiculos/sedan.png";
+    }
+
+    string CambioVeiculo(int cambio)
+    {
+        return cambio switch
+        {
+            1 => "Manual",
+            2 => "Automático",
+            _ => "Câmbio"
+        };
+    }
+
+    string CombustivelVeiculo(int combustivel)
+    {
+        return combustivel switch
+        {
+            1 => "Flex",
+            2 => "Gasolina",
+            3 => "Etanol",
+            4 => "Diesel",
+            5 => "Elétrico",
+            6 => "Híbrido",
+            _ => "Combustível"
+        };
+    }
 }
 
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
 
-            <div class="col-lg-6">
+<!-- =========================================================
+     HERO / BANNER OFICIAL + BUSCA SOBRE A IMAGEM
+========================================================== -->
 
-                <span class="hero-badge">
-                    ALUGUEL DE CARROS
-                </span>
+<section class="home-hero"
+         id="reserva">
 
-                <h1 class="hero-title">
-                    Seu próximo destino começa com a
-                    <span>GoCar</span>
-                </h1>
+    <img src="~/images/cabecalho/fundo banner.png"
+         alt="GoCar - Seu próximo destino começa aqui"
+         class="home-hero-background" />
 
-                <p class="hero-text">
-                    Encontre o carro ideal para sua viagem com praticidade,
-                    segurança e liberdade para ir mais longe.
-                </p>
-
-                <div class="hero-actions">
-
-                    <a href="#reserva"
-                       class="gocar-btn-primary">
-                        Alugar agora
-                    </a>
-
-                    <a href="#veiculos"
-                       class="gocar-btn-outline">
-                        Ver veículos
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-6 mt-5 mt-lg-0">
-
-                <div class="hero-visual">
-
-                    <div class="hero-car-placeholder">
-
-                        <span>
-                            GoCar
-                        </span>
-
-                        <p>
-                            Imagem principal do veículo
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+    <div class="home-hero-overlay">
     </div>
-</section>
 
-<!-- ========================================== -->
-<!-- BUSCA -->
-<!-- ========================================== -->
+    <div class="home-search-overlay">
 
-<section id="reserva"
-         class="booking-section">
+        <div class="container">
 
-    <div class="container">
-
-        <div class="booking-card">
-
-            @if (!string.IsNullOrWhiteSpace(
-                erroBusca))
+            @if (!string.IsNullOrWhiteSpace(erroBusca))
             {
-                <div class="alert alert-danger mb-4">
+                <div class="home-search-alert">
+
+                    <span>
+                        !
+                    </span>
+
                     @erroBusca
+
                 </div>
             }
 
             <form asp-controller="Home"
                   asp-action="Index"
-                  method="get">
+                  method="get"
+                  class="home-search-form">
 
-                <div class="row g-3">
+                <!-- LOCAL -->
 
-                    <!-- FILIAL -->
+                <div class="home-search-field home-search-location">
 
-                    <div class="col-lg-3 col-md-6">
+                    <label for="filialId">
+                        Local de retirada
+                    </label>
 
-                        <label for="filialId"
-                               class="form-label">
-                            Local de retirada
-                        </label>
+                    <div class="home-search-control">
+
+                        <span class="home-search-icon">
+                            ●
+                        </span>
 
                         <select id="filialId"
                                 name="filialId"
-                                class="form-select"
                                 required>
 
                             <option value="">
-                                Selecione uma filial
+                                Onde você quer retirar o carro?
                             </option>
 
                             @foreach (var filial in Model.Filiais)
                             {
-                                if (filialSelecionadaId ==
-                                    filial.Id)
+                                if (filialSelecionadaId == filial.Id)
                                 {
                                     <option value="@filial.Id"
                                             selected>
-                                        @filial.Nome -
-                                        @filial.Cidade/@filial.Estado
+                                        @filial.Nome - @filial.Cidade/@filial.Estado
                                     </option>
                                 }
                                 else
                                 {
                                     <option value="@filial.Id">
-                                        @filial.Nome -
-                                        @filial.Cidade/@filial.Estado
+                                        @filial.Nome - @filial.Cidade/@filial.Estado
                                     </option>
                                 }
                             }
@@ -167,56 +160,75 @@
 
                     </div>
 
-                    <!-- RETIRADA -->
+                </div>
 
-                    <div class="col-lg-3 col-md-6">
 
-                        <label for="dataRetirada"
-                               class="form-label">
-                            Data de retirada
-                        </label>
+                <!-- RETIRADA -->
+
+                <div class="home-search-field">
+
+                    <label for="dataRetirada">
+                        Retirada
+                    </label>
+
+                    <div class="home-search-control">
+
+                        <span class="home-search-icon">
+                            ▣
+                        </span>
 
                         <input id="dataRetirada"
                                name="dataRetirada"
                                type="date"
-                               class="form-control"
                                min="@DateTime.Today.ToString("yyyy-MM-dd")"
                                value="@(dataRetirada?.ToString("yyyy-MM-dd"))"
                                required />
 
                     </div>
 
-                    <!-- DEVOLUÇÃO -->
+                </div>
 
-                    <div class="col-lg-3 col-md-6">
 
-                        <label for="dataDevolucao"
-                               class="form-label">
-                            Data de devolução
-                        </label>
+                <!-- DEVOLUÇÃO -->
+
+                <div class="home-search-field">
+
+                    <label for="dataDevolucao">
+                        Devolução
+                    </label>
+
+                    <div class="home-search-control">
+
+                        <span class="home-search-icon">
+                            ◷
+                        </span>
 
                         <input id="dataDevolucao"
                                name="dataDevolucao"
                                type="date"
-                               class="form-control"
                                min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
                                value="@(dataDevolucao?.ToString("yyyy-MM-dd"))"
                                required />
 
                     </div>
 
-                    <!-- BUSCAR -->
-
-                    <div class="col-lg-3 col-md-6 d-flex align-items-end">
-
-                        <button type="submit"
-                                class="gocar-btn-primary w-100">
-                            Buscar carros
-                        </button>
-
-                    </div>
-
                 </div>
+
+
+                <!-- BOTÃO -->
+
+                <button type="submit"
+                        class="home-search-button">
+
+                    <span>
+                        Buscar
+                    </span>
+
+                    <strong>
+                        →
+                    </strong>
+
+                </button>
 
             </form>
 
@@ -226,496 +238,592 @@
 
 </section>
 
-<!-- ========================================== -->
-<!-- VEÍCULOS -->
-<!-- ========================================== -->
 
-<section id="veiculos"
-         class="gocar-section">
+<!-- =========================================================
+     BENEFÍCIOS
+========================================================== -->
+
+<section class="home-benefits"
+         id="como-funciona">
 
     <div class="container">
 
-        <div class="text-center mb-5">
+        <div class="home-benefits-grid">
 
-            <span class="section-badge">
-                NOSSA FROTA
+            <!-- BENEFÍCIO 1 -->
+
+            <article class="home-benefit">
+
+                <div class="home-benefit-icon">
+
+                    <span>
+                        ▣
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Retirada Digital Rápida
+                    </h3>
+
+                    <p>
+                        Retire seu carro com mais agilidade,
+                        sem burocracia.
+                    </p>
+
+                    <a href="#frota">
+                        Saiba mais
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- BENEFÍCIO 2 -->
+
+            <article class="home-benefit">
+
+                <div class="home-benefit-icon">
+
+                    <span>
+                        ◆
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Adicionais
+                    </h3>
+
+                    <p>
+                        Tudo para deixar sua viagem
+                        mais confortável e tranquila.
+                    </p>
+
+                    <a href="#frota">
+                        Saiba mais
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- BENEFÍCIO 3 -->
+
+            <article class="home-benefit">
+
+                <div class="home-benefit-icon">
+
+                    <span>
+                        ●
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Portal do Cliente
+                    </h3>
+
+                    <p>
+                        Suas reservas e informações
+                        reunidas em um só lugar.
+                    </p>
+
+                    <a asp-controller="Reservas"
+                       asp-action="Index">
+                        Saiba mais
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FROTA
+========================================================== -->
+
+<section class="home-fleet"
+         id="frota">
+
+    <div class="container">
+
+        <div class="home-section-heading">
+
+            <span>
+                NOSSOS VEÍCULOS
             </span>
 
-            <h2 class="gocar-section-title">
-                Escolha o carro ideal para você
+            <h2>
+                Conheça a nossa Frota
             </h2>
 
-            @if (buscaRealizada &&
-                 buscaValida)
+            @if (buscaRealizada && buscaValida)
             {
-                <p class="gocar-section-subtitle">
-                    Veículos disponíveis na filial
-                    selecionada.
+                <p>
+                    Confira os veículos disponíveis
+                    para o período selecionado.
                 </p>
             }
             else
             {
-                <p class="gocar-section-subtitle">
-                    Escolha uma categoria e encontre
-                    o modelo ideal para sua próxima viagem.
+                <p>
+                    As melhores condições para você
+                    reservar e aproveitar.
                 </p>
             }
 
         </div>
 
+
         @if (buscaRealizada &&
-             buscaValida)
+             buscaValida &&
+             filialSelecionadaId.HasValue)
         {
-            <div class="alert alert-success mb-5">
+            var filialSelecionada =
+                Model.Filiais.FirstOrDefault(
+                    f => f.Id == filialSelecionadaId.Value);
 
-                <strong>
-                    Busca realizada:
-                </strong>
+            <div class="home-search-result">
 
-                @if (filialSelecionadaId.HasValue)
-                {
-                    var filialSelecionada =
-                        Model.Filiais.FirstOrDefault(
-                            f =>
-                                f.Id ==
-                                filialSelecionadaId.Value);
+                <div>
 
-                    if (filialSelecionada != null)
+                    <span class="home-result-dot">
+                    </span>
+
+                    <strong>
+                        Busca realizada
+                    </strong>
+
+                    @if (filialSelecionada != null)
                     {
                         <span>
-                            @filialSelecionada.Nome
+                            • @filialSelecionada.Nome
                         </span>
                     }
-                }
 
-                @if (dataRetirada.HasValue &&
-                     dataDevolucao.HasValue)
-                {
-                    <span>
-                        —
-                        @dataRetirada.Value.ToString("dd/MM/yyyy")
-                        até
-                        @dataDevolucao.Value.ToString("dd/MM/yyyy")
-                    </span>
-                }
+                    @if (dataRetirada.HasValue &&
+                         dataDevolucao.HasValue)
+                    {
+                        <span>
+                            • @dataRetirada.Value.ToString("dd/MM/yyyy")
+                            até
+                            @dataDevolucao.Value.ToString("dd/MM/yyyy")
+                        </span>
+                    }
+
+                </div>
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+
+                    Limpar busca
+
+                </a>
 
             </div>
         }
 
-        @if (gruposVeiculos.Any())
+
+        @if (gruposDestaque.Any())
         {
-            @foreach (var categoria in categorias)
-            {
-                <div class="vehicle-category-section mb-5">
+            <div class="home-fleet-carousel">
 
-                    <div class="d-flex justify-content-between
-                        align-items-end flex-wrap gap-3 mb-4">
+                <button type="button"
+                        class="home-fleet-arrow home-fleet-arrow-left"
+                        id="fleetPrev"
+                        aria-label="Veículo anterior">
 
-                        <div>
+                    ‹
 
-                            <span class="section-badge">
-                                GRUPO
-                            </span>
+                </button>
 
-                            <h2 class="gocar-section-title mb-1">
-                                @categoria.Key.CategoriaNome
-                            </h2>
 
-                            <p class="gocar-section-subtitle mb-0">
+                <div class="home-fleet-track"
+                     id="fleetTrack">
 
-                                @categoria.Count()
-                                modelos disponíveis
+                    @for (var i = 0; i < gruposDestaque.Count; i++)
+                    {
+                        var veiculo =
+                            gruposDestaque[i];
 
-                            </p>
+                        <article class="home-fleet-card @(i == 0 ? "active" : "")"
+                                 data-fleet-index="@i">
 
-                        </div>
+                            <div class="home-fleet-image">
 
-                        <div class="category-availability">
+                                <div class="home-car-glow">
+                                </div>
 
-                            <span class="availability-dot">
-                            </span>
+                                <img src="@ImagemVeiculo(veiculo.CategoriaNome)"
+                                     alt="@veiculo.Marca @veiculo.Modelo" />
 
-                            @categoria.Sum(v =>
-                                v.QuantidadeDisponivel)
+                            </div>
 
-                            veículos disponíveis
 
-                        </div>
+                            <div class="home-fleet-card-body">
 
-                    </div>
+                                <span class="home-fleet-category">
+                                    @veiculo.CategoriaNome
+                                </span>
 
-                    <div class="row g-4">
+                                <h3>
+                                    @veiculo.Marca @veiculo.Modelo
+                                </h3>
 
-                        @foreach (var veiculo in categoria)
-                        {
-                            <div class="col-lg-4 col-md-6">
+                                <p class="home-fleet-similar">
+                                    Grupo @veiculo.CategoriaNome
+                                </p>
 
-                                <div class="gocar-card vehicle-card h-100">
 
-                                    <div class="vehicle-image">
+                                <div class="home-fleet-specs">
 
-                                        <span>
-                                            @veiculo.Marca
-                                        </span>
+                                    <span>
+                                        <strong>●</strong>
+                                        @CombustivelVeiculo(veiculo.Combustivel)
+                                    </span>
 
-                                    </div>
+                                    <span>
+                                        <strong>◆</strong>
+                                        @CambioVeiculo(veiculo.Cambio)
+                                    </span>
 
-                                    <div class="vehicle-info">
+                                    <span>
+                                        <strong>▣</strong>
+                                        @veiculo.AnoModelo
+                                    </span>
 
-                                        <div class="d-flex
-                                            justify-content-between
-                                            align-items-center
-                                            gap-2 mb-2">
+                                </div>
 
-                                            <span class="vehicle-category">
-                                                @veiculo.CategoriaNome
-                                            </span>
 
-                                            @if (veiculo.QuantidadeDisponivel > 3)
-                                            {
-                                                <span class="vehicle-stock
-                                                    vehicle-stock-ok">
+                                <div class="home-fleet-price">
 
-                                                    @veiculo.QuantidadeDisponivel
-                                                    disponíveis
+                                    <span>
+                                        A partir de
+                                    </span>
 
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="vehicle-stock
-                                                    vehicle-stock-low">
+                                    <div>
 
-                                                    Últimas
-                                                    @veiculo.QuantidadeDisponivel
+                                        <strong>
+                                            @veiculo.ValorDiaria.ToString("C")
+                                        </strong>
 
-                                                </span>
-                                            }
-
-                                        </div>
-
-                                        <h3>
-                                            @veiculo.Marca
-                                            @veiculo.Modelo
-                                        </h3>
-
-                                        <div class="vehicle-details">
-
-                                            <span>
-                                                @if (veiculo.Cambio == 1)
-                                                {
-                                                    <text>Manual</text>
-                                                }
-                                                else if (veiculo.Cambio == 2)
-                                                {
-                                                    <text>Automático</text>
-                                                }
-                                                else if (veiculo.Cambio == 3)
-                                                {
-                                                    <text>Automatizado</text>
-                                                }
-                                                else if (veiculo.Cambio == 4)
-                                                {
-                                                    <text>CVT</text>
-                                                }
-                                                else
-                                                {
-                                                    <text>
-                                                        Câmbio @veiculo.Cambio
-                                                    </text>
-                                                }
-                                            </span>
-
-                                            <span>
-                                                @if (veiculo.Combustivel == 1)
-                                                {
-                                                    <text>Gasolina</text>
-                                                }
-                                                else if (veiculo.Combustivel == 2)
-                                                {
-                                                    <text>Etanol</text>
-                                                }
-                                                else if (veiculo.Combustivel == 3)
-                                                {
-                                                    <text>Flex</text>
-                                                }
-                                                else if (veiculo.Combustivel == 4)
-                                                {
-                                                    <text>Diesel</text>
-                                                }
-                                                else if (veiculo.Combustivel == 5)
-                                                {
-                                                    <text>Elétrico</text>
-                                                }
-                                                else if (veiculo.Combustivel == 6)
-                                                {
-                                                    <text>Híbrido</text>
-                                                }
-                                                else
-                                                {
-                                                    <text>
-                                                        Combustível
-                                                        @veiculo.Combustivel
-                                                    </text>
-                                                }
-                                            </span>
-
-                                            <span>
-                                                @veiculo.Cor
-                                            </span>
-
-                                        </div>
-
-                                        <div class="vehicle-year mt-3">
-
-                                            <small>
-                                                Ano
-                                            </small>
-
-                                            <span>
-                                                @veiculo.AnoFabricacao/@veiculo.AnoModelo
-                                            </span>
-
-                                        </div>
-
-                                        <div class="vehicle-footer">
-
-                                            <div>
-
-                                                <small>
-                                                    A partir de
-                                                </small>
-
-                                                <strong>
-                                                    @veiculo.ValorDiaria.ToString("C")
-                                                </strong>
-
-                                                <span>
-                                                    /dia
-                                                </span>
-
-                                            </div>
-
-                                            @if (buscaRealizada &&
-                                                 buscaValida &&
-                                                 filialSelecionadaId.HasValue &&
-                                                 dataRetirada.HasValue &&
-                                                 dataDevolucao.HasValue)
-                                            {
-                                                <a asp-controller="Reservas"
-                                                   asp-action="Criar"
-                                                   asp-route-veiculoId="@veiculo.VeiculoId"
-                                                   asp-route-filialId="@filialSelecionadaId.Value"
-                                                   asp-route-dataRetirada="@dataRetirada.Value.ToString("yyyy-MM-dd")"
-                                                   asp-route-dataDevolucao="@dataDevolucao.Value.ToString("yyyy-MM-dd")"
-                                                   class="gocar-btn-outline">
-
-                                                    Reservar
-
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a asp-controller="Reservas"
-                                                   asp-action="Criar"
-                                                   asp-route-veiculoId="@veiculo.VeiculoId"
-                                                   class="gocar-btn-outline">
-
-                                                    Reservar
-
-                                                </a>
-                                            }
-
-                                        </div>
+                                        <small>
+                                            /dia
+                                        </small>
 
                                     </div>
 
                                 </div>
 
-                            </div>
-                        }
 
-                    </div>
+                                @if (buscaRealizada &&
+                                     buscaValida &&
+                                     filialSelecionadaId.HasValue &&
+                                     dataRetirada.HasValue &&
+                                     dataDevolucao.HasValue)
+                                {
+                                    <a asp-controller="Reservas"
+                                       asp-action="Criar"
+                                       asp-route-veiculoId="@veiculo.VeiculoId"
+                                       asp-route-filialId="@filialSelecionadaId.Value"
+                                       asp-route-dataRetirada="@dataRetirada.Value.ToString("yyyy-MM-dd")"
+                                       asp-route-dataDevolucao="@dataDevolucao.Value.ToString("yyyy-MM-dd")"
+                                       class="home-fleet-reserve">
+
+                                        Reservar este carro
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#reserva"
+                                       class="home-fleet-reserve">
+
+                                        Consultar disponibilidade
+
+                                    </a>
+                                }
+
+                            </div>
+
+                        </article>
+                    }
 
                 </div>
-            }
+
+
+                <button type="button"
+                        class="home-fleet-arrow home-fleet-arrow-right"
+                        id="fleetNext"
+                        aria-label="Próximo veículo">
+
+                    ›
+
+                </button>
+
+            </div>
+
+
+            <div class="home-fleet-dots"
+                 id="fleetDots">
+
+                @for (var i = 0; i < gruposDestaque.Count; i++)
+                {
+                    <button type="button"
+                            class="@(i == 0 ? "active" : "")"
+                            data-fleet-dot="@i"
+                            aria-label="Ir para veículo @(i + 1)">
+                    </button>
+                }
+
+            </div>
+
+
+            <div class="home-fleet-all">
+
+                <a href="#todos-veiculos">
+
+                    Confira todos os grupos
+
+                </a>
+
+            </div>
         }
         else
         {
-            <div class="text-center">
+            <div class="home-fleet-empty">
 
-                @if (buscaRealizada &&
-                     buscaValida)
+                <div>
+                    !
+                </div>
+
+                <h3>
+                    Nenhum veículo encontrado
+                </h3>
+
+                @if (buscaRealizada)
                 {
-                    <p class="gocar-section-subtitle">
-                        Nenhum veículo disponível para
-                        a filial selecionada.
+                    <p>
+                        Não encontramos veículos disponíveis
+                        para esse período. Tente alterar a filial
+                        ou as datas da sua busca.
                     </p>
                 }
                 else
                 {
-                    <p class="gocar-section-subtitle">
-                        Nenhum veículo disponível
+                    <p>
+                        Nenhum veículo está disponível
                         no momento.
                     </p>
                 }
 
-            </div>
-        }
-
-    </div>
-
-</section>
-
-<!-- ========================================== -->
-<!-- COMO FUNCIONA -->
-<!-- ========================================== -->
-
-<section id="como-funciona"
-         class="how-section gocar-section">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-
-            <span class="section-badge">
-                SIMPLES E RÁPIDO
-            </span>
-
-            <h2 class="gocar-section-title">
-                Como funciona
-            </h2>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        01
-                    </div>
-
-                    <h3>
-                        Escolha seu carro
-                    </h3>
-
-                    <p>
-                        Selecione o modelo que mais
-                        combina com sua viagem.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        02
-                    </div>
-
-                    <h3>
-                        Faça sua reserva
-                    </h3>
-
-                    <p>
-                        Escolha as datas, filial
-                        e confirme sua reserva.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        03
-                    </div>
-
-                    <h3>
-                        Retire e viaje
-                    </h3>
-
-                    <p>
-                        Retire seu veículo e aproveite
-                        seu próximo destino.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ========================================== -->
-<!-- SOBRE -->
-<!-- ========================================== -->
-
-<section id="sobre"
-         class="about-section gocar-section">
-
-    <div class="container">
-
-        <div class="row align-items-center">
-
-            <div class="col-lg-6">
-
-                <span class="section-badge">
-                    SOBRE A GOCAR
-                </span>
-
-                <h2 class="gocar-section-title">
-                    Mobilidade do seu jeito
-                </h2>
-
-                <p class="about-text">
-                    A GoCar nasceu para tornar o aluguel
-                    de veículos mais simples, moderno e
-                    acessível. Nosso objetivo é oferecer
-                    uma experiência rápida do início ao fim.
-                </p>
-
-                <a href="#veiculos"
-                   class="gocar-btn-primary">
-                    Fazer uma reserva
+                <a href="#reserva">
+                    Fazer outra busca
                 </a>
 
             </div>
+        }
 
-            <div class="col-lg-6 mt-5 mt-lg-0">
+    </div>
 
-                <div class="about-box">
+</section>
 
-                    <div>
-                        <strong>100%</strong>
-                        <span>Digital</span>
-                    </div>
 
-                    <div>
-                        <strong>24h</strong>
-                        <span>Praticidade</span>
-                    </div>
+<!-- =========================================================
+     TODOS OS VEÍCULOS
+========================================================== -->
 
-                    <div>
-                        <strong>+Conforto</strong>
-                        <span>Na sua viagem</span>
-                    </div>
+<section class="home-all-vehicles"
+         id="todos-veiculos">
 
-                </div>
+    <div class="container">
+
+        <div class="home-section-heading home-section-heading-light">
+
+            <span>
+                ESCOLHA O SEU
+            </span>
+
+            <h2>
+                Encontre o carro ideal
+            </h2>
+
+            <p>
+                Veja os grupos disponíveis e escolha
+                o veículo que combina com a sua viagem.
+            </p>
+
+        </div>
+
+
+        @if (gruposVeiculos.Any())
+        {
+            <div class="home-vehicle-grid">
+
+                @foreach (var veiculo in gruposVeiculos)
+                {
+                    <article class="home-vehicle-card">
+
+                        <div class="home-vehicle-card-image">
+
+                            <span class="home-vehicle-stock">
+
+                                @veiculo.QuantidadeDisponivel
+                                disponível@(veiculo.QuantidadeDisponivel == 1 ? "" : "is")
+
+                            </span>
+
+                            <img src="@ImagemVeiculo(veiculo.CategoriaNome)"
+                                 alt="@veiculo.Marca @veiculo.Modelo" />
+
+                        </div>
+
+
+                        <div class="home-vehicle-card-content">
+
+                            <span class="home-vehicle-category">
+                                @veiculo.CategoriaNome
+                            </span>
+
+                            <h3>
+                                @veiculo.Marca @veiculo.Modelo
+                            </h3>
+
+
+                            <div class="home-vehicle-card-specs">
+
+                                <span>
+                                    @CambioVeiculo(veiculo.Cambio)
+                                </span>
+
+                                <span>
+                                    @CombustivelVeiculo(veiculo.Combustivel)
+                                </span>
+
+                                <span>
+                                    @veiculo.AnoModelo
+                                </span>
+
+                            </div>
+
+
+                            <div class="home-vehicle-card-footer">
+
+                                <div>
+
+                                    <small>
+                                        A partir de
+                                    </small>
+
+                                    <strong>
+                                        @veiculo.ValorDiaria.ToString("C")
+                                    </strong>
+
+                                    <span>
+                                        /dia
+                                    </span>
+
+                                </div>
+
+
+                                @if (buscaRealizada &&
+                                     buscaValida &&
+                                     filialSelecionadaId.HasValue &&
+                                     dataRetirada.HasValue &&
+                                     dataDevolucao.HasValue)
+                                {
+                                    <a asp-controller="Reservas"
+                                       asp-action="Criar"
+                                       asp-route-veiculoId="@veiculo.VeiculoId"
+                                       asp-route-filialId="@filialSelecionadaId.Value"
+                                       asp-route-dataRetirada="@dataRetirada.Value.ToString("yyyy-MM-dd")"
+                                       asp-route-dataDevolucao="@dataDevolucao.Value.ToString("yyyy-MM-dd")">
+
+                                        Reservar
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#reserva">
+                                        Consultar
+                                    </a>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
 
             </div>
+        }
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SOBRE / CTA
+========================================================== -->
+
+<section class="home-about"
+         id="sobre">
+
+    <div class="container">
+
+        <div class="home-about-content">
+
+            <div>
+
+                <span>
+                    POR QUE GOCAR?
+                </span>
+
+                <h2>
+                    Seu caminho,
+                    <strong>
+                        suas escolhas.
+                    </strong>
+                </h2>
+
+            </div>
+
+
+            <p>
+                Da reserva à retirada, a GoCar foi criada
+                para tornar sua experiência mais simples.
+                Escolha o veículo, defina o período e
+                aproveite o caminho.
+            </p>
+
+
+            <a href="#reserva">
+
+                Reserve agora
+
+                <span>
+                    →
+                </span>
+
+            </a>
 
         </div>
 
@@ -723,88 +831,1192 @@
 
 </section>
 
+
+<!-- =========================================================
+     CSS ESPECÍFICO DA HOME
+========================================================== -->
+
 <style>
 
-    .vehicle-category-section {
-        padding-bottom: 25px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* =====================================================
+           HERO / BANNER OFICIAL
+           ===================================================== */
+
+    .home-hero {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1920 / 650;
+        min-height: 540px;
+        overflow: hidden;
+        background: #100017;
     }
 
-        .vehicle-category-section:last-child {
-            border-bottom: none;
+    .home-hero-background {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .home-hero-overlay {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient( 180deg, rgba(20,0,28,.18) 0%, rgba(20,0,28,.03) 24%, rgba(20,0,28,0) 48%, rgba(20,0,28,.05) 100% );
+    }
+
+
+    /* =====================================================
+           BUSCA SOBRE A IMAGEM
+           ===================================================== */
+
+    .home-search-overlay {
+        position: absolute;
+        z-index: 20;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 26px 0 30px;
+        background: linear-gradient( 180deg, rgba(31,0,40,.70) 0%, rgba(31,0,40,.48) 72%, rgba(31,0,40,.18) 100% );
+        border-bottom: 1px solid rgba(255,255,255,.08);
+        backdrop-filter: blur(2px);
+    }
+
+    .home-search-alert {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        padding: 12px 15px;
+        color: #ffd7dc;
+        background: rgba(92,13,27,.78);
+        border: 1px solid rgba(248,113,113,.28);
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+        .home-search-alert > span {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: #fff;
+            font-weight: 800;
         }
 
-    .category-availability {
-        display: inline-flex;
+    .home-search-form {
+        display: grid;
+        grid-template-columns: minmax(330px, 1.7fr) minmax(190px, .82fr) minmax(190px, .82fr) 150px;
+        align-items: end;
+        gap: 13px;
+    }
+
+    .home-search-field label {
+        display: block;
+        margin: 0 0 9px 2px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .055em;
+        text-shadow: 0 2px 8px rgba(0,0,0,.55);
+    }
+
+    .home-search-control {
+        display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 9px 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        height: 56px;
+        overflow: hidden;
+        background: rgba(255,255,255,.98);
+        border: 1px solid rgba(255,255,255,.7);
+        border-radius: 5px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.20);
+    }
+
+    .home-search-icon {
+        flex: 0 0 48px;
+        display: grid;
+        place-items: center;
+        height: 100%;
+        color: #7c1cb2;
+        font-size: 16px;
+    }
+
+    .home-search-control select,
+    .home-search-control input {
+        width: 100%;
+        height: 100%;
+        padding: 0 14px 0 0;
+        color: #4b4452;
+        background: transparent;
+        border: 0;
+        outline: none;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .home-search-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        height: 56px;
+        padding: 0 21px;
+        color: #fff;
+        background: linear-gradient(135deg, #7b1cb2, #a12ed5);
+        border: 1px solid rgba(255,255,255,.22);
+        border-radius: 5px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.22);
+        font-size: 15px;
+        font-weight: 800;
+        transition: .2s ease;
+    }
+
+        .home-search-button:hover {
+            background: linear-gradient(135deg, #8e25c5, #b541e1);
+            transform: translateY(-1px);
+        }
+
+
+    /* =====================================================
+           BENEFÍCIOS
+           ===================================================== */
+
+    .home-benefits {
+        color: #fff;
+        background: #1d0825;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .home-benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        min-height: 180px;
+    }
+
+    .home-benefit {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 20px;
+        align-items: center;
+        padding: 34px 36px;
+        border-right: 1px solid rgba(255,255,255,.07);
+    }
+
+        .home-benefit:last-child {
+            border-right: 0;
+        }
+
+    .home-benefit-icon {
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        color: #e0a1ff;
+        background: #310b3d;
+        border: 1px solid rgba(206,106,255,.20);
+        border-radius: 50%;
+        font-size: 25px;
+    }
+
+    .home-benefit h3 {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .home-benefit p {
+        min-height: 40px;
+        margin: 0 0 9px;
+        color: rgba(255,255,255,.68);
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    .home-benefit a {
+        color: #d272ff;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+
+    /* =====================================================
+           FROTA
+           ===================================================== */
+
+    .home-fleet {
+        position: relative;
+        padding: 78px 0 88px;
+        overflow: hidden;
+        color: #fff;
+        background: radial-gradient( circle at 50% 48%, rgba(97,24,132,.16), transparent 35% ), #100017;
+    }
+
+    .home-section-heading {
+        max-width: 700px;
+        margin: 0 auto 48px;
+        text-align: center;
+    }
+
+        .home-section-heading > span {
+            display: block;
+            margin-bottom: 11px;
+            color: #b94fe8;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .2em;
+        }
+
+        .home-section-heading h2 {
+            margin: 0;
+            color: #fff;
+            font-size: clamp(38px, 3.4vw, 48px);
+            font-weight: 600;
+            letter-spacing: -.03em;
+        }
+
+        .home-section-heading p {
+            margin: 12px 0 0;
+            color: rgba(255,255,255,.62);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+    .home-search-result {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: 850px;
+        margin: -20px auto 35px;
+        padding: 13px 16px;
+        color: rgba(255,255,255,.74);
+        background: rgba(255,255,255,.035);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 6px;
         font-size: 13px;
     }
 
-    .availability-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #22c55e;
-        box-shadow: 0 0 10px rgba(34, 197, 94, .65);
-    }
-
-    .vehicle-stock {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 8px;
-        border-radius: 6px;
-        font-size: 11px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .vehicle-stock-ok {
-        color: #86efac;
-        background: rgba(34, 197, 94, .10);
-        border: 1px solid rgba(34, 197, 94, .25);
-    }
-
-    .vehicle-stock-low {
-        color: #fde68a;
-        background: rgba(245, 158, 11, .10);
-        border: 1px solid rgba(245, 158, 11, .25);
-    }
-
-    .vehicle-year {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-        .vehicle-year small {
-            opacity: .65;
+        .home-search-result > div {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
+    .home-result-dot {
+        width: 7px;
+        height: 7px;
+        background: #b74ce7;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #b74ce7;
+    }
+
+    .home-search-result a {
+        color: #d576ff;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .home-fleet-carousel {
+        position: relative;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .home-fleet-track {
+        position: relative;
+        min-height: 500px;
+    }
+
+    .home-fleet-card {
+        position: absolute;
+        top: 35px;
+        left: 50%;
+        width: 340px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) scale(.76);
+        transition: transform .45s ease, opacity .45s ease, filter .45s ease;
+        text-align: center;
+        filter: brightness(.65);
+    }
+
+        .home-fleet-card.active {
+            z-index: 5;
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) scale(1);
+            filter: brightness(1);
+        }
+
+        .home-fleet-card.previous {
+            z-index: 2;
+            opacity: .82;
+            transform: translateX(calc(-50% - 365px)) scale(.72);
+        }
+
+        .home-fleet-card.next {
+            z-index: 2;
+            opacity: .82;
+            transform: translateX(calc(-50% + 365px)) scale(.72);
+        }
+
+    .home-fleet-image {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 230px;
+    }
+
+        .home-fleet-image img {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 16px rgba(0,0,0,.5));
+        }
+
+    .home-car-glow {
+        position: absolute;
+        z-index: 1;
+        bottom: 30px;
+        width: 220px;
+        height: 70px;
+        border-radius: 50%;
+        background: rgba(133,41,176,.18);
+        filter: blur(25px);
+    }
+
+    .home-fleet-card-body {
+        padding: 7px 12px;
+    }
+
+    .home-fleet-category {
+        display: block;
+        margin-bottom: 6px;
+        color: #bd5bea;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+    .home-fleet-card h3 {
+        margin: 0;
+        color: #fff;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .home-fleet-similar {
+        margin: 6px 0 15px;
+        color: rgba(255,255,255,.58);
+        font-size: 13px;
+    }
+
+    .home-fleet-specs {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        color: rgba(255,255,255,.65);
+        font-size: 12px;
+    }
+
+        .home-fleet-specs span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .home-fleet-specs strong {
+            color: #a942d8;
+            font-size: 10px;
+        }
+
+    .home-fleet-price {
+        margin-top: 18px;
+    }
+
+        .home-fleet-price > span {
+            display: block;
+            margin-bottom: 3px;
+            color: rgba(255,255,255,.50);
+            font-size: 12px;
+        }
+
+        .home-fleet-price strong {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .home-fleet-price small {
+            color: rgba(255,255,255,.52);
+            font-size: 12px;
+        }
+
+    .home-fleet-reserve {
+        display: none;
+        width: fit-content;
+        margin: 17px auto 0;
+        padding: 11px 18px;
+        color: #fff !important;
+        background: #6d168f;
+        border: 1px solid #8f2cb7;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .home-fleet-card.active .home-fleet-reserve {
+        display: inline-flex;
+    }
+
+    .home-fleet-arrow {
+        position: absolute;
+        z-index: 10;
+        top: 145px;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0 0 4px;
+        color: #d971ff;
+        background: #1e0629;
+        border: 1px solid #7e289f;
+        border-radius: 50%;
+        font-size: 31px;
+        line-height: 1;
+        transition: .2s ease;
+    }
+
+        .home-fleet-arrow:hover {
+            color: #fff;
+            background: #6c168d;
+            transform: scale(1.06);
+        }
+
+    .home-fleet-arrow-left {
+        left: 17%;
+    }
+
+    .home-fleet-arrow-right {
+        right: 17%;
+    }
+
+    .home-fleet-dots {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 0;
+    }
+
+        .home-fleet-dots button {
+            width: 7px;
+            height: 7px;
+            padding: 0;
+            background: rgba(255,255,255,.2);
+            border: 0;
+            border-radius: 50%;
+            transition: .2s ease;
+        }
+
+            .home-fleet-dots button.active {
+                width: 20px;
+                background: #8c27b6;
+                border-radius: 20px;
+            }
+
+    .home-fleet-all {
+        margin-top: 31px;
+        text-align: center;
+    }
+
+        .home-fleet-all a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 255px;
+            padding: 14px 26px;
+            color: #b84ae8;
+            border: 1px solid #6d208c;
+            border-radius: 3px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            transition: .2s ease;
+        }
+
+            .home-fleet-all a:hover {
+                color: #fff;
+                background: #671a87;
+            }
+
+    .home-fleet-empty {
+        max-width: 560px;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+        .home-fleet-empty > div {
+            display: grid;
+            place-items: center;
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 17px;
+            color: #dc8aff;
+            background: #280833;
+            border-radius: 50%;
+            font-weight: 800;
+        }
+
+        .home-fleet-empty h3 {
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .home-fleet-empty p {
+            color: rgba(255,255,255,.58);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .home-fleet-empty a {
+            color: #cf68fa;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+    /* =====================================================
+           TODOS OS VEÍCULOS
+           ===================================================== */
+
+    .home-all-vehicles {
+        padding: 78px 0 88px;
+        background: #18031f;
+    }
+
+    .home-section-heading-light {
+        margin-bottom: 42px;
+    }
+
+    .home-vehicle-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .home-vehicle-card {
+        overflow: hidden;
+        background: #21072a;
+        border: 1px solid rgba(255,255,255,.07);
+        border-radius: 8px;
+        transition: .25s ease;
+    }
+
+        .home-vehicle-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(177,69,222,.35);
+            box-shadow: 0 20px 40px rgba(0,0,0,.22);
+        }
+
+    .home-vehicle-card-image {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 210px;
+        padding: 20px;
+        background: radial-gradient( circle, rgba(118,31,149,.14), transparent 62% ), #16021d;
+    }
+
+        .home-vehicle-card-image img {
+            width: 92%;
+            height: 170px;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 13px rgba(0,0,0,.4));
+        }
+
+    .home-vehicle-stock {
+        position: absolute;
+        z-index: 3;
+        top: 12px;
+        right: 12px;
+        padding: 6px 9px;
+        color: #d98aff;
+        background: #2a0a34;
+        border: 1px solid rgba(192,87,232,.2);
+        border-radius: 4px;
+        font-size: 11px;
+    }
+
+    .home-vehicle-card-content {
+        padding: 20px;
+    }
+
+    .home-vehicle-category {
+        color: #a83ed2;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+    }
+
+    .home-vehicle-card h3 {
+        margin: 6px 0 14px;
+        color: #fff;
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+    .home-vehicle-card-specs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        padding-bottom: 17px;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+        .home-vehicle-card-specs span {
+            padding: 6px 8px;
+            color: rgba(255,255,255,.62);
+            background: rgba(255,255,255,.035);
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+    .home-vehicle-card-footer {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 17px;
+    }
+
+        .home-vehicle-card-footer small {
+            display: block;
+            margin-bottom: 3px;
+            color: rgba(255,255,255,.46);
+            font-size: 11px;
+        }
+
+        .home-vehicle-card-footer strong {
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .home-vehicle-card-footer span {
+            color: rgba(255,255,255,.46);
+            font-size: 12px;
+        }
+
+        .home-vehicle-card-footer > a {
+            padding: 10px 14px;
+            color: #d16cff;
+            border: 1px solid #652080;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+            .home-vehicle-card-footer > a:hover {
+                color: #fff;
+                background: #6c1a8b;
+            }
+
+
+    /* =====================================================
+           SOBRE
+           ===================================================== */
+
+    .home-about {
+        padding: 75px 0;
+        color: #fff;
+        background: linear-gradient(110deg, #25072f, #3b1047);
+        border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .home-about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        align-items: center;
+        gap: 45px;
+    }
+
+        .home-about-content > div > span {
+            display: block;
+            margin-bottom: 8px;
+            color: #b954e2;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .18em;
+        }
+
+    .home-about h2 {
+        margin: 0;
+        color: #fff;
+        font-size: 36px;
+        font-weight: 400;
+    }
+
+        .home-about h2 strong {
+            color: #ce64f8;
+        }
+
+    .home-about p {
+        margin: 0;
+        color: rgba(255,255,255,.62);
+        font-size: 14px;
+        line-height: 1.75;
+    }
+
+    .home-about-content > a {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+        padding: 14px 19px;
+        color: #fff;
+        background: #721b97;
+        border-radius: 3px;
+        text-decoration: none;
+        white-space: nowrap;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+           RESPONSIVO
+           ===================================================== */
+
+    @@media (max-width: 1199px) {
+
+        .home-search-form {
+            grid-template-columns: minmax(280px, 1.5fr) minmax(170px, .8fr) minmax(170px, .8fr) 140px;
+        }
+
+        .home-hero {
+            min-height: 510px;
+        }
+    }
+
+
+    @@media (max-width: 991px) {
+
+        .home-hero {
+            height: 620px;
+            min-height: 620px;
+            aspect-ratio: auto;
+        }
+
+        .home-hero-background {
+            object-position: center center;
+        }
+
+        .home-search-overlay {
+            padding: 20px 0 23px;
+        }
+
+        .home-search-form {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .home-search-location {
+            grid-column: 1 / -1;
+        }
+
+        .home-benefits-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .home-benefit {
+            border-right: 0;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .home-fleet-card.previous {
+            transform: translateX(calc(-50% - 235px)) scale(.58);
+        }
+
+        .home-fleet-card.next {
+            transform: translateX(calc(-50% + 235px)) scale(.58);
+        }
+
+        .home-fleet-arrow-left {
+            left: 5%;
+        }
+
+        .home-fleet-arrow-right {
+            right: 5%;
+        }
+
+        .home-vehicle-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .home-about-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+            .home-about-content > a {
+                justify-self: center;
+            }
+    }
+
+
+    @@media (max-width: 650px) {
+
+        .home-hero {
+            height: 760px;
+            min-height: 760px;
+        }
+
+        .home-hero-background {
+            object-position: center center;
+        }
+
+        .home-search-overlay {
+            padding: 17px 0 20px;
+            background: linear-gradient( 180deg, rgba(31,0,40,.80), rgba(31,0,40,.45) );
+        }
+
+        .home-search-form {
+            grid-template-columns: 1fr;
+        }
+
+        .home-search-location {
+            grid-column: auto;
+        }
+
+        .home-search-field label {
+            font-size: 12px;
+        }
+
+        .home-search-control,
+        .home-search-button {
+            height: 51px;
+        }
+
+            .home-search-control select,
+            .home-search-control input {
+                font-size: 14px;
+            }
+
+        .home-search-button {
+            font-size: 14px;
+        }
+
+        .home-benefit {
+            grid-template-columns: 60px 1fr;
+            padding: 28px 8px;
+        }
+
+        .home-benefit-icon {
+            width: 54px;
+            height: 54px;
+        }
+
+        .home-benefit h3 {
+            font-size: 17px;
+        }
+
+        .home-benefit p {
+            font-size: 13px;
+        }
+
+        .home-fleet {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .home-section-heading h2 {
+            font-size: 32px;
+        }
+
+        .home-section-heading p {
+            font-size: 14px;
+        }
+
+        .home-fleet-track {
+            min-height: 480px;
+        }
+
+        .home-fleet-card {
+            width: 285px;
+        }
+
+            .home-fleet-card.previous,
+            .home-fleet-card.next {
+                opacity: 0;
+            }
+
+        .home-fleet-arrow {
+            top: 130px;
+            width: 38px;
+            height: 38px;
+        }
+
+        .home-fleet-arrow-left {
+            left: 0;
+        }
+
+        .home-fleet-arrow-right {
+            right: 0;
+        }
+
+        .home-search-result {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .home-vehicle-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .home-about h2 {
+            font-size: 31px;
+        }
+    }
+
 </style>
+
+
+<!-- =========================================================
+     CARROSSEL
+========================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            const cards =
+                Array.from(
+                    document.querySelectorAll(
+                        "[data-fleet-index]"
+                    )
+                );
+
+            const dots =
+                Array.from(
+                    document.querySelectorAll(
+                        "[data-fleet-dot]"
+                    )
+                );
+
+            const previousButton =
+                document.getElementById(
+                    "fleetPrev"
+                );
+
+            const nextButton =
+                document.getElementById(
+                    "fleetNext"
+                );
+
+            if (!cards.length) {
+                return;
+            }
+
+            let currentIndex = 0;
+
+
+            function normalizeIndex(index) {
+
+                if (index < 0) {
+                    return cards.length - 1;
+                }
+
+                if (index >= cards.length) {
+                    return 0;
+                }
+
+                return index;
+            }
+
+
+            function renderCarousel() {
+
+                const previousIndex =
+                    normalizeIndex(
+                        currentIndex - 1
+                    );
+
+                const nextIndex =
+                    normalizeIndex(
+                        currentIndex + 1
+                    );
+
+
+                cards.forEach(
+                    function(card, index) {
+
+                        card.classList.remove(
+                            "active",
+                            "previous",
+                            "next"
+                        );
+
+                        if (index === currentIndex) {
+                            card.classList.add(
+                                "active"
+                            );
+                        }
+                        else if (
+                            cards.length > 1 &&
+                            index === previousIndex
+                        ) {
+                            card.classList.add(
+                                "previous"
+                            );
+                        }
+                        else if (
+                            cards.length > 2 &&
+                            index === nextIndex
+                        ) {
+                            card.classList.add(
+                                "next"
+                            );
+                        }
+
+                    }
+                );
+
+
+                dots.forEach(
+                    function(dot, index) {
+
+                        dot.classList.toggle(
+                            "active",
+                            index === currentIndex
+                        );
+
+                    }
+                );
+
+            }
+
+
+            if (previousButton) {
+
+                previousButton.addEventListener(
+                    "click",
+                    function() {
+
+                        currentIndex =
+                            normalizeIndex(
+                                currentIndex - 1
+                            );
+
+                        renderCarousel();
+
+                    }
+                );
+
+            }
+
+
+            if (nextButton) {
+
+                nextButton.addEventListener(
+                    "click",
+                    function() {
+
+                        currentIndex =
+                            normalizeIndex(
+                                currentIndex + 1
+                            );
+
+                        renderCarousel();
+
+                    }
+                );
+
+            }
+
+
+            dots.forEach(
+                function(dot) {
+
+                    dot.addEventListener(
+                        "click",
+                        function() {
+
+                            currentIndex =
+                                Number(
+                                    dot.dataset
+                                        .fleetDot
+                                );
+
+                            renderCarousel();
+
+                        }
+                    );
+
+                }
+            );
+
+
+            renderCarousel();
+
+        }
+    );
+
+</script>
+
 
 @if (buscaRealizada && buscaValida)
 {
     <script>
+
         document.addEventListener(
             "DOMContentLoaded",
             function() {
 
-                const secaoVeiculos =
+                const frota =
                     document.getElementById(
-                        "veiculos");
+                        "frota"
+                    );
 
-                if (secaoVeiculos) {
+                if (frota) {
 
-                    secaoVeiculos.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+                    setTimeout(
+                        function() {
+
+                            frota.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start"
+                            });
+
+                        },
+                        150
+                    );
 
                 }
-            });
+
+            }
+        );
+
     </script>
 }

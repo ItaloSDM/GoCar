@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\cabecalho\" />
+    <Folder Include="wwwroot\images\identidade\" />
+    <Folder Include="wwwroot\images\rodape\" />
     <Folder Include="wwwroot\images\veiculos\" />
   </ItemGroup>
 
